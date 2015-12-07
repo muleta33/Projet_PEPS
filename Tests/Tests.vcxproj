@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -86,12 +86,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Antoine\Documents\ENSIMAG\3A\PEPS\pnl-win64-1.7.2\include;C:\Users\Antoine\Documents\ENSIMAG\3A\PEPS\PEPS_Project\EurostralPricingModule\parsers;C:\Users\Antoine\Documents\ENSIMAG\3A\PEPS\PEPS_Project\EurostralPricingModule\randomGeneration;C:\Users\Antoine\Documents\ENSIMAG\3A\PEPS\PEPS_Project\EurostralPricingModule\models;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\parsers;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\models;$(SolutionDir)\randomGeneration;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Antoine\Documents\ENSIMAG\3A\PEPS\pnl-win64-1.7.2\lib;C:\Users\Antoine\Documents\ENSIMAG\3A\PEPS\PEPS_Project\EurostralPricingModule\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\pnl-win64-1.7.2\lib;C:\Users\Antoine\Documents\ENSIMAG\3A\PEPS\PEPS_Project\EurostralPricingModule\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>models.lib;randomGeneration.lib;parsers.lib;libpnl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -103,12 +103,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Antoine\Documents\ENSIMAG\3A\PEPS\pnl-win64-1.7.2\include;C:\Users\Antoine\Documents\ENSIMAG\3A\PEPS\PEPS_Project\EurostralPricingModule\parsers;C:\Users\Antoine\Documents\ENSIMAG\3A\PEPS\PEPS_Project\EurostralPricingModule\randomGeneration;C:\Users\Antoine\Documents\ENSIMAG\3A\PEPS\PEPS_Project\EurostralPricingModule\models;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\randomGeneration;$(SolutionDir)\parsers;$(SolutionDir)\models;$(SolutionDir)\..\pnl-win64-1.7.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Antoine\Documents\ENSIMAG\3A\PEPS\pnl-win64-1.7.2\lib;C:\Users\Antoine\Documents\ENSIMAG\3A\PEPS\PEPS_Project\EurostralPricingModule\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\pnl-win64-1.7.2\lib;$(SolutionDir)\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>models.lib;randomGeneration.lib;parsers.lib;libpnl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

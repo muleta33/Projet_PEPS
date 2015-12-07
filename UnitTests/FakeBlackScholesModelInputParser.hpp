@@ -1,8 +1,8 @@
 #pragma once
 #include "BlackScholesModelInputParser.hpp"
 
-namespace input_parsers {
-	class FakeBlackScholesModelInputParser : public BlackScholesModelInputParser
+namespace UnitTests {
+	class FakeBlackScholesModelInputParser : public input_parsers::BlackScholesModelInputParser
 	{
 	private:
 		PnlVect * vol;

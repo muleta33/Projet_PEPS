@@ -88,8 +88,8 @@ void BlackScholesModel::add_one_simulation_to_generated_asset_paths(int at_line,
 	for (int i = 0; i < underlying_number_; i++)
 	{
 		double vol = GET(volatilities, i);
-		MLET(generated_asset_paths_, at_line, i) = GET(last_values, i) * exp((interest_rate_)-(vol *  vol / 2.0)
-			* time_length + sqrt_time_length * vol * GET(work_vector, i));
+		MLET(generated_asset_paths_, at_line, i) = GET(last_values, i) * exp((interest_rate_ - (vol *  vol / 2.0)) * time_length
+			+ sqrt_time_length * vol * GET(work_vector, i));
 	}
 	pnl_vect_free(&work_vector);
 }

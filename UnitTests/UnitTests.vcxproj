@@ -103,7 +103,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)\financialProducts;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\parsers;$(VCInstallDir)UnitTest\include;$(SolutionDir)\..\pnl-win64-1.7.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\financialProducts;$(SolutionDir)\pricing;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\parsers;$(VCInstallDir)UnitTest\include;$(SolutionDir)\..\pnl-win64-1.7.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
     </ClCompile>
@@ -111,7 +111,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\x64\Debug;$(VCInstallDir)UnitTest\lib;$(SolutionDir)\..\pnl-win64-1.7.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>financialProducts.lib;libpnl.lib;randomGeneration.lib;parsers.lib;models.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>pricing.lib;financialProducts.lib;libpnl.lib;randomGeneration.lib;parsers.lib;models.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -153,8 +153,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Call.hpp" />
     <ClInclude Include="ConstantRandomGeneration.hpp" />
     <ClInclude Include="FakeBlackScholesModelInputParser.hpp" />
+    <ClInclude Include="FakeBlackScholesModelInputParserForCall.hpp" />
     <ClInclude Include="FakeEurostralMutualFundInputParser.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -168,6 +170,7 @@
     </ClCompile>
     <ClCompile Include="UnitTestsBlackScholesModel.cpp" />
     <ClCompile Include="UnitTestsEurostralMutualFund.cpp" />
+    <ClCompile Include="UnitTestsMonteCarloPricer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

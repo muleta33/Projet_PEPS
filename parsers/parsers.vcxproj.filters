@@ -24,6 +24,9 @@
     <ClInclude Include="Parser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EurostralMutualFundInputParser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CoreBlackScholesModelInputParser.cpp">

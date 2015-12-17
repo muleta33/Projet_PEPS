@@ -101,12 +101,14 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\pnl-win64-1.7.2\lib;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libpnl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>libpnl.lib;parsers.lib</AdditionalDependencies>
+      <AdditionalDependencies>parsers.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)\x64\Debug;$(SolutionDir)\..\pnl-win64-1.7.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -149,6 +151,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EurostralMutualFund.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\parsers\parsers.vcxproj">
+      <Project>{c7a0d34f-13e0-494e-b5d1-0abf567f9384}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

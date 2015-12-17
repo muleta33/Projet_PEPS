@@ -26,6 +26,14 @@
     <ClCompile Include="MonteCarloPricer.cpp" />
     <ClCompile Include="MonteCarloRoutine.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\financialProducts\financialProducts.vcxproj">
+      <Project>{830505a9-8771-4080-a777-34196192588e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\models\models.vcxproj">
+      <Project>{d05869fc-4602-4b6e-a852-3d67f3d79410}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{060F24BC-4953-41CD-9A96-EE2A95F9401F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -108,10 +116,12 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\pnl-win64-1.7.2\lib;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libpnl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)\x64\Debug;$(SolutionDir)\..\pnl-win64-1.7.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libpnl.lib;models.lib;randomGeneration.lib;financialProducts.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>models.lib;randomGeneration.lib;financialProducts.lib</AdditionalDependencies>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>

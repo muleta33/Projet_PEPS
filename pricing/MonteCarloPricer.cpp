@@ -1,7 +1,6 @@
 #include <cmath>
 #include "MonteCarloPricer.hpp"
 #include "MonteCarloRoutine.hpp"
-#include "pnl/pnl_matrix.h"
 
 using namespace products;
 using namespace models;

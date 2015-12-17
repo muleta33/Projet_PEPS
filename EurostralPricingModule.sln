@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "parsers", "parsers\parsers.vcxproj", "{C7A0D34F-13E0-494E-B5D1-0ABF567F9384}"
 EndProject
@@ -76,8 +76,8 @@ Global
 		{E5947E68-1CED-472F-85C0-247830218E16}.Release|Win32.ActiveCfg = Release|Win32
 		{E5947E68-1CED-472F-85C0-247830218E16}.Release|Win32.Build.0 = Release|Win32
 		{E5947E68-1CED-472F-85C0-247830218E16}.Release|x64.ActiveCfg = Release|Win32
-		{7383E6DD-C102-47AC-96DF-F5812460126F}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{7383E6DD-C102-47AC-96DF-F5812460126F}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{7383E6DD-C102-47AC-96DF-F5812460126F}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
+		{7383E6DD-C102-47AC-96DF-F5812460126F}.Debug|Mixed Platforms.Build.0 = Debug|x64
 		{7383E6DD-C102-47AC-96DF-F5812460126F}.Debug|Win32.ActiveCfg = Debug|Win32
 		{7383E6DD-C102-47AC-96DF-F5812460126F}.Debug|Win32.Build.0 = Debug|Win32
 		{7383E6DD-C102-47AC-96DF-F5812460126F}.Debug|x64.ActiveCfg = Debug|x64
@@ -87,8 +87,8 @@ Global
 		{7383E6DD-C102-47AC-96DF-F5812460126F}.Release|Win32.ActiveCfg = Release|Win32
 		{7383E6DD-C102-47AC-96DF-F5812460126F}.Release|Win32.Build.0 = Release|Win32
 		{7383E6DD-C102-47AC-96DF-F5812460126F}.Release|x64.ActiveCfg = Release|Win32
-		{060F24BC-4953-41CD-9A96-EE2A95F9401F}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{060F24BC-4953-41CD-9A96-EE2A95F9401F}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{060F24BC-4953-41CD-9A96-EE2A95F9401F}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
+		{060F24BC-4953-41CD-9A96-EE2A95F9401F}.Debug|Mixed Platforms.Build.0 = Debug|x64
 		{060F24BC-4953-41CD-9A96-EE2A95F9401F}.Debug|Win32.ActiveCfg = Debug|Win32
 		{060F24BC-4953-41CD-9A96-EE2A95F9401F}.Debug|Win32.Build.0 = Debug|Win32
 		{060F24BC-4953-41CD-9A96-EE2A95F9401F}.Debug|x64.ActiveCfg = Debug|x64
@@ -98,8 +98,8 @@ Global
 		{060F24BC-4953-41CD-9A96-EE2A95F9401F}.Release|Win32.ActiveCfg = Release|Win32
 		{060F24BC-4953-41CD-9A96-EE2A95F9401F}.Release|Win32.Build.0 = Release|Win32
 		{060F24BC-4953-41CD-9A96-EE2A95F9401F}.Release|x64.ActiveCfg = Release|Win32
-		{830505A9-8771-4080-A777-34196192588E}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{830505A9-8771-4080-A777-34196192588E}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{830505A9-8771-4080-A777-34196192588E}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
+		{830505A9-8771-4080-A777-34196192588E}.Debug|Mixed Platforms.Build.0 = Debug|x64
 		{830505A9-8771-4080-A777-34196192588E}.Debug|Win32.ActiveCfg = Debug|Win32
 		{830505A9-8771-4080-A777-34196192588E}.Debug|Win32.Build.0 = Debug|Win32
 		{830505A9-8771-4080-A777-34196192588E}.Debug|x64.ActiveCfg = Debug|x64

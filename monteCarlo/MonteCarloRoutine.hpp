@@ -8,15 +8,21 @@ class MonteCarloRoutine
 {
 protected:
 	virtual const PnlMat * const get_generated_path() const = 0;
+	virtual double get_time() const = 0;
+	virtual int get_past_values_number() const = 0;
+
 	const models::UnderlyingModel & underlying_model;
 	const products::Product & product;
 	const unsigned long sample_number;
+	
 	MonteCarloRoutine(const models::UnderlyingModel & underlying_model, const products::Product & product, const unsigned long sample_number) :
 		underlying_model(underlying_model), product(product), sample_number(sample_number)
 	{}
 public:
 	void price(double &price, double &confidence_interval) const;
+	void delta_hedge(const double shift, PnlVect * deltas) const;
 };
+
 
 ///////////////////////////
 
@@ -29,6 +35,10 @@ protected:
 	{
 		return underlying_model.simulate_asset_paths_from_start(spots);
 	}
+
+	double get_time() const { return 0.; }
+	int get_past_values_number() const { return 1; }
+
 public:
 	MonteCarloRoutineAtOrigin(const models::UnderlyingModel &underlying_model, const products::Product & product, const unsigned long sample_nb, const PnlVect * const spots) :
 		MonteCarloRoutine(underlying_model, product, sample_nb), spots(spots)
@@ -49,6 +59,10 @@ protected:
 	{
 		return underlying_model.simulate_asset_paths_from_time(t, past);
 	}
+
+	double get_time() const { return t; }
+	int get_past_values_number() const { return past->m; }
+
 public:
 	MonteCarloRoutineAtTimeT(const models::UnderlyingModel &underlying_model, const products::Product & product, const unsigned long sample_nb, const PnlMat * const past, const double t) :
 		MonteCarloRoutine(underlying_model, product, sample_nb), past(past), t(t)

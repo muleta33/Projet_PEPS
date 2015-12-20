@@ -95,6 +95,25 @@ void BlackScholesModel::add_one_simulation_to_generated_asset_paths(int at_line,
 }
 
 
+void BlackScholesModel::get_shifted_asset_paths(const PnlMat * const asset_path, int underlying_to_shift, double shift, double from_time, int past_values_number, PnlMat * shifted_asset_path) const
+{
+	if (shifted_asset_path == NULL)
+		shifted_asset_path = pnl_mat_new();
+	pnl_mat_clone(shifted_asset_path, asset_path);
+	double timespan_to_monitoring = (past_values_number - 1) * timestep_ - from_time;
+	bool is_at_monitoring_time = timespan_to_monitoring < TIME_PRECISION;
+	int begin_shift_time_index = 0;
+	if (is_at_monitoring_time)
+		begin_shift_time_index = past_values_number;
+	else
+		begin_shift_time_index = past_values_number - 1;
+	for (int i = begin_shift_time_index; i < asset_path->m; ++i)
+	{
+		MLET(shifted_asset_path, i, underlying_to_shift) = MGET(asset_path, i, underlying_to_shift) * (1. + shift);
+	}
+}
+
+
 BlackScholesModel::~BlackScholesModel()
 {
 	pnl_mat_free(&generated_asset_paths_);

@@ -21,7 +21,7 @@ namespace products {
 		{};
 
 		double get_maturity() const { return maturity_; };
-		double get_underlying_number() const { return underlying_number_; };
+		int get_underlying_number() const { return underlying_number_; };
 
 		virtual double get_payoff(const PnlMat * const underlying_paths) const = 0;
 		virtual ~Product() {};

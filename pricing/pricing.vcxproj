@@ -20,11 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MonteCarloPricer.hpp" />
-    <ClInclude Include="MonteCarloRoutine.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MonteCarloPricer.cpp" />
-    <ClCompile Include="MonteCarloRoutine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\financialProducts\financialProducts.vcxproj">
@@ -110,7 +108,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\financialProducts;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\monteCarlo;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\financialProducts;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>

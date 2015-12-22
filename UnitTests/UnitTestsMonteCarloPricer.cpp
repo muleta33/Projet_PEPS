@@ -6,7 +6,6 @@
 #include "BlackScholesModel.hpp"
 #include "FakeBlackScholesModelInputParserForCall.hpp"
 #include "FakeBlackScholesModelInputParserForCallBis.hpp"
-#include "FakeEurostralMutualFundInputParser.hpp"
 #include "PNLRandomGeneration.hpp"
 #include "ConstantRandomGeneration.hpp"
 #include "MonteCarloPricer.hpp"

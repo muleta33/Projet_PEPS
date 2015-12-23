@@ -19,15 +19,67 @@ namespace UnitTests
 			const FakeBlackScholesModelInputParser fake_model_parser;
 			const ConstantRandomGeneration fake_random_generator;
 			models::BlackScholesModel under_test(fake_model_parser, fake_random_generator);
-			PnlMat *past_matrix = pnl_mat_create_from_scalar(9, 5, 5);
-			const PnlMat * result = under_test.simulate_asset_paths_from_time(3.75, past_matrix);
+			PnlMat *past_matrix = pnl_mat_create_from_scalar(7, 5, 5);
+			const PnlMat * result = under_test.simulate_asset_paths_from_time(2.75, past_matrix);
 			PnlVect * vol = fake_model_parser.get_volatility();
 			for (int i = 0; i < under_test.underlying_number(); i++)
 			{
 				double sigma = GET(vol, i);
-				double res = 5 * exp(0.25*(0.05 - 0.5 * sigma * sigma));
-				Assert::AreEqual(res, MGET(result, 8, i));
+				double res = 5 * exp(1.25*(0.05 - 0.5 * sigma * sigma));
+				Assert::AreEqual(res, MGET(result, 8, i), 0.0001);
 			}
+			pnl_mat_free(&past_matrix);
+		}
+
+
+		TEST_METHOD(simulate_asset_paths_from_time_border_case)
+		{
+			const FakeBlackScholesModelInputParser fake_model_parser;
+			const ConstantRandomGeneration fake_random_generator;
+			models::BlackScholesModel under_test(fake_model_parser, fake_random_generator);
+			PnlMat *past_matrix = pnl_mat_create_from_scalar(9, 5, 5);
+			const PnlMat * result = under_test.simulate_asset_paths_from_time(4, past_matrix);
+			PnlVect * vol = fake_model_parser.get_volatility();
+			for (int i = 0; i < under_test.underlying_number(); i++)
+			{
+				Assert::AreEqual(5, MGET(result, 8, i), 0.0001);
+			}
+			pnl_mat_free(&past_matrix);
+		}
+
+
+		TEST_METHOD(simulate_asset_paths_from_zero)
+		{
+			const FakeBlackScholesModelInputParser fake_model_parser;
+			const ConstantRandomGeneration fake_random_generator;
+			models::BlackScholesModel under_test(fake_model_parser, fake_random_generator);
+			PnlVect *spot = pnl_vect_create_from_scalar(5, 10);
+			const PnlMat * result = under_test.simulate_asset_paths_from_start(spot);
+			PnlVect * vol = fake_model_parser.get_volatility();
+			for (int i = 0; i < under_test.underlying_number(); i++)
+			{
+				double sigma = GET(vol, i);
+				double res = 10 * exp(4*(0.05 - 0.5 * sigma * sigma));
+				Assert::AreEqual(res, MGET(result, 8, i), 0.0001);
+			}
+			pnl_vect_free(&spot);
+		}
+
+		TEST_METHOD(simulate_asset_paths_from_zero_from_time_coherence)
+		{
+			const FakeBlackScholesModelInputParser fake_model_parser;
+			const ConstantRandomGeneration fake_random_generator;
+			models::BlackScholesModel under_test(fake_model_parser, fake_random_generator);
+			PnlVect *spot = pnl_vect_create_from_scalar(5, 15);
+			const PnlMat * result_from_zero = under_test.simulate_asset_paths_from_start(spot);
+			PnlMat *past_matrix = pnl_mat_create_from_scalar(1, 5, 15);
+			const PnlMat * result_from_time = under_test.simulate_asset_paths_from_time(0, past_matrix);
+			PnlVect * vol = fake_model_parser.get_volatility();
+			for (int i = 0; i < under_test.underlying_number(); i++)
+			{
+				Assert::AreEqual(MGET(result_from_zero, 4, i), MGET(result_from_time, 4, i), 0.0001);
+			}
+			pnl_vect_free(&spot);
 			pnl_mat_free(&past_matrix);
 		}
 

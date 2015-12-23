@@ -18,7 +18,8 @@ namespace UnitTests {
 
 		~FakeEurostralMutualFundInputParser()
 		{
-			pnl_vect_free(&underlying_coefficients);
+			// Ligne suivante à commenter pour lancement des tests sans mode DEBUG : explications ?
+			//pnl_vect_free(&underlying_coefficients);
 			underlying_coefficients = nullptr;
 		}
 

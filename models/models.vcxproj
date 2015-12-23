@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BlackScholesModel.hpp" />
+    <ClInclude Include="BlackScholesModelRiskNeutral.hpp" />
+    <ClInclude Include="BlackScholesModelRoutine.hpp" />
     <ClInclude Include="UnderlyingModel.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BlackScholesModel.cpp" />
+    <ClCompile Include="BlackScholesModelRiskNeutral.cpp" />
+    <ClCompile Include="BlackScholesModelRoutine.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D05869FC-4602-4B6E-A852-3D67F3D79410}</ProjectGuid>

@@ -3,7 +3,7 @@
 #include "pnl/pnl_matrix.h"
 #include "pnl/pnl_finance.h"
 #include "EurostralMutualFund.hpp"
-#include "BlackScholesModel.hpp"
+#include "BlackScholesModelRiskNeutral.hpp"
 #include "FakeBlackScholesModelInputParserForCall.hpp"
 #include "FakeBlackScholesModelInputParserForCallBis.hpp"
 #include "PNLRandomGeneration.hpp"
@@ -27,7 +27,7 @@ namespace UnitTests
 		{
 			const generators::PnlRandomGeneration generator;
 			const FakeBlackScholesModelInputParserForCall fake_model_parser;
-			models::BlackScholesModel model(fake_model_parser, generator);
+			models::BlackScholesModelRiskNeutral model(fake_model_parser, generator);
 			double strike = 90;
 			Call call(fake_model_parser.get_final_simulation_date(), strike);
 
@@ -58,9 +58,9 @@ namespace UnitTests
 		{
 			const ConstantRandomGeneration generator;
 			const FakeBlackScholesModelInputParserForCall fake_model_parser;
-			models::BlackScholesModel model(fake_model_parser, generator);
+			models::BlackScholesModelRiskNeutral model(fake_model_parser, generator);
 			const FakeBlackScholesModelInputParserForCallBis fake_model_parser_bis;
-			models::BlackScholesModel model_lower_maturity(fake_model_parser_bis, generator);
+			models::BlackScholesModelRiskNeutral model_lower_maturity(fake_model_parser_bis, generator);
 			double strike = 50;
 
 			Call call(fake_model_parser.get_final_simulation_date(), strike);

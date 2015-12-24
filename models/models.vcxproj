@@ -21,9 +21,11 @@
   <ItemGroup>
     <ClInclude Include="BlackScholesModelRiskNeutral.hpp" />
     <ClInclude Include="BlackScholesModelRoutine.hpp" />
+    <ClInclude Include="BlackScholesModelMarket.hpp" />
     <ClInclude Include="UnderlyingModel.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BlackScholesModelMarket.cpp" />
     <ClCompile Include="BlackScholesModelRiskNeutral.cpp" />
     <ClCompile Include="BlackScholesModelRoutine.cpp" />
   </ItemGroup>

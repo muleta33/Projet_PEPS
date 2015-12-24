@@ -6,23 +6,22 @@
 
 namespace models
 {
-	class BlackScholesModelRoutine : public UnderlyingModel
+
+	class BlackScholesModelRoutine
 	{
 	public:
-		BlackScholesModelRoutine(const input_parsers::BlackScholesModelInputParser &parser, const generators::RandomGeneration &random_generator);
+		BlackScholesModelRoutine(int underlying_number, int monitoring_times, double final_simulation_date, double trend, PnlVect * volatilities,
+			double correlation_parameter, const generators::RandomGeneration &random_generator);
+		void add_one_simulation_to_generated_asset_paths(int at_line, double timelength, const PnlVect * const last_values, PnlMat * generated_asset_paths) const;
+		void fill_remainder_of_generated_asset_paths(int from_line, PnlMat * generated_asset_paths) const;
 		~BlackScholesModelRoutine();
 
-	protected:
-		PnlMat * generated_asset_paths_;
-		double timestep_;
-		void add_one_simulation_to_generated_asset_paths(int at_line, double timelength, const PnlVect * const last_values) const;
-		void fill_remainder_of_generated_asset_paths(int from_line) const;
-		virtual double get_trend() const = 0;
-
 	private:
-
+		int underlying_number_;
+		double timestep_;
 		double final_simulation_date_;
-		PnlVect * volatilities;
+		double trend_;
+		PnlVect * volatilities_;
 		double correlation_parameter_;
 		PnlMat * cholesky_matrix_corr_;
 		int compute_cholesky_matrix();

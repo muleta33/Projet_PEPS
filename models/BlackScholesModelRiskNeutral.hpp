@@ -7,7 +7,7 @@
 namespace models
 {
 
-	class BlackScholesModelRiskNeutral : public BlackScholesModelRoutine
+	class BlackScholesModelRiskNeutral : public UnderlyingModel
 	{
 	public:
 		BlackScholesModelRiskNeutral(const input_parsers::BlackScholesModelInputParser &parser, const generators::RandomGeneration &random_generator);
@@ -16,12 +16,11 @@ namespace models
 		void get_shifted_asset_paths(const PnlMat * const asset_path, int underlying_to_shift, double shift, double from_time, int past_values_number, PnlMat * shifted_asset_path) const;
 		~BlackScholesModelRiskNeutral();
 
-	protected:
-		double get_trend() const;
-
 	private:
-		double trend_;
+		PnlMat * generated_asset_paths_;
 		const double TIME_PRECISION = 10.e-5;
+		double timestep_;
+		BlackScholesModelRoutine* routine;
 	};
 
 }

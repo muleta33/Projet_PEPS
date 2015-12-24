@@ -4,20 +4,20 @@
 
 using namespace models;
 
-BlackScholesModelRiskNeutral::BlackScholesModelRiskNeutral(const input_parsers::BlackScholesModelInputParser &parser, const generators::RandomGeneration &random_generator) :
-BlackScholesModelRoutine(parser, random_generator)
+BlackScholesModelRiskNeutral::BlackScholesModelRiskNeutral(const input_parsers::BlackScholesModelInputParser &parser, const generators::RandomGeneration &random_generator) 
 {
-	trend_ = interest_rate_; // vrai sous la proba risque neutre
-}
-
-double BlackScholesModelRiskNeutral::get_trend() const {
-	return trend_;
+	routine = new BlackScholesModelRoutine(parser.get_underlying_number(), parser.get_monitoring_times(), parser.get_final_simulation_date(), 0.05, parser.get_volatility(),
+		parser.get_correlation_parameter(), random_generator);
+	interest_rate_ = parser.get_interest_rate();
+	underlying_number_ = parser.get_underlying_number();
+	generated_asset_paths_ = pnl_mat_create(parser.get_monitoring_times() + 1, parser.get_underlying_number());
+	timestep_ = parser.get_final_simulation_date() / parser.get_monitoring_times();
 }
 
 const PnlMat* const BlackScholesModelRiskNeutral::simulate_asset_paths_from_start(const PnlVect * const spot) const
 {
 	pnl_mat_set_row(generated_asset_paths_, spot, 0);
-	fill_remainder_of_generated_asset_paths(1);
+	routine->fill_remainder_of_generated_asset_paths(1, generated_asset_paths_);
 	return generated_asset_paths_;
 }
 
@@ -31,10 +31,10 @@ const PnlMat* const BlackScholesModelRiskNeutral::simulate_asset_paths_from_time
 	{
 		PnlVect * last_values = pnl_vect_create_from_zero(underlying_number_);
 		pnl_mat_get_row(last_values, past_values, number_of_values - 1);
-		add_one_simulation_to_generated_asset_paths(number_of_values - 1, timespan_to_monitoring, last_values);
+		routine->add_one_simulation_to_generated_asset_paths(number_of_values - 1, timespan_to_monitoring, last_values, generated_asset_paths_);
 		pnl_vect_free(&last_values);
 	}
-	fill_remainder_of_generated_asset_paths(number_of_values);
+	routine->fill_remainder_of_generated_asset_paths(number_of_values, generated_asset_paths_);
 	return generated_asset_paths_;
 }
 
@@ -58,4 +58,7 @@ void BlackScholesModelRiskNeutral::get_shifted_asset_paths(const PnlMat * const 
 
 BlackScholesModelRiskNeutral::~BlackScholesModelRiskNeutral()
 {
+	pnl_mat_free(&generated_asset_paths_);
+	generated_asset_paths_ = nullptr;
+	delete(routine);
 }

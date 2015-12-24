@@ -5,6 +5,7 @@
 #include "BlackScholesModelInputParser.hpp"
 #include "FakeBlackScholesModelInputParser.hpp"
 #include "ConstantRandomGeneration.hpp"
+#include "SameSeedRandomGeneration.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -68,7 +69,7 @@ namespace UnitTests
 		TEST_METHOD(simulate_asset_paths_from_zero_from_time_coherence)
 		{
 			const FakeBlackScholesModelInputParser fake_model_parser;
-			const ConstantRandomGeneration fake_random_generator;
+			const SameSeedRandomGeneration fake_random_generator;
 			models::BlackScholesModelRiskNeutral under_test(fake_model_parser, fake_random_generator);
 			PnlVect *spot = pnl_vect_create_from_scalar(5, 15);
 			const PnlMat * result_from_zero = under_test.simulate_asset_paths_from_start(spot);

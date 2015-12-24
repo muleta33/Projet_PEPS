@@ -39,6 +39,9 @@
     <ClInclude Include="FakeBlackScholesModelInputParserForCallBis.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SameSeedRandomGeneration.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

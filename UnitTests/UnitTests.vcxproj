@@ -160,6 +160,7 @@
     <ClInclude Include="FakeBlackScholesModelInputParserForCall.hpp" />
     <ClInclude Include="FakeBlackScholesModelInputParserForCallBis.hpp" />
     <ClInclude Include="FakeEurostralMutualFundInputParser.hpp" />
+    <ClInclude Include="SameSeedRandomGeneration.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>

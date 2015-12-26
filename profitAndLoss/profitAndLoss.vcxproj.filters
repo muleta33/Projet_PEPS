@@ -15,21 +15,45 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="UnderlyingModel.hpp">
+    <ClInclude Include="BlackScholesModelMarket.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BlackScholesModelRoutine.hpp">
+    <ClInclude Include="BlackScholesModelInputParserProfitAndLoss.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BlackScholesModelRiskNeutral.hpp">
+    <ClInclude Include="FakeBlackScholesModelInputParserProfitAndLoss.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Portfolio.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PortfolioManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FakeEurostralMutualFundInputParser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BlackScholesModelRoutine.cpp">
+    <ClCompile Include="BlackScholesModelMarket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BlackScholesModelRiskNeutral.cpp">
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProfitAndLoss.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Portfolio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PortfolioManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -30,5 +30,4 @@ private:
 	int number_of_samples_;
 
 	void manage_market_path_for_pricing_at_time_T(const PnlMat *market_path, PnlMat *past, double t);
-	void manage_market_path_for_payoff(const PnlMat *market_path, PnlMat *market_path_for_payoff);
 };

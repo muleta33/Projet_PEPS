@@ -52,21 +52,21 @@ double PortfolioManager::hedge()
 		portfolio_->rebalancing(deltas, prices, model_.interest_rate(), step);
 		double price, ic;
 		mc_->price(price, ic);
-		std::cout << i << " " << portfolio_->compute_value(prices) << " - " << price << std::endl;
+		std::cout << i << " | " << portfolio_->compute_value(prices) << " - " << price << std::endl;
 	}
-
-	// Calcul du P&L
+	// Valeur finale du portefeuille
 	pnl_mat_get_row(prices, market_path, rebalancing_times_);
 	double portfolioValue = portfolio_->compute_final_value(prices, model_.interest_rate(), step);
-	PnlMat *market_path_for_payoff = pnl_mat_create_from_zero(monitoring_times_, model_.underlying_number());
-	manage_market_path_for_payoff(market_path, market_path_for_payoff);
-	double payoff = product_.get_payoff(market_path_for_payoff);
+	// Payoff à maturité
+	manage_market_path_for_pricing_at_time_T(market_path, past, rebalancing_times_ * step);
+	double payoff = product_.get_payoff(past);
+	// Calcul du P&L
+	std::cout << "portfolioValue: " << portfolio_->compute_value(prices) << "  payoff: " << payoff << "  p0: " << p0 << std::endl;
 	double pl = 100 * fabs(portfolioValue - payoff) / p0;
 
 	// Libération de la mémoire
 	pnl_vect_free(&deltas);
 	pnl_vect_free(&prices);
-	pnl_mat_free(&market_path_for_payoff);
 	
 	return pl;
 }
@@ -79,19 +79,6 @@ void PortfolioManager::manage_market_path_for_pricing_at_time_T(const PnlMat *ma
 	for (int j = 0; j < model_.underlying_number(); ++j)
 	{
 		MLET(past, past_index, j) = MGET(market_path, market_index, j);
-	}
-}
-
-void PortfolioManager::manage_market_path_for_payoff(const PnlMat *market_path, PnlMat *market_path_for_payoff)
-{
-	int step = rebalancing_times_ / monitoring_times_;
-	for (int i = 0; i < monitoring_times_; ++i)
-	{
-		for (int j = 0; j < model_.underlying_number(); ++j)
-		{
-			double tmp = MGET(market_path, i * step, j);
-			MLET(market_path_for_payoff, i, j) = tmp;
-		}
 	}
 }
 

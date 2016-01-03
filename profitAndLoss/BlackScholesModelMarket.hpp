@@ -2,14 +2,17 @@
 #include "pnl/pnl_matrix.h"
 #include "RandomGeneration.hpp"
 #include "BlackScholesModelRoutine.hpp"
-#include "BlackScholesModelInputParserProfitAndLoss.hpp"
+#include "BlackScholesModelInputParser.hpp"
+#include "ProfitAndLossInputParser.hpp"
 
+using namespace input_parsers;
 
 class BlackScholesModelMarket
 {
 
 public:
-	BlackScholesModelMarket(const BlackScholesModelInputParserProfitAndLoss &parser, const generators::RandomGeneration &random_generator);
+	BlackScholesModelMarket(const BlackScholesModelInputParser &model_parser, const ProfitAndLossInputParser &pl_parser, 
+		const generators::RandomGeneration &random_generator);
 	const PnlMat* const simulate_market_asset_paths(const PnlVect * const spot) const;
 	~BlackScholesModelMarket();
 

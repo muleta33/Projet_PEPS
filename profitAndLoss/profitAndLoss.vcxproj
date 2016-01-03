@@ -103,7 +103,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\monteCarlo;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\financialProducts;$(SolutionDir)\parsers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\monteCarlo;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\financialProducts;$(SolutionDir)\parsers;$(SolutionDir)\..\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,10 +149,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BlackScholesModelInputParserProfitAndLoss.hpp" />
+    <ClInclude Include="CoreProfitAndLossInputParser.hpp" />
+    <ClInclude Include="ProfitAndLossInputParser.hpp" />
     <ClInclude Include="BlackScholesModelMarket.hpp" />
-    <ClInclude Include="FakeBlackScholesModelInputParserProfitAndLoss.hpp" />
-    <ClInclude Include="FakeEurostralMutualFundInputParser.hpp" />
     <ClInclude Include="Portfolio.hpp" />
     <ClInclude Include="PortfolioManager.hpp" />
     <ClInclude Include="stdafx.h" />
@@ -160,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BlackScholesModelMarket.cpp" />
+    <ClCompile Include="CoreProfitAndLossInputParser.cpp" />
     <ClCompile Include="Portfolio.cpp" />
     <ClCompile Include="PortfolioManager.cpp" />
     <ClCompile Include="ProfitAndLoss.cpp" />

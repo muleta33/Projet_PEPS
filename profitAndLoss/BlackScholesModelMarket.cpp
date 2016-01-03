@@ -4,12 +4,13 @@
 
 using namespace models;
 
-BlackScholesModelMarket::BlackScholesModelMarket(const BlackScholesModelInputParserProfitAndLoss &parser, const generators::RandomGeneration &random_generator)
+BlackScholesModelMarket::BlackScholesModelMarket(const BlackScholesModelInputParser &model_parser, const ProfitAndLossInputParser &pl_parser, 
+	const generators::RandomGeneration &random_generator)
 {
-	routine = new BlackScholesModelRoutine(parser.get_underlying_number(), parser.get_rebalancing_times(), parser.get_final_simulation_date(), parser.get_trend(), parser.get_volatility(),
-		parser.get_correlation_parameter(), random_generator);
-	generated_market_asset_paths_ = pnl_mat_create(parser.get_rebalancing_times() + 1, parser.get_underlying_number());
-	timestep_ = parser.get_final_simulation_date() / parser.get_rebalancing_times();
+	routine = new BlackScholesModelRoutine(model_parser.get_underlying_number(), pl_parser.get_rebalancing_times(), model_parser.get_final_simulation_date(), 
+		pl_parser.get_trend(), model_parser.get_volatility(), model_parser.get_correlation_parameter(), random_generator);
+	generated_market_asset_paths_ = pnl_mat_create(pl_parser.get_rebalancing_times() + 1, model_parser.get_underlying_number());
+	timestep_ = model_parser.get_final_simulation_date() / pl_parser.get_rebalancing_times();
 }
 
 const PnlMat* const BlackScholesModelMarket::simulate_market_asset_paths(const PnlVect * const spot) const

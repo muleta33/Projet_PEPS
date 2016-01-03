@@ -27,12 +27,18 @@
     <ClInclude Include="EurostralMutualFundInputParser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CoreEurostralMutualFundInputParser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CoreBlackScholesModelInputParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CoreEurostralMutualFundInputParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

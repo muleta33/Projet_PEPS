@@ -4,31 +4,36 @@
 #include "stdafx.h"
 #include <iostream>
 #include "pnl\pnl_matrix.h"
-#include "FakeBlackScholesModelInputParserProfitAndLoss.hpp"
+#include "Parser.hpp"
 #include "BlackScholesModelMarket.hpp"
 #include "BlackScholesModelRiskNeutral.hpp"
-#include "PnlRandomGeneration.hpp"
-#include "FakeEurostralMutualFundInputParser.hpp"
+#include "CoreEurostralMutualFundInputParser.hpp"
+#include "CoreBlackScholesModelInputParser.hpp"
+#include "CoreProfitAndLossInputParser.hpp"
 #include "PNLRandomGeneration.hpp"
 #include "PortfolioManager.hpp"
 
 using namespace products;
 using namespace generators;
 using namespace models;
+using namespace input_parsers;
 
-int _tmain(int argc, _TCHAR* argv[])
+int main(int argc, char* argv[])
 {
-	const FakeEurostralMutualFundInputParser fake_fund_parser;
-	EurostralMutualFund fund(fake_fund_parser);
+	const char * input_file = argv[1];
+	Parser parser(input_file);
+	const CoreBlackScholesModelInputParser model_parser(parser);
+	const CoreProfitAndLossInputParser pl_parser(parser);
+	const CoreEurostralMutualFundInputParser fund_parser(parser);
+	EurostralMutualFund fund(fund_parser);
 	const PnlRandomGeneration random_generator;
-	const FakeBlackScholesModelInputParserProfitAndLoss fake_model_parser;
-	BlackScholesModelRiskNeutral model(fake_model_parser, random_generator);
-	BlackScholesModelMarket market(fake_model_parser, random_generator);
-	const int number_of_samples = 10000;
-	PnlVect *spot = pnl_vect_create_from_scalar(model.underlying_number(), 10);
+	BlackScholesModelRiskNeutral model(model_parser, random_generator);
+	BlackScholesModelMarket market(model_parser, pl_parser, random_generator);
+	//const int number_of_samples = 10000;
+	//PnlVect *spot = pnl_vect_create_from_scalar(model.underlying_number(), 10);
 
-	PortfolioManager portfolio_manager(fund, model, market, fake_model_parser.get_rebalancing_times(), fake_model_parser.get_monitoring_times(), 
-		fake_model_parser.get_fd_step(), number_of_samples, spot);
+	PortfolioManager portfolio_manager(fund, model, market, pl_parser.get_rebalancing_times(), model_parser.get_monitoring_times(), 
+		pl_parser.get_fd_step(), pl_parser.get_sample_number(), pl_parser.get_spot());
 	double profit_and_loss = portfolio_manager.hedge();
 	std::cout << "Profit & loss: " << profit_and_loss << std::endl;
 	return 0;

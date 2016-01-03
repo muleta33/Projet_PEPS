@@ -1,0 +1,18 @@
+option size <int> 3
+maturity <float> 1
+guaranteed capital <float> 0.9
+indexes return <float> 0.95
+initial capital <float> 100
+underlying coefficients <vector> 0.5 0.3 0.2
+
+timestep number <int> 2
+volatility <vector> 0.1 0.3 0.15
+interest rate  <float> 0.05
+correlation <float> 0.3
+
+trend <float> 0.07
+rebalancing times <int> 52
+fd step <float> 0.1
+
+spot <vector> 100
+sample number <int> 10000

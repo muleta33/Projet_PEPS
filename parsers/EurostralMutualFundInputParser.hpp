@@ -3,7 +3,6 @@
 
 namespace input_parsers
 {
-
 	class EurostralMutualFundInputParser
 	{
 	public:
@@ -16,5 +15,4 @@ namespace input_parsers
 
 		virtual ~EurostralMutualFundInputParser() {};
 	};
-
 }

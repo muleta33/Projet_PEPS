@@ -18,12 +18,6 @@
     <ClInclude Include="BlackScholesModelMarket.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BlackScholesModelInputParserProfitAndLoss.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FakeBlackScholesModelInputParserProfitAndLoss.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -36,7 +30,10 @@
     <ClInclude Include="PortfolioManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FakeEurostralMutualFundInputParser.hpp">
+    <ClInclude Include="ProfitAndLossInputParser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreProfitAndLossInputParser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -54,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PortfolioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CoreProfitAndLossInputParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

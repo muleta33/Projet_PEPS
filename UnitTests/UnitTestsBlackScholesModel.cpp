@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "BlackScholesModelRiskNeutral.hpp"
+#include "BlackScholesModelRoutine.hpp"
 #include "PNLRandomGeneration.hpp"
 #include "BlackScholesModelInputParser.hpp"
 #include "FakeBlackScholesModelInputParser.hpp"
@@ -15,6 +16,54 @@ namespace UnitTests
 	{
 	public:
 		
+		TEST_METHOD(add_one_simulation_to_generated_asset_paths)
+		{
+			int underlying_number = 5;
+			const ConstantRandomGeneration fake_random_generator;
+			PnlVect *vol = pnl_vect_create_from_scalar(underlying_number, 0.2);
+			models::BlackScholesModelRoutine test_routine(underlying_number, 12, 4, 0.05, vol, 0.1, fake_random_generator);
+			PnlMat *path_matrix = pnl_mat_create_from_scalar(7, underlying_number, 0);
+			PnlVect *last_values = pnl_vect_create_from_scalar(underlying_number, 10);
+			test_routine.add_one_simulation_to_generated_asset_paths(6, 0.17, last_values, path_matrix);
+			for (int i = 0; i < underlying_number; i++)
+			{
+				for (int j = 0; j < 6; j++)
+				{
+					Assert::AreEqual(0, MGET(path_matrix, j, i), 0.0001);
+				}
+				double sigma = GET(vol, i);
+				double res = 10 * exp(0.17*(0.05 - 0.5 * sigma * sigma));
+				Assert::AreEqual(res, MGET(path_matrix, 6, i), 0.0001);
+			}
+			pnl_vect_free(&vol);
+			pnl_vect_free(&last_values);
+			pnl_mat_free(&path_matrix);
+		}
+
+		TEST_METHOD(fill_remainder_of_generated_asset_paths)
+		{
+			int underlying_number = 5;
+			const ConstantRandomGeneration fake_random_generator;
+			PnlVect *vol = pnl_vect_create_from_scalar(underlying_number, 0.2);
+			models::BlackScholesModelRoutine test_routine(underlying_number, 16, 4, 0.05, vol, 0.1, fake_random_generator);
+			PnlMat *path_matrix = pnl_mat_create_from_scalar(13, underlying_number, 10);
+			test_routine.fill_remainder_of_generated_asset_paths(1, path_matrix);
+			for (int i = 0; i < underlying_number; i++)
+			{
+				Assert::AreEqual(10, MGET(path_matrix, 0, i), 0.0001);
+				double sigma = GET(vol, i);
+				double res = 10;
+				double factor = exp(0.25*(0.05 - 0.5 * sigma * sigma));
+				for (int j = 1; j < 13; j++)
+				{
+					res *= factor;
+					Assert::AreEqual(res, MGET(path_matrix, j, i), 0.0001);
+				}
+			}
+			pnl_vect_free(&vol);
+			pnl_mat_free(&path_matrix);
+		}
+
 		TEST_METHOD(simulate_asset_paths_from_time)
 		{
 			const FakeBlackScholesModelInputParser fake_model_parser;

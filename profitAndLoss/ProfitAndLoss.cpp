@@ -12,6 +12,7 @@
 #include "CoreProfitAndLossInputParser.hpp"
 #include "PNLRandomGeneration.hpp"
 #include "PortfolioManager.hpp"
+#include "Call.hpp"
 
 using namespace products;
 using namespace generators;
@@ -24,15 +25,14 @@ int main(int argc, char* argv[])
 	Parser parser(input_file);
 	const CoreBlackScholesModelInputParser model_parser(parser);
 	const CoreProfitAndLossInputParser profit_and_loss_parser(parser);
-	const CoreEurostralMutualFundInputParser fund_parser(parser);
-	EurostralMutualFund fund(fund_parser);
+	//const CoreEurostralMutualFundInputParser fund_parser(parser);
+	//EurostralMutualFund product(fund_parser);
+	Call product(model_parser.get_final_simulation_date(), 90);
 	const PnlRandomGeneration random_generator;
 	BlackScholesModelRiskNeutral model(model_parser, random_generator);
 	BlackScholesModelMarket market(model_parser, profit_and_loss_parser, random_generator);
-	//const int number_of_samples = 10000;
-	//PnlVect *spot = pnl_vect_create_from_scalar(model.underlying_number(), 10);
 
-	PortfolioManager portfolio_manager(fund, model, market, profit_and_loss_parser.get_rebalancing_times(), model_parser.get_monitoring_times(), 
+	PortfolioManager portfolio_manager(product, model, market, profit_and_loss_parser.get_rebalancing_times(), model_parser.get_monitoring_times(), 
 		profit_and_loss_parser.get_fd_step(), profit_and_loss_parser.get_sample_number(), profit_and_loss_parser.get_spot());
 	double profit_and_loss = portfolio_manager.hedge();
 	std::cout << "Profit & loss: " << profit_and_loss << std::endl;

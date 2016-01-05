@@ -21,6 +21,9 @@
     <ClInclude Include="Product.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Call.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EurostralMutualFund.cpp">

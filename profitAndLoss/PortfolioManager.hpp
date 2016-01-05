@@ -11,7 +11,7 @@ using namespace products;
 class PortfolioManager
 {
 public:
-	PortfolioManager(EurostralMutualFund &product, UnderlyingModel &model, BlackScholesModelMarket &market, int rebalancing_times, 
+	PortfolioManager(Product &product, UnderlyingModel &model, BlackScholesModelMarket &market, int rebalancing_times, 
 		int monitoring_times, double fd_step, int number_of_samples, const PnlVect *spot);
 	double hedge();
 	~PortfolioManager();
@@ -22,7 +22,7 @@ private:
 	int monitoring_times_;
 	double fd_step_;
 	PnlVect *spot_;
-	EurostralMutualFund &product_;
+	Product &product_;
 	UnderlyingModel &model_;
 	BlackScholesModelMarket &market_;
 	const double TIME_PRECISION = 10e-5;

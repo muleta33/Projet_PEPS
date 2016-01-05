@@ -2,7 +2,7 @@
 #include "pnl/pnl_finance.h"
 #include <iostream>
 
-PortfolioManager::PortfolioManager(EurostralMutualFund &product, UnderlyingModel &model, BlackScholesModelMarket &market, int rebalancing_times,
+PortfolioManager::PortfolioManager(Product &product, UnderlyingModel &model, BlackScholesModelMarket &market, int rebalancing_times,
 	int monitoring_times, double fd_step, int number_of_samples, const PnlVect *spot) :
 	portfolio_(),
 	rebalancing_times_(rebalancing_times),
@@ -20,7 +20,7 @@ double PortfolioManager::hedge()
 {
 	// Simulation du marché
 	const PnlMat * market_path = market_.simulate_market_asset_paths(spot_);
-
+	//pnl_mat_print(market_path);
 	PnlMat * past = pnl_mat_create_from_zero(monitoring_times_ + 1, model_.underlying_number());
 	pnl_mat_set_row(past, spot_, 0);
 

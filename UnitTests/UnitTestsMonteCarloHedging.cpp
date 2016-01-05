@@ -79,6 +79,37 @@ namespace UnitTests
 		}
 
 
+		TEST_METHOD(hedge_call)
+		{
+			const generators::PnlRandomGeneration generator;
+			const FakeBlackScholesModelInputParserForCall fake_model_parser;
+			models::BlackScholesModelRiskNeutral model(fake_model_parser, generator);
+			double strike = 90;
+			Call call(fake_model_parser.get_final_simulation_date(), strike);
+
+			PnlVect * spot = pnl_vect_create_from_scalar(1, 100);
+
+			int sample_number = 50000;
+			double shift = 0.05;
+			MonteCarloHedging monteCarloHedging(sample_number, shift);
+
+			PnlVect * computed_delta = pnl_vect_create_from_zero(1);
+			monteCarloHedging.hedge(model, call, spot, computed_delta);
+
+			double * reference_price = new double;
+			double * reference_delta = new double;
+			pnl_cf_call_bs(GET(spot, 0), strike, fake_model_parser.get_final_simulation_date(), model.interest_rate(),
+				0, GET(fake_model_parser.get_volatility(), 0), reference_price, reference_delta);
+
+			Assert::AreEqual(*reference_delta, GET(computed_delta, 0), 0.005);
+
+			pnl_vect_free(&spot);
+			pnl_vect_free(&computed_delta);
+			delete reference_price; 
+			delete reference_delta;
+		}
+
+
 		TEST_METHOD(hedge_and_hedge_at_call_coherence)
 		{
 			const ConstantRandomGeneration generator;

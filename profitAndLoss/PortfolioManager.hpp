@@ -17,7 +17,7 @@ public:
 	~PortfolioManager();
 
 private:
-	Portfolio *portfolio_;
+	Portfolio portfolio_;
 	int rebalancing_times_;
 	int monitoring_times_;
 	double fd_step_;
@@ -25,7 +25,6 @@ private:
 	EurostralMutualFund &product_;
 	UnderlyingModel &model_;
 	BlackScholesModelMarket &market_;
-	MonteCarloRoutine *mc_;
 	const double TIME_PRECISION = 10e-5;
 	int number_of_samples_;
 

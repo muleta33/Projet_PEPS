@@ -23,17 +23,17 @@ int main(int argc, char* argv[])
 	const char * input_file = argv[1];
 	Parser parser(input_file);
 	const CoreBlackScholesModelInputParser model_parser(parser);
-	const CoreProfitAndLossInputParser pl_parser(parser);
+	const CoreProfitAndLossInputParser profit_and_loss_parser(parser);
 	const CoreEurostralMutualFundInputParser fund_parser(parser);
 	EurostralMutualFund fund(fund_parser);
 	const PnlRandomGeneration random_generator;
 	BlackScholesModelRiskNeutral model(model_parser, random_generator);
-	BlackScholesModelMarket market(model_parser, pl_parser, random_generator);
+	BlackScholesModelMarket market(model_parser, profit_and_loss_parser, random_generator);
 	//const int number_of_samples = 10000;
 	//PnlVect *spot = pnl_vect_create_from_scalar(model.underlying_number(), 10);
 
-	PortfolioManager portfolio_manager(fund, model, market, pl_parser.get_rebalancing_times(), model_parser.get_monitoring_times(), 
-		pl_parser.get_fd_step(), pl_parser.get_sample_number(), pl_parser.get_spot());
+	PortfolioManager portfolio_manager(fund, model, market, profit_and_loss_parser.get_rebalancing_times(), model_parser.get_monitoring_times(), 
+		profit_and_loss_parser.get_fd_step(), profit_and_loss_parser.get_sample_number(), profit_and_loss_parser.get_spot());
 	double profit_and_loss = portfolio_manager.hedge();
 	std::cout << "Profit & loss: " << profit_and_loss << std::endl;
 	return 0;

@@ -29,6 +29,7 @@ double PortfolioManager::hedge()
 	MonteCarloRoutineAtOrigin mc(model_, product_, number_of_samples_, spot_);
 	mc.price(product_price, ic);
 	double p0 = product_price;
+	std::cout << "p0 : " << p0 << " - ic : " << ic << std::endl;
 
 	PnlVect *deltas = pnl_vect_create_from_zero(model_.underlying_number());
 	mc.delta_hedge(fd_step_, deltas);
@@ -37,7 +38,6 @@ double PortfolioManager::hedge()
 	pnl_mat_get_row(prices, market_path, 0);
 
 	portfolio_.initialisation(p0, deltas, prices);
-
 	// Rebalancement du portefeuille
 	double step = product_.get_maturity() / rebalancing_times_;
 

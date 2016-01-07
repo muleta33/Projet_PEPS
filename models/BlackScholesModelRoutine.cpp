@@ -8,11 +8,12 @@ using namespace generators;
 using namespace models;
 
 
-BlackScholesModelRoutine::BlackScholesModelRoutine(int underlying_number, int monitoring_times, double final_simulation_date, double trend, PnlVect * volatilities,
+BlackScholesModelRoutine::BlackScholesModelRoutine(int underlying_number, int monitoring_times, double final_simulation_date, const PnlVect * trend, PnlVect * volatilities,
 	double correlation_parameter, const generators::RandomGeneration &random_generator) :
-	underlying_number_(underlying_number), final_simulation_date_(final_simulation_date), trend_(trend), volatilities_(volatilities), 
+	underlying_number_(underlying_number), final_simulation_date_(final_simulation_date), volatilities_(volatilities), 
 	correlation_parameter_(correlation_parameter), random_generator_(random_generator)
 {
+	trend_ = pnl_vect_copy(trend);
 	gaussian_vector_for_simulation_ = pnl_vect_create(underlying_number_);
 	timestep_ = final_simulation_date_ / monitoring_times;
 	cholesky_matrix_corr_ = pnl_mat_create(underlying_number_, underlying_number_);
@@ -59,7 +60,7 @@ void BlackScholesModelRoutine::add_one_simulation_to_generated_asset_paths(int a
 	for (int i = 0; i < underlying_number_; i++)
 	{
 		double vol = GET(volatilities_, i);
-		MLET(generated_asset_paths, at_line, i) = GET(last_values, i) * exp((trend_ - (vol *  vol / 2.0)) * time_length
+		MLET(generated_asset_paths, at_line, i) = GET(last_values, i) * exp((GET(trend_, i) - (vol *  vol / 2.0)) * time_length
 			+ sqrt_time_length * vol * GET(work_vector, i));
 	}
 	pnl_vect_free(&work_vector);
@@ -70,6 +71,5 @@ BlackScholesModelRoutine::~BlackScholesModelRoutine()
 {
 	pnl_vect_free(&gaussian_vector_for_simulation_);
 	pnl_mat_free(&cholesky_matrix_corr_);
-	gaussian_vector_for_simulation_ = nullptr;
-	cholesky_matrix_corr_ = nullptr;
+	pnl_vect_free(&trend_);
 }

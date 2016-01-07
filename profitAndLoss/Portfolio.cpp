@@ -9,10 +9,10 @@ void Portfolio::initialisation(double optionPrice, const PnlVect *deltas, const 
 	risk_free_investment_ = optionPrice - pnl_vect_scalar_prod(deltas, prices);
 }
 
-void Portfolio::rebalancing(const PnlVect *deltas, const PnlVect *prices, double interestRate, double timeStep)
+void Portfolio::rebalancing(const PnlVect *deltas, const PnlVect *prices, double interest_rate, double time_step)
 {
 	pnl_vect_minus_vect(deltas_, deltas);
-	risk_free_investment_ = risk_free_investment_ * exp(interestRate * timeStep) + pnl_vect_scalar_prod(deltas_, prices);
+	risk_free_investment_ = risk_free_investment_ * exp(interest_rate * time_step) + pnl_vect_scalar_prod(deltas_, prices);
 	pnl_vect_clone(deltas_, deltas);
 }
 
@@ -21,7 +21,7 @@ double Portfolio::compute_value(const PnlVect *prices)
 	return risk_free_investment_ + pnl_vect_scalar_prod(deltas_, prices);
 }
 
-double Portfolio::compute_final_value(const PnlVect *prices, double interestRate, double timeStep)
+double Portfolio::compute_final_value(const PnlVect *prices, double interest_rate, double time_step)
 {
-	return risk_free_investment_ * exp(interestRate * timeStep) + pnl_vect_scalar_prod(deltas_, prices);
+	return risk_free_investment_ * exp(interest_rate * time_step) + pnl_vect_scalar_prod(deltas_, prices);
 }

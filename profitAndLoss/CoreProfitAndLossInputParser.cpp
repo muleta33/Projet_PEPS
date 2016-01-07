@@ -3,10 +3,10 @@
 using namespace input_parsers;
 
 
-double CoreProfitAndLossInputParser::get_trend() const
+PnlVect * CoreProfitAndLossInputParser::get_trend() const
 {
-	double result;
-	parser.extract("trend", result);
+	PnlVect * result;
+	parser.extract("trend", result, underlying_number);
 	return result;
 }
 

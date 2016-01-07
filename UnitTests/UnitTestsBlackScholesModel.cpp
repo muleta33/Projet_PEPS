@@ -21,7 +21,8 @@ namespace UnitTests
 			int underlying_number = 5;
 			const ConstantRandomGeneration fake_random_generator;
 			PnlVect *vol = pnl_vect_create_from_scalar(underlying_number, 0.2);
-			models::BlackScholesModelRoutine test_routine(underlying_number, 12, 4, 0.05, vol, 0.1, fake_random_generator);
+			PnlVect *trend = pnl_vect_create_from_scalar(underlying_number, 0.05);
+			models::BlackScholesModelRoutine test_routine(underlying_number, 12, 4, trend, vol, 0.1, fake_random_generator);
 			PnlMat *path_matrix = pnl_mat_create_from_scalar(7, underlying_number, 0);
 			PnlVect *last_values = pnl_vect_create_from_scalar(underlying_number, 10);
 			test_routine.add_one_simulation_to_generated_asset_paths(6, 0.17, last_values, path_matrix);
@@ -36,6 +37,7 @@ namespace UnitTests
 				Assert::AreEqual(res, MGET(path_matrix, 6, i), 0.0001);
 			}
 			pnl_vect_free(&vol);
+			pnl_vect_free(&trend);
 			pnl_vect_free(&last_values);
 			pnl_mat_free(&path_matrix);
 		}
@@ -45,7 +47,8 @@ namespace UnitTests
 			int underlying_number = 5;
 			const ConstantRandomGeneration fake_random_generator;
 			PnlVect *vol = pnl_vect_create_from_scalar(underlying_number, 0.2);
-			models::BlackScholesModelRoutine test_routine(underlying_number, 16, 4, 0.05, vol, 0.1, fake_random_generator);
+			PnlVect *trend = pnl_vect_create_from_scalar(underlying_number, 0.05);
+			models::BlackScholesModelRoutine test_routine(underlying_number, 16, 4, trend, vol, 0.1, fake_random_generator);
 			PnlMat *path_matrix = pnl_mat_create_from_scalar(13, underlying_number, 10);
 			test_routine.fill_remainder_of_generated_asset_paths(1, path_matrix);
 			for (int i = 0; i < underlying_number; i++)
@@ -61,6 +64,7 @@ namespace UnitTests
 				}
 			}
 			pnl_vect_free(&vol);
+			pnl_vect_free(&trend);
 			pnl_mat_free(&path_matrix);
 		}
 

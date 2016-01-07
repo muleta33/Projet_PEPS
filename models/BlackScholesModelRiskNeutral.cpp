@@ -6,12 +6,14 @@ using namespace models;
 
 BlackScholesModelRiskNeutral::BlackScholesModelRiskNeutral(const input_parsers::BlackScholesModelInputParser &parser, const generators::RandomGeneration &random_generator) 
 {
-	routine = new BlackScholesModelRoutine(parser.get_underlying_number(), parser.get_monitoring_times(), parser.get_final_simulation_date(), parser.get_interest_rate(), parser.get_volatility(),
-		parser.get_correlation_parameter(), random_generator);
 	interest_rate_ = parser.get_interest_rate();
 	underlying_number_ = parser.get_underlying_number();
+	PnlVect * trend = pnl_vect_create_from_scalar(underlying_number_, interest_rate_);
+	routine = new BlackScholesModelRoutine(underlying_number_, parser.get_monitoring_times(), parser.get_final_simulation_date(), trend, parser.get_volatility(),
+		parser.get_correlation_parameter(), random_generator);
 	generated_asset_paths_ = pnl_mat_create(parser.get_monitoring_times() + 1, parser.get_underlying_number());
 	timestep_ = parser.get_final_simulation_date() / parser.get_monitoring_times();
+	pnl_vect_free(&trend);
 }
 
 const PnlMat* const BlackScholesModelRiskNeutral::simulate_asset_paths_from_start(const PnlVect * const spot) const

@@ -10,7 +10,7 @@ namespace input_parsers
 		const Parser & parser;
 		int underlying_number;
 	public:
-		double get_trend() const;
+		PnlVect * get_trend() const;
 		int get_rebalancing_times() const;
 		double get_fd_step() const;
 		int get_sample_number() const;

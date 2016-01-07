@@ -27,8 +27,7 @@ void MonteCarloRoutine::delta_hedge(const double shift, PnlVect * deltas) const
 {
 	PnlVect * payoff_differences_sum = pnl_vect_create_from_zero(product.get_underlying_number());
 	const PnlMat * generated_path = NULL;
-	PnlMat * shifted_down_asset_path = pnl_mat_new();
-	PnlMat * shifted_up_asset_path = pnl_mat_new();
+	PnlMat * shifted_asset_path = pnl_mat_new();
 
 	for (unsigned long i = 0; i < sample_number; ++i)
 	{
@@ -36,11 +35,11 @@ void MonteCarloRoutine::delta_hedge(const double shift, PnlVect * deltas) const
 
 		for (int underlying = 0; underlying < product.get_underlying_number(); ++underlying)
 		{
-			underlying_model.get_shifted_asset_paths(generated_path, underlying, -shift, get_time(), get_past_values_number(), shifted_down_asset_path); 
-			underlying_model.get_shifted_asset_paths(generated_path, underlying, shift, get_time(), get_past_values_number(), shifted_up_asset_path);
-
-			double payoff_down = product.get_payoff(shifted_down_asset_path);
-			double payoff_up = product.get_payoff(shifted_up_asset_path);
+			underlying_model.get_shifted_asset_paths(generated_path, underlying, -shift, get_time(), get_past_values_number(), shifted_asset_path); 
+			double payoff_down = product.get_payoff(shifted_asset_path); 
+			
+			underlying_model.get_shifted_asset_paths(generated_path, underlying, shift, get_time(), get_past_values_number(), shifted_asset_path);
+			double payoff_up = product.get_payoff(shifted_asset_path);
 
 			LET(payoff_differences_sum, underlying) = GET(payoff_differences_sum, underlying) + payoff_up - payoff_down;
 		}
@@ -59,8 +58,7 @@ void MonteCarloRoutine::delta_hedge(const double shift, PnlVect * deltas) const
 	}
 
 	pnl_vect_free(&spots);
-	pnl_mat_free(&shifted_up_asset_path);
-	pnl_mat_free(&shifted_down_asset_path);
+	pnl_mat_free(&shifted_asset_path);
 	pnl_vect_free(&payoff_differences_sum);
 }
 

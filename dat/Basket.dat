@@ -1,5 +1,7 @@
-option size <int> 1
-maturity <float> 1
+option size <int> 40
+maturity <float> 3
+underlying coefficients <vector> 0.025
+strike <float> 100
 
 timestep number <int> 1
 volatility <vector> 0.2
@@ -11,4 +13,4 @@ rebalancing times <int> 52
 fd step <float> 0.1
 
 spot <vector> 100
-sample number <int> 100000
+sample number <int> 50000

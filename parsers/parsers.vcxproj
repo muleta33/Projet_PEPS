@@ -19,13 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasketOptionInputParser.hpp" />
     <ClInclude Include="BlackScholesModelInputParser.hpp" />
+    <ClInclude Include="CoreBasketOptionInputParser.hpp" />
     <ClInclude Include="CoreBlackScholesModelInputParser.hpp" />
     <ClInclude Include="CoreEurostralMutualFundInputParser.hpp" />
     <ClInclude Include="EurostralMutualFundInputParser.hpp" />
     <ClInclude Include="Parser.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CoreBasketOptionInputParser.cpp" />
     <ClCompile Include="CoreBlackScholesModelInputParser.cpp" />
     <ClCompile Include="CoreEurostralMutualFundInputParser.cpp" />
     <ClCompile Include="Parser.cpp" />

@@ -146,7 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Call.hpp" />
+    <ClInclude Include="BasketOption.hpp" />
     <ClInclude Include="EurostralMutualFund.hpp" />
     <ClInclude Include="Product.hpp" />
   </ItemGroup>

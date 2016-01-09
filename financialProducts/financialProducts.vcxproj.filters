@@ -21,7 +21,7 @@
     <ClInclude Include="Product.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Call.hpp">
+    <ClInclude Include="BasketOption.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

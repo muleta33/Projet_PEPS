@@ -4,12 +4,13 @@
 #include "pnl/pnl_finance.h"
 #include "EurostralMutualFund.hpp"
 #include "BlackScholesModelRiskNeutral.hpp"
+#include "FakeBasketOptionInputParser.hpp"
 #include "FakeBlackScholesModelInputParserForCall.hpp"
 #include "FakeBlackScholesModelInputParserForCallBis.hpp"
 #include "PNLRandomGeneration.hpp"
-#include "ConstantRandomGeneration.hpp"
+#include "SameSeedRandomGeneration.hpp"
 #include "MonteCarloPricer.hpp"
-#include "Call.hpp"
+#include "BasketOption.hpp"
 
 #include <cassert>
 #include <iostream>
@@ -27,9 +28,11 @@ namespace UnitTests
 		{
 			const generators::PnlRandomGeneration generator;
 			const FakeBlackScholesModelInputParserForCall fake_model_parser;
+			const FakeBasketOptionInputParser fake_option_parser;
 			models::BlackScholesModelRiskNeutral model(fake_model_parser, generator);
-			double strike = 90;
-			Call call(fake_model_parser.get_final_simulation_date(), strike);
+			double strike = fake_option_parser.get_strike();
+
+			BasketOption call(fake_model_parser.get_final_simulation_date(), fake_option_parser);
 
 			PnlVect * spot = pnl_vect_create_from_scalar(1, 100);
 
@@ -56,18 +59,19 @@ namespace UnitTests
 
 		TEST_METHOD(price_and_price_at_call_coherence)
 		{
-			const ConstantRandomGeneration generator;
 			const FakeBlackScholesModelInputParserForCall fake_model_parser;
-			models::BlackScholesModelRiskNeutral model(fake_model_parser, generator);
+			const SameSeedRandomGeneration generator1;
+			models::BlackScholesModelRiskNeutral model(fake_model_parser, generator1);
 			const FakeBlackScholesModelInputParserForCallBis fake_model_parser_bis;
-			models::BlackScholesModelRiskNeutral model_lower_maturity(fake_model_parser_bis, generator);
-			double strike = 50;
+			const SameSeedRandomGeneration generator2;
+			models::BlackScholesModelRiskNeutral model_lower_maturity(fake_model_parser_bis, generator2);
+			const FakeBasketOptionInputParser fake_option_parser;
 
-			Call call(fake_model_parser.get_final_simulation_date(), strike);
-			Call call_lower_maturity(fake_model_parser_bis.get_final_simulation_date(), strike);
+			BasketOption call(fake_model_parser.get_final_simulation_date(), fake_option_parser);
+			BasketOption call_lower_maturity(fake_model_parser_bis.get_final_simulation_date(), fake_option_parser);
 
-			PnlVect * spots = pnl_vect_create_from_scalar(1, 50);
-			PnlMat * past_values = pnl_mat_create_from_scalar(3, 1, 50);
+			PnlVect * spots = pnl_vect_create_from_scalar(1, 120);
+			PnlMat * past_values = pnl_mat_create_from_scalar(3, 1, 120);
 
 			int sample_number = 50000;
 			MonteCarloPricer monteCarloPricer(sample_number);

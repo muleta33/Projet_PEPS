@@ -30,6 +30,12 @@
     <ClInclude Include="CoreEurostralMutualFundInputParser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BasketOptionInputParser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreBasketOptionInputParser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CoreBlackScholesModelInputParser.cpp">
@@ -39,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CoreEurostralMutualFundInputParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CoreBasketOptionInputParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

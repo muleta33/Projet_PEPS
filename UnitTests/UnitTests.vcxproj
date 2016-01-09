@@ -156,6 +156,7 @@
   <ItemGroup>
     <ClInclude Include="Call.hpp" />
     <ClInclude Include="ConstantRandomGeneration.hpp" />
+    <ClInclude Include="FakeBasketOptionInputParser.hpp" />
     <ClInclude Include="FakeBlackScholesModelInputParser.hpp" />
     <ClInclude Include="FakeBlackScholesModelInputParserForCall.hpp" />
     <ClInclude Include="FakeBlackScholesModelInputParserForCallBis.hpp" />

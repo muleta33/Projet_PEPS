@@ -2,16 +2,16 @@
 #include "pnl/pnl_finance.h"
 #include <iostream>
 
-PortfolioManager::PortfolioManager(Product &product, UnderlyingModel &model, BlackScholesModelMarket &market, int rebalancing_times,
-	int monitoring_times, double fd_step, int number_of_samples, const PnlVect *spot) :
+PortfolioManager::PortfolioManager(Product &product, UnderlyingModel &model, BlackScholesModelMarket &market, Pricing &pricing_unit, Hedging &hedging_unit, 
+	int rebalancing_times, int monitoring_times, const PnlVect *spot) :
 	portfolio_(),
 	rebalancing_times_(rebalancing_times),
 	monitoring_times_(monitoring_times),
-	number_of_samples_(number_of_samples),
-	fd_step_(fd_step),
 	product_(product),
 	model_(model),
-	market_(market)
+	market_(market),
+	pricing_unit_(pricing_unit),
+	hedging_unit_(hedging_unit)
 {
 	spot_ = pnl_vect_copy(spot);
 }
@@ -20,20 +20,20 @@ double PortfolioManager::hedge()
 {
 	// Simulation du marché
 	const PnlMat * market_path = market_.simulate_market_asset_paths(spot_);
+	pnl_mat_print(market_path);
 	PnlMat * past = pnl_mat_create_from_zero(monitoring_times_ + 1, model_.underlying_number());
 	pnl_mat_set_row(past, spot_, 0);
 
 	// Initialisation du portefeuille
 	double product_price = 0;
 	double ic = 0;
-	MonteCarloRoutineAtOrigin mc(model_, product_, number_of_samples_, spot_);
-	mc.price(product_price, ic);
+	pricing_unit_.price(spot_, product_price, ic);
 	double p0 = product_price;
 	std::cout << "p0 : " << p0 << " - ic : " << ic << std::endl;
 
 	PnlVect *deltas = pnl_vect_create_from_zero(model_.underlying_number());
-	mc.delta_hedge(fd_step_, deltas);
-
+	hedging_unit_.hedge(spot_, deltas);
+	pnl_vect_print(deltas);
 	PnlVect *prices = pnl_vect_create_from_zero(model_.underlying_number());
 	pnl_mat_get_row(prices, market_path, 0);
 
@@ -45,12 +45,12 @@ double PortfolioManager::hedge()
 	{
 		// Rebalancement au temps i * step
 		manage_market_path_for_pricing_at_time_T(market_path, past, i * step);
-		MonteCarloRoutineAtTimeT mcAtTimeT(model_, product_, number_of_samples_, past, i * step);
-		mcAtTimeT.delta_hedge(fd_step_, deltas);
+		hedging_unit_.hedge_at(i * step, past, deltas);
+		pnl_vect_print(deltas);
 		pnl_mat_get_row(prices, market_path, i);
 		portfolio_.rebalancing(deltas, prices, model_.interest_rate(), step);
 		double price, ic;
-		mcAtTimeT.price(price, ic);
+		pricing_unit_.price_at(i * step, past, price, ic);
 		std::cout << i << " | " << portfolio_.compute_value(prices) << " - " << price << std::endl;
 	}
 	// Valeur finale du portefeuille

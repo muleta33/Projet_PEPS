@@ -9,7 +9,7 @@
 #include "FakeBlackScholesModelInputParserForCallBis.hpp"
 #include "PNLRandomGeneration.hpp"
 #include "SameSeedRandomGeneration.hpp"
-#include "MonteCarloPricer.hpp"
+#include "MonteCarloPricing.hpp"
 #include "BasketOption.hpp"
 
 #include <cassert>
@@ -37,7 +37,7 @@ namespace UnitTests
 			PnlVect * spot = pnl_vect_create_from_scalar(1, 100);
 
 			int sample_number = 50000;
-			MonteCarloPricer pricer(sample_number);
+			MonteCarloPricing pricer(sample_number);
 
 			double computed_price = 0;
 			double computed_confidence_interval = 0;
@@ -74,7 +74,7 @@ namespace UnitTests
 			PnlMat * past_values = pnl_mat_create_from_scalar(3, 1, 120);
 
 			int sample_number = 50000;
-			MonteCarloPricer monteCarloPricer(sample_number);
+			MonteCarloPricing monteCarloPricer(sample_number);
 
 			double price = 0, price_at = 0, confidence_interval = 0;
 			monteCarloPricer.price_at(1, model, call, past_values, price_at, confidence_interval);

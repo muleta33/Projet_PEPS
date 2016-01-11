@@ -36,6 +36,12 @@
     <ClInclude Include="CoreProfitAndLossInputParser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PricingExactCall.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HedgingExactCall.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BlackScholesModelMarket.cpp">

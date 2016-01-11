@@ -1,9 +1,10 @@
 #pragma once
 #include "Portfolio.hpp"
 #include "EurostralMutualFund.hpp"
-#include "MonteCarloRoutine.hpp"
 #include "UnderlyingModel.hpp"
 #include "BlackScholesModelMarket.hpp"
+#include "Pricing.hpp"
+#include "Hedging.hpp"
 
 using namespace models;
 using namespace products;
@@ -11,8 +12,8 @@ using namespace products;
 class PortfolioManager
 {
 public:
-	PortfolioManager(Product &product, UnderlyingModel &model, BlackScholesModelMarket &market, int rebalancing_times, 
-		int monitoring_times, double fd_step, int number_of_samples, const PnlVect *spot);
+	PortfolioManager(Product &product, UnderlyingModel &model, BlackScholesModelMarket &market, Pricing &pricing_unit, Hedging &hedging_unit, 
+		int rebalancing_times, int monitoring_times, const PnlVect *spot);
 	double hedge();
 	~PortfolioManager();
 
@@ -25,6 +26,8 @@ private:
 	Product &product_;
 	UnderlyingModel &model_;
 	BlackScholesModelMarket &market_;
+	Pricing &pricing_unit_;
+	Hedging &hedging_unit_;
 	const double TIME_PRECISION = 10e-5;
 	int number_of_samples_;
 

@@ -19,10 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MonteCarloPricer.hpp" />
+    <ClInclude Include="MonteCarloPricing.hpp" />
+    <ClInclude Include="Pricing.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MonteCarloPricer.cpp" />
+    <ClCompile Include="MonteCarloPricing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\financialProducts\financialProducts.vcxproj">

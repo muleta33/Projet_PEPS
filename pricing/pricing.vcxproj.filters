@@ -15,12 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MonteCarloPricer.hpp">
+    <ClInclude Include="MonteCarloPricing.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pricing.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MonteCarloPricer.cpp">
+    <ClCompile Include="MonteCarloPricing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -14,6 +14,10 @@
 #include "PNLRandomGeneration.hpp"
 #include "PortfolioManager.hpp"
 #include "BasketOption.hpp"
+#include "MonteCarloPricing.hpp"
+#include "MonteCarloHedging.hpp"
+#include "PricingExactCall.hpp"
+#include "HedgingExactCall.hpp"
 
 using namespace products;
 using namespace generators;
@@ -33,9 +37,12 @@ int main(int argc, char* argv[])
 	const PnlRandomGeneration random_generator;
 	BlackScholesModelRiskNeutral model(model_parser, random_generator);
 	BlackScholesModelMarket market(model_parser, profit_and_loss_parser, random_generator);
+	//MonteCarloPricing pricing_unit(model, product, profit_and_loss_parser.get_sample_number());
+	//MonteCarloHedging hedging_unit(model, product, profit_and_loss_parser.get_sample_number(), profit_and_loss_parser.get_fd_step());
+	PricingExactCall pricing_unit(model, product);
+	HedgingExactCall hedging_unit(model, product);
 
-	PortfolioManager portfolio_manager(product, model, market, profit_and_loss_parser.get_rebalancing_times(), model_parser.get_monitoring_times(), 
-		profit_and_loss_parser.get_fd_step(), profit_and_loss_parser.get_sample_number(), profit_and_loss_parser.get_spot());
+	PortfolioManager portfolio_manager(product, model, market, pricing_unit, hedging_unit, profit_and_loss_parser.get_rebalancing_times(), model_parser.get_monitoring_times(), profit_and_loss_parser.get_spot());
 	double profit_and_loss = portfolio_manager.hedge();
 	std::cout << "Profit & loss: " << profit_and_loss << std::endl;
 	return 0;

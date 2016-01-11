@@ -15,7 +15,7 @@ void PricingExactCall::price(PnlVect * spots, double &price, double &confidence_
 {
 	double p = 0;
 	double delta = 0;
-	pnl_cf_call_bs(GET(spots, 0), 100, 1, 0.485, 0, 0.2, &p, &delta);
+	pnl_cf_call_bs(GET(spots, 0), 100, 1, 0.0485, 0, 0.2, &p, &delta);
 	price = p;
 	confidence_interval = 0;
 }
@@ -24,7 +24,7 @@ void PricingExactCall::price_at(const double time, PnlMat * past, double &price,
 {
 	double p = 0;
 	double delta = 0;
-	pnl_cf_call_bs(MGET(past, 1, 0), 100, 1 - time, 0.485, 0, 0.2, &p, &delta);
+	pnl_cf_call_bs(MGET(past, past->m - 1, 0), 100, 1 - time, 0.0485, 0, 0.2, &p, &delta);
 	price = p;
 	confidence_interval = 0;
 }

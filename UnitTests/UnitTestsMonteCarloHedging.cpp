@@ -35,10 +35,10 @@ namespace UnitTests
 
 			int sample_number = 50000;
 			double shift = 0.01;
-			MonteCarloHedging monteCarloHedging(sample_number, shift);
+			MonteCarloHedging monteCarloHedging(model, call, sample_number, shift);
 
 			PnlVect * delta = pnl_vect_create_from_zero(1);
-			monteCarloHedging.hedge(model, call, spot, delta);
+			monteCarloHedging.hedge(spot, delta);
 
 			bool is_delta_very_low = false;
 			if ((GET(delta, 0) < 0.01) && (GET(delta, 0) >= 0))
@@ -63,10 +63,10 @@ namespace UnitTests
 
 			int sample_number = 50000;
 			double shift = 0.01;
-			MonteCarloHedging monteCarloHedging(sample_number, shift);
+			MonteCarloHedging monteCarloHedging(model, call, sample_number, shift);
 
 			PnlVect * delta = pnl_vect_create_from_zero(1);
-			monteCarloHedging.hedge(model, call, spot, delta);
+			monteCarloHedging.hedge(spot, delta);
 
 			bool is_delta_very_high = false;
 			if ((GET(delta, 0) > 0.99) && (GET(delta, 0) <= 1.005))
@@ -91,10 +91,10 @@ namespace UnitTests
 
 			int sample_number = 50000;
 			double shift = 0.05;
-			MonteCarloHedging monteCarloHedging(sample_number, shift);
+			MonteCarloHedging monteCarloHedging(model, call, sample_number, shift);
 
 			PnlVect * computed_delta = pnl_vect_create_from_zero(1);
-			monteCarloHedging.hedge(model, call, spot, computed_delta);
+			monteCarloHedging.hedge(spot, computed_delta);
 
 			double * reference_price = new double;
 			double * reference_delta = new double;
@@ -127,12 +127,13 @@ namespace UnitTests
 
 			int sample_number = 50000;
 			double shift = 0.01;
-			MonteCarloHedging monteCarloHedging(sample_number, shift);
 
+			MonteCarloHedging monteCarloHedgingAt(model, call, sample_number, shift);
 			PnlVect * delta_at = pnl_vect_create_from_zero(1);
-			monteCarloHedging.hedge_at(1, model, call, past_values, delta_at);
+			monteCarloHedgingAt.hedge_at(1, past_values, delta_at);
+			MonteCarloHedging monteCarloHedging(model_lower_maturity, call_lower_maturity, sample_number, shift);
 			PnlVect * delta = pnl_vect_create_from_zero(1);
-			monteCarloHedging.hedge(model_lower_maturity, call_lower_maturity, spots, delta);
+			monteCarloHedging.hedge(spots, delta);
 
 			Assert::AreEqual(GET(delta, 0), GET(delta_at, 0));
 

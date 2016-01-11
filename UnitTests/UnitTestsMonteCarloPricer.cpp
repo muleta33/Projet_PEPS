@@ -37,11 +37,11 @@ namespace UnitTests
 			PnlVect * spot = pnl_vect_create_from_scalar(1, 100);
 
 			int sample_number = 50000;
-			MonteCarloPricing pricer(sample_number);
+			MonteCarloPricing pricer(model, call, sample_number);
 
 			double computed_price = 0;
 			double computed_confidence_interval = 0;
-			pricer.price(model, call, spot, computed_price, computed_confidence_interval);
+			pricer.price(spot, computed_price, computed_confidence_interval);
 
 			double reference_price = pnl_bs_call(GET(spot, 0), strike, fake_model_parser.get_final_simulation_date(), 
 				model.interest_rate(), 0, GET(fake_model_parser.get_volatility(), 0));
@@ -74,11 +74,12 @@ namespace UnitTests
 			PnlMat * past_values = pnl_mat_create_from_scalar(3, 1, 120);
 
 			int sample_number = 50000;
-			MonteCarloPricing monteCarloPricer(sample_number);
 
 			double price = 0, price_at = 0, confidence_interval = 0;
-			monteCarloPricer.price_at(1, model, call, past_values, price_at, confidence_interval);
-			monteCarloPricer.price(model_lower_maturity, call_lower_maturity, spots, price, confidence_interval);
+			MonteCarloPricing monteCarloPricerAt(model, call, sample_number);
+			monteCarloPricerAt.price_at(1, past_values, price_at, confidence_interval);
+			MonteCarloPricing monteCarloPricer(model_lower_maturity, call_lower_maturity, sample_number);
+			monteCarloPricer.price(spots, price, confidence_interval);
 
 			Assert::AreEqual(price, price_at);
 

@@ -44,6 +44,6 @@ int main(int argc, char* argv[])
 
 	PortfolioManager portfolio_manager(product, model, market, pricing_unit, hedging_unit, profit_and_loss_parser.get_rebalancing_times(), model_parser.get_monitoring_times(), profit_and_loss_parser.get_spot());
 	double profit_and_loss = portfolio_manager.hedge();
-	std::cout << "Profit & loss: " << profit_and_loss << std::endl;
+	std::cout << profit_and_loss << std::endl;
 	return 0;
 }

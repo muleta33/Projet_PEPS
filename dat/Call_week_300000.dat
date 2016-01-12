@@ -9,8 +9,8 @@ interest rate  <float> 0.0485
 correlation <float> 0.0
 
 trend <vector> 0.06
-rebalancing times <int> 3650
+rebalancing times <int> 52
 fd step <float> 0.1
 
 spot <vector> 100
-sample number <int> 50000
+sample number <int> 300000

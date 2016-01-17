@@ -28,7 +28,7 @@ namespace UnitTests {
 		virtual int get_monitoring_times() const { return 8; }
 		virtual double get_correlation_parameter() const { return 0.3; }
 		virtual double get_interest_rate() const { return 0.05; }
-		virtual double get_final_simulation_date() const { return 4; }
+		virtual double get_maturity() const { return 4; }
 		virtual PnlVect * get_volatility() const { return vol; }
 
 	};

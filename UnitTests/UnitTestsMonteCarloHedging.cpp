@@ -29,7 +29,7 @@ namespace UnitTests
 			const FakeBlackScholesModelInputParserForCall fake_model_parser;
 			models::BlackScholesModelRiskNeutral model(fake_model_parser, generator);
 			double strike = 150;
-			Call call(fake_model_parser.get_final_simulation_date(), strike);
+			Call call(fake_model_parser.get_maturity(), strike);
 
 			PnlVect * spot = pnl_vect_create_from_scalar(1, 45);
 
@@ -57,7 +57,7 @@ namespace UnitTests
 			const FakeBlackScholesModelInputParserForCall fake_model_parser;
 			models::BlackScholesModelRiskNeutral model(fake_model_parser, generator);
 			double strike = 75;
-			Call call(fake_model_parser.get_final_simulation_date(), strike);
+			Call call(fake_model_parser.get_maturity(), strike);
 
 			PnlVect * spot = pnl_vect_create_from_scalar(1, 150);
 
@@ -85,7 +85,7 @@ namespace UnitTests
 			const FakeBlackScholesModelInputParserForCall fake_model_parser;
 			models::BlackScholesModelRiskNeutral model(fake_model_parser, generator);
 			double strike = 90;
-			Call call(fake_model_parser.get_final_simulation_date(), strike);
+			Call call(fake_model_parser.get_maturity(), strike);
 
 			PnlVect * spot = pnl_vect_create_from_scalar(1, 100);
 
@@ -98,7 +98,7 @@ namespace UnitTests
 
 			double * reference_price = new double;
 			double * reference_delta = new double;
-			pnl_cf_call_bs(GET(spot, 0), strike, fake_model_parser.get_final_simulation_date(), model.interest_rate(),
+			pnl_cf_call_bs(GET(spot, 0), strike, fake_model_parser.get_maturity(), model.interest_rate(),
 				0, GET(fake_model_parser.get_volatility(), 0), reference_price, reference_delta);
 
 			Assert::AreEqual(*reference_delta, GET(computed_delta, 0), 0.005);
@@ -119,8 +119,8 @@ namespace UnitTests
 			models::BlackScholesModelRiskNeutral model_lower_maturity(fake_model_parser_bis, generator);
 			double strike = 50;
 
-			Call call(fake_model_parser.get_final_simulation_date(), strike);
-			Call call_lower_maturity(fake_model_parser_bis.get_final_simulation_date(), strike);
+			Call call(fake_model_parser.get_maturity(), strike);
+			Call call_lower_maturity(fake_model_parser_bis.get_maturity(), strike);
 
 			PnlVect * spots = pnl_vect_create_from_scalar(1, 50);
 			PnlMat * past_values = pnl_mat_create_from_scalar(3, 1, 50);

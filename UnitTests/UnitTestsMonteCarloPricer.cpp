@@ -32,7 +32,7 @@ namespace UnitTests
 			models::BlackScholesModelRiskNeutral model(fake_model_parser, generator);
 			double strike = fake_option_parser.get_strike();
 
-			BasketOption call(fake_model_parser.get_final_simulation_date(), fake_option_parser);
+			BasketOption call(fake_model_parser.get_maturity(), fake_option_parser);
 
 			PnlVect * spot = pnl_vect_create_from_scalar(1, 100);
 
@@ -43,7 +43,7 @@ namespace UnitTests
 			double computed_confidence_interval = 0;
 			pricer.price(spot, computed_price, computed_confidence_interval);
 
-			double reference_price = pnl_bs_call(GET(spot, 0), strike, fake_model_parser.get_final_simulation_date(), 
+			double reference_price = pnl_bs_call(GET(spot, 0), strike, fake_model_parser.get_maturity(), 
 				model.interest_rate(), 0, GET(fake_model_parser.get_volatility(), 0));
 
 			bool is_reference_price_in_confidence_interval = false;
@@ -67,8 +67,8 @@ namespace UnitTests
 			models::BlackScholesModelRiskNeutral model_lower_maturity(fake_model_parser_bis, generator2);
 			const FakeBasketOptionInputParser fake_option_parser;
 
-			BasketOption call(fake_model_parser.get_final_simulation_date(), fake_option_parser);
-			BasketOption call_lower_maturity(fake_model_parser_bis.get_final_simulation_date(), fake_option_parser);
+			BasketOption call(fake_model_parser.get_maturity(), fake_option_parser);
+			BasketOption call_lower_maturity(fake_model_parser_bis.get_maturity(), fake_option_parser);
 
 			PnlVect * spots = pnl_vect_create_from_scalar(1, 120);
 			PnlMat * past_values = pnl_mat_create_from_scalar(3, 1, 120);

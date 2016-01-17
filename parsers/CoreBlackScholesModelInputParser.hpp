@@ -14,7 +14,7 @@ namespace input_parsers
 		int get_monitoring_times() const;
 		double get_correlation_parameter() const;
 		double get_interest_rate() const;
-		double get_final_simulation_date() const;
+		double get_maturity() const;
 		PnlVect * get_volatility() const;
 
 		CoreBlackScholesModelInputParser(const Parser & p) : parser(p)

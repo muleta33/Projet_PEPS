@@ -8,14 +8,14 @@ using namespace generators;
 using namespace models;
 
 
-BlackScholesModelRoutine::BlackScholesModelRoutine(int underlying_number, int monitoring_times, double final_simulation_date, const PnlVect * trend, PnlVect * volatilities,
+BlackScholesModelRoutine::BlackScholesModelRoutine(int underlying_number, int monitoring_times, double maturity, const PnlVect * trend, PnlVect * volatilities,
 	double correlation_parameter, const generators::RandomGeneration &random_generator) :
-	underlying_number_(underlying_number), final_simulation_date_(final_simulation_date), volatilities_(volatilities), 
+	underlying_number_(underlying_number), maturity_(maturity), volatilities_(volatilities), 
 	correlation_parameter_(correlation_parameter), random_generator_(random_generator)
 {
 	trend_ = pnl_vect_copy(trend);
 	gaussian_vector_for_simulation_ = pnl_vect_create(underlying_number_);
-	timestep_ = final_simulation_date_ / monitoring_times;
+	timestep_ = maturity_ / monitoring_times;
 	cholesky_matrix_corr_ = pnl_mat_create(underlying_number_, underlying_number_);
 	compute_cholesky_matrix();
 }

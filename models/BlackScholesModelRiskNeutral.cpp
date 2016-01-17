@@ -9,10 +9,10 @@ BlackScholesModelRiskNeutral::BlackScholesModelRiskNeutral(const input_parsers::
 	interest_rate_ = parser.get_interest_rate();
 	underlying_number_ = parser.get_underlying_number();
 	PnlVect * trend = pnl_vect_create_from_scalar(underlying_number_, interest_rate_);
-	routine = new BlackScholesModelRoutine(underlying_number_, parser.get_monitoring_times(), parser.get_final_simulation_date(), trend, parser.get_volatility(),
+	routine = new BlackScholesModelRoutine(underlying_number_, parser.get_monitoring_times(), parser.get_maturity(), trend, parser.get_volatility(),
 		parser.get_correlation_parameter(), random_generator);
 	generated_asset_paths_ = pnl_mat_create(parser.get_monitoring_times() + 1, parser.get_underlying_number());
-	timestep_ = parser.get_final_simulation_date() / parser.get_monitoring_times();
+	timestep_ = parser.get_maturity() / parser.get_monitoring_times();
 	pnl_vect_free(&trend);
 }
 

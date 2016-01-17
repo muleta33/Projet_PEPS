@@ -28,7 +28,7 @@ double CoreBlackScholesModelInputParser::get_interest_rate() const
 	return result;
 }
 
-double CoreBlackScholesModelInputParser::get_final_simulation_date() const
+double CoreBlackScholesModelInputParser::get_maturity() const
 {
 	double result;
 	parser.extract("maturity", result);

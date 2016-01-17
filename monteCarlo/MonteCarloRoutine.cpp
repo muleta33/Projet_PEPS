@@ -16,8 +16,6 @@ void MonteCarloRoutine::price(double &price, double &confidence_interval) const
 	}
 	double interest_rate = underlying_model.interest_rate();
 	double maturity = product.get_maturity();
-	// Pb pour pricing en t : Mnacho
-	//price = exp(-1 * interest_rate * maturity) * runningSum / sample_number;
 	price = exp(-1 * interest_rate * (maturity - get_time())) * runningSum / sample_number;
 	double variance = exp(-2 * interest_rate * (maturity - get_time())) * runningSquaredSum / sample_number - price * price;
 	confidence_interval = 1.96 * sqrt(variance / sample_number);

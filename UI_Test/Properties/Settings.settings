@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="UI_Test.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="AdditionalPaths" Type="System.String" Scope="User">
+      <Value Profile="(Default)">$(SolutionDir)\x64\Debug;$(SolutionDir)\..\pnl-win64-1.7.2\lib</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

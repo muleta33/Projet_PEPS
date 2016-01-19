@@ -21,7 +21,7 @@ public:
 
 	EurostralMutualFundInputParameters()
 	{
-		pnl_vect_create(underlying_number);
+		underlying_coefficients = pnl_vect_create(underlying_number);
 		LET(underlying_coefficients, 0) = 0.5;
 		LET(underlying_coefficients, 1) = 0.3;
 		LET(underlying_coefficients, 2) = 0.2;

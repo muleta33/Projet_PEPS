@@ -21,6 +21,7 @@ public:
 
 	BlackScholesModelParameters(PnlVect *vol, double correlation)
 	{
+		volatilities = pnl_vect_create(underlying_number);
 		pnl_vect_clone(volatilities, vol);
 		correlation_parameter = correlation;
 	}

@@ -119,6 +119,9 @@
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)\..\pnl-win64-1.7.2\lib;$(SolutionDir)\..\boost_1_59_0\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)x64\Debug\parsers.lib" "$(SolutionDir)UI_Test\bin\Debug\parsers.lib"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

@@ -18,12 +18,46 @@ namespace UI_Test
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void pricing0_Click(object sender, EventArgs e)
         {
             PricerWrapper wrapper = new PricerWrapper();
-            wrapper.get_price_product(100, 200, 150);
+            double[] spots = {100, 200, 150};
+            wrapper.compute_price(spots);
             double price = wrapper.get_price();
-            label1.Text = price.ToString();
+            priceTextbox.Text = price.ToString();
+        }
+
+        private void pricingT_Click(object sender, EventArgs e)
+        {
+            PricerWrapper wrapper = new PricerWrapper();
+            double[] past = { 100, 200, 150, 110, 190, 155 };
+            wrapper.compute_price_at(0.4, past, 2);
+            double price = wrapper.get_price();
+            priceTextbox.Text = price.ToString();
+        }
+
+        private void hedging0_Click(object sender, EventArgs e)
+        {
+            PricerWrapper wrapper = new PricerWrapper();
+            double[] spots = { 100, 200, 150 };
+            wrapper.compute_deltas(spots);
+            double[] deltas = new double[3];
+            deltas = wrapper.get_deltas();
+            deltaES50.Text = deltas[0].ToString();
+            deltaSP200.Text = deltas[1].ToString();
+            deltaSP500.Text = deltas[2].ToString();
+        }
+
+        private void hedgingT_Click(object sender, EventArgs e)
+        {
+            PricerWrapper wrapper = new PricerWrapper();
+            double[] past = { 100, 200, 150, 110, 190, 155 };
+            wrapper.compute_deltas_at(0.4, past, 2);
+            double[] deltas = new double[3];
+            deltas = wrapper.get_deltas();
+            deltaES50.Text = deltas[0].ToString();
+            deltaSP200.Text = deltas[1].ToString();
+            deltaSP500.Text = deltas[2].ToString();
         }
     }
 }

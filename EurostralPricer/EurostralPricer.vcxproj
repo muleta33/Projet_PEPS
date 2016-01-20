@@ -104,11 +104,14 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Antoine\Documents\ENSIMAG\3A\PEPS\PEPS_Project\pnl-win64-1.7.2\lib;$(SolutionDir)\x64\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libpnl.lib;models.lib;randomGeneration.lib;financialProducts.lib;parsers.lib;pricing.lib;hedging.lib;monteCarlo.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\pnl-win64-1.7.2\lib;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libpnl.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <DelayLoadDLLs>
       </DelayLoadDLLs>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)x64\Debug\EurostralPricer.dll" "$(SolutionDir)UI_Test\bin\Debug\EurostralPricer.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -176,6 +179,29 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\financialProducts\financialProducts.vcxproj">
+      <Project>{830505a9-8771-4080-a777-34196192588e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\hedging\hedging.vcxproj">
+      <Project>{432197b4-04e4-428e-9831-795cf3adf676}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\models\models.vcxproj">
+      <Project>{d05869fc-4602-4b6e-a852-3d67f3d79410}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\monteCarlo\monteCarlo.vcxproj">
+      <Project>{000adb6f-7437-4b92-92e2-96b54c860fdd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\parsers\parsers.vcxproj">
+      <Project>{c7a0d34f-13e0-494e-b5d1-0abf567f9384}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\pricing\pricing.vcxproj">
+      <Project>{060f24bc-4953-41cd-9a96-ee2a95f9401f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\randomGeneration\randomGeneration.vcxproj">
+      <Project>{e5947e68-1ced-472f-85c0-247830218e16}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

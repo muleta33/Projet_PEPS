@@ -104,6 +104,9 @@
       <AdditionalDependencies>randomGeneration.lib;financialProducts.lib;models.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)x64\Debug\hedging.lib" "$(SolutionDir)UI_Test\bin\Debug\hedging.lib"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

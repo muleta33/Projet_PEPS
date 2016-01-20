@@ -25,12 +25,13 @@ private:
 	models::BlackScholesModelRiskNeutral *model;
 	MonteCarloPricing *pricer;
 	MonteCarloHedging *hedger;
+	const int underlying_number = 3;
 
 public:
 	EurostralPricer(double *vol, double correlation, int sample_number);
 	~EurostralPricer();
 	void price(double * spots, double &price, double &confidence_interval);
-	void price_at(const double time, PnlMat * past, double &price, double &confidence_interval);
-	void hedge(const PnlVect * const spots, PnlVect * hedging_results);
-	void hedge_at(const double time, const PnlMat * const past, PnlVect * hedging_results);
+	void price_at(const double time, int number_of_rows_past, double * past, double &price, double &confidence_interval);
+	void hedge(double * spots, double * hedging_results);
+	void hedge_at(const double time, int number_of_rows_past, double * past, double * hedging_results);
 };

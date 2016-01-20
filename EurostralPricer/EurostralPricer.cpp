@@ -10,7 +10,7 @@
 // see EurostralPricer.h for the class definition
 EurostralPricer::EurostralPricer(double *vol, double correlation, int sample_number)
 {
-	PnlVect * volatilities = pnl_vect_create_from_ptr(3, vol);
+	PnlVect * volatilities = pnl_vect_create_from_ptr(underlying_number, vol);
 	const EurostralMutualFundInputParameters fund_parameters;
 	fund = new products::EurostralMutualFund(fund_parameters);
 	random_generator = new generators::PnlRandomGeneration();
@@ -30,18 +30,31 @@ EurostralPricer::~EurostralPricer() {
 }
 
 void EurostralPricer::price(double * spots, double &price, double &confidence_interval) {
-	PnlVect *S = pnl_vect_create_from_ptr(3, spots);
-	pricer->price(S, price, confidence_interval);
+	PnlVect * spots_pnl = pnl_vect_create_from_ptr(underlying_number, spots);
+	pricer->price(spots_pnl, price, confidence_interval);
+	pnl_vect_free(&spots_pnl);
 }
 
-void EurostralPricer::price_at(const double time, PnlMat * past, double &price, double &confidence_interval) {
-	pricer->price_at(time, past, price, confidence_interval);
+void EurostralPricer::price_at(const double time, int number_of_rows_past, double * past, double &price, double &confidence_interval) {
+	PnlMat * past_pnl = pnl_mat_create_from_ptr(number_of_rows_past, underlying_number, past);
+	pricer->price_at(time, past_pnl, price, confidence_interval);
+	pnl_mat_free(&past_pnl);
 }
 
-void EurostralPricer::hedge(const PnlVect * const spots, PnlVect * hedging_results) {
-	hedger->hedge(spots, hedging_results);
+void EurostralPricer::hedge(double * spots, double * hedging_results) {
+	PnlVect * spots_pnl = pnl_vect_create_from_ptr(underlying_number, spots);
+	PnlVect * hedging_results_pnl = pnl_vect_create_from_zero(underlying_number);
+	hedger->hedge(spots_pnl, hedging_results_pnl);
+	memcpy(hedging_results, hedging_results_pnl->array, underlying_number);
+	pnl_vect_free(&spots_pnl);
+	pnl_vect_free(&hedging_results_pnl);
 }
 
-void EurostralPricer::hedge_at(const double time, const PnlMat * const past, PnlVect * hedging_results) {
-	hedger->hedge_at(time, past, hedging_results);
+void EurostralPricer::hedge_at(const double time, int number_of_rows_past, double * past, double * hedging_results) {
+	PnlMat * past_pnl = pnl_mat_create_from_ptr(number_of_rows_past, underlying_number, past);
+	PnlVect * hedging_results_pnl = pnl_vect_create_from_zero(underlying_number);
+	hedger->hedge_at(time, past_pnl, hedging_results_pnl);
+	memcpy(hedging_results, hedging_results_pnl->array, underlying_number);
+	pnl_mat_free(&past_pnl);
+	pnl_vect_free(&hedging_results_pnl);
 }

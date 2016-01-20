@@ -22,7 +22,7 @@ EurostralMutualFund::EurostralMutualFund(const input_parsers::EurostralMutualFun
 	underlying_number_ = parser.get_underlying_number();
 	guaranteed_capital_percentage_ = parser.get_guaranteed_capital_percentage();
 	indexes_return_percentage_ = parser.get_indexes_return_percentage();
-	underlying_coefficients_ = parser.get_underlying_coefficients();
+	underlying_coefficients_ = pnl_vect_copy(parser.get_underlying_coefficients());
 	initial_capital_ = parser.get_initial_capital();
 }
 

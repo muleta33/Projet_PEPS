@@ -8,7 +8,7 @@ private:
 	double const maturity = 8;
 	int const monitoring_times = 16;
 	double correlation_parameter;
-	double interest_rate;
+	double interest_rate = 0.0485;
 	PnlVect * volatilities;
 
 public:

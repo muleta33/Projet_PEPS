@@ -9,15 +9,18 @@
 #else
 #define EUROSTRALPRICER_API __declspec(dllimport)
 #endif
+
 #include "EurostralMutualFund.hpp"
 #include "BlackScholesModelRiskNeutral.hpp"
 #include "MonteCarloPricing.hpp"
 #include "MonteCarloHedging.hpp"
+#include "PNLRandomGeneration.hpp"
 
 // This class is exported from the EurostralPricer.dll
 class EUROSTRALPRICER_API EurostralPricer {
 
 private:
+	generators::PnlRandomGeneration *random_generator; 
 	products::EurostralMutualFund *fund;
 	models::BlackScholesModelRiskNeutral *model;
 	MonteCarloPricing *pricer;

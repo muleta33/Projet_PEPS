@@ -6,7 +6,7 @@ class EurostralMutualFundInputParameters : public input_parsers::EurostralMutual
 {
 private:
 	int const underlying_number = 3;
-	double const guaranteed_capital_percentage = 90;
+	double const guaranteed_capital_percentage = 0.9;
 	double const indexes_return_percentage = 0.95;
 	double const maturity = 8;
 	double const initial_capital = 150;

@@ -11,7 +11,7 @@ interest rate  <float> 0.05
 correlation <float> 0.3
 
 trend <vector> 0.07 0.05 0.06
-rebalancing times <int> 8
+rebalancing times <int> 16
 fd step <float> 0.1
 
 spot <vector> 100

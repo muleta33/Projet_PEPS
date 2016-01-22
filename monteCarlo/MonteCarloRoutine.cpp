@@ -47,15 +47,15 @@ void MonteCarloRoutine::delta_hedge(const double shift, PnlVect * deltas) const
 
 	double actualisation = exp(-interest_rate * (maturity - get_time()));
 
-	PnlVect * spots = pnl_vect_create_from_zero(generated_path->n);
-	pnl_mat_get_row(spots, generated_path, 0);
+	PnlVect * current_stock_values = pnl_vect_create_from_zero(generated_path->n);
+	get_current_stock_values(current_stock_values);
 	for (int underlying = 0; underlying < product.get_underlying_number(); ++underlying)
 	{
-		double factor = 1 / (sample_number * 2 * shift * GET(spots, underlying));
+		double factor = 1 / (sample_number * 2 * shift * GET(current_stock_values, underlying));
 		LET(deltas, underlying) = actualisation * factor * GET(payoff_differences_sum, underlying);
 	}
 
-	pnl_vect_free(&spots);
+	pnl_vect_free(&current_stock_values);
 	pnl_mat_free(&shifted_asset_path);
 	pnl_vect_free(&payoff_differences_sum);
 }

@@ -129,6 +129,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\EurostralPricer;$(SolutionDir)\financialProducts;$(SolutionDir)\hedging;$(SolutionDir)\pricing;$(SolutionDir)\models;$(SolutionDir)\parsers;$(SolutionDir)\randomGeneration;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -27,6 +27,14 @@
     <ClCompile Include="BlackScholesModelRiskNeutral.cpp" />
     <ClCompile Include="BlackScholesModelRoutine.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\parsers\parsers.vcxproj">
+      <Project>{c7a0d34f-13e0-494e-b5d1-0abf567f9384}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\randomGeneration\randomGeneration.vcxproj">
+      <Project>{e5947e68-1ced-472f-85c0-247830218e16}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D05869FC-4602-4B6E-A852-3D67F3D79410}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -116,10 +124,12 @@
       <AdditionalDependencies>libpnl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)x64\Debug\models.lib" "$(SolutionDir)UI_Test\bin\Debug\models.lib"</Command>
@@ -146,13 +156,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)\parsers;$(SolutionDir)\randomGeneration;$(SolutionDir)\..\pnl-win64-1.7.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -160,6 +170,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)x64\Release\models.lib" "$(SolutionDir)UI_Test\bin\Release\models.lib"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

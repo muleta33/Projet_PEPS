@@ -111,6 +111,9 @@
       <AdditionalDependencies>models.lib;randomGeneration.lib;financialProducts.lib;parsers.lib;pricing.lib;hedging.lib;monteCarlo.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)..\pnl-win64-1.7.2\lib\*" "$(SolutionDir)x64\Debug\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -140,6 +143,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)\hedging;$(SolutionDir)\pricing;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\financialProducts;$(SolutionDir)\parsers;$(SolutionDir)\..\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,6 +151,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)..\pnl-win64-1.7.2\lib\*" "$(SolutionDir)x64\Release\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CoreProfitAndLossInputParser.hpp" />
@@ -166,6 +173,29 @@
     <ClCompile Include="PortfolioManager.cpp" />
     <ClCompile Include="ProfitAndLoss.cpp" />
     <ClCompile Include="stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\financialProducts\financialProducts.vcxproj">
+      <Project>{830505a9-8771-4080-a777-34196192588e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\hedging\hedging.vcxproj">
+      <Project>{432197b4-04e4-428e-9831-795cf3adf676}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\models\models.vcxproj">
+      <Project>{d05869fc-4602-4b6e-a852-3d67f3d79410}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\monteCarlo\monteCarlo.vcxproj">
+      <Project>{000adb6f-7437-4b92-92e2-96b54c860fdd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\parsers\parsers.vcxproj">
+      <Project>{c7a0d34f-13e0-494e-b5d1-0abf567f9384}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\pricing\pricing.vcxproj">
+      <Project>{060f24bc-4953-41cd-9a96-ee2a95f9401f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\randomGeneration\randomGeneration.vcxproj">
+      <Project>{e5947e68-1ced-472f-85c0-247830218e16}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -101,8 +101,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>randomGeneration.lib;financialProducts.lib;models.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)x64\Debug\hedging.lib" "$(SolutionDir)UI_Test\bin\Debug\hedging.lib"</Command>
@@ -129,13 +131,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)\monteCarlo;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\financialProducts;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -143,6 +145,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)x64\Release\hedging.lib" "$(SolutionDir)UI_Test\bin\Release\hedging.lib"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Hedging.hpp" />
@@ -150,6 +155,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MonteCarloHedging.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\financialProducts\financialProducts.vcxproj">
+      <Project>{830505a9-8771-4080-a777-34196192588e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\monteCarlo\monteCarlo.vcxproj">
+      <Project>{000adb6f-7437-4b92-92e2-96b54c860fdd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\randomGeneration\randomGeneration.vcxproj">
+      <Project>{e5947e68-1ced-472f-85c0-247830218e16}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

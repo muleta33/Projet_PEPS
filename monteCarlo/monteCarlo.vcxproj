@@ -24,6 +24,17 @@
   <ItemGroup>
     <ClCompile Include="MonteCarloRoutine.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\financialProducts\financialProducts.vcxproj">
+      <Project>{830505a9-8771-4080-a777-34196192588e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\models\models.vcxproj">
+      <Project>{d05869fc-4602-4b6e-a852-3d67f3d79410}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\randomGeneration\randomGeneration.vcxproj">
+      <Project>{e5947e68-1ced-472f-85c0-247830218e16}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{000ADB6F-7437-4B92-92E2-96B54C860FDD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -127,13 +138,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\financialProducts;$(SolutionDir)\..\pnl-win64-1.7.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -141,6 +152,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)x64\Release\monteCarlo.lib" "$(SolutionDir)UI_Test\bin\Release\monteCarlo.lib"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -121,7 +121,8 @@
       <AdditionalDependencies>libpnl.lib</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)x64\Debug\parsers.lib" "$(SolutionDir)UI_Test\bin\Debug\parsers.lib"</Command>
+      <Command>copy "$(SolutionDir)x64\Debug\parsers.lib" "$(SolutionDir)UI_Test\bin\Debug\parsers.lib"
+copy "$(SolutionDir)x64\Debug\parsers.lib" "$(SolutionDir)EurostralWebApplication\bin\parsers.lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

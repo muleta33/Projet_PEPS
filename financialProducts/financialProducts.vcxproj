@@ -113,7 +113,8 @@
       </AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)x64\Debug\financialProducts.lib" "$(SolutionDir)UI_Test\bin\Debug\financialProducts.lib"</Command>
+      <Command>copy "$(SolutionDir)x64\Debug\financialProducts.lib" "$(SolutionDir)UI_Test\bin\Debug\financialProducts.lib"
+copy "$(SolutionDir)x64\Debug\financialProducts.lib" "$(SolutionDir)EurostralWebApplication\bin\financialProducts.lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

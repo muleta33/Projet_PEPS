@@ -114,7 +114,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)x64\Debug\monteCarlo.lib" "$(SolutionDir)UI_Test\bin\Debug\monteCarlo.lib"</Command>
+      <Command>copy "$(SolutionDir)x64\Debug\monteCarlo.lib" "$(SolutionDir)UI_Test\bin\Debug\monteCarlo.lib"
+copy "$(SolutionDir)x64\Debug\monteCarlo.lib" "$(SolutionDir)EurostralWebApplication\bin\monteCarlo.lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

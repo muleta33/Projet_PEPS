@@ -131,7 +131,8 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)x64\Debug\pricing.lib" "$(SolutionDir)UI_Test\bin\Debug\pricing.lib"</Command>
+      <Command>copy "$(SolutionDir)x64\Debug\pricing.lib" "$(SolutionDir)UI_Test\bin\Debug\pricing.lib"
+copy "$(SolutionDir)x64\Debug\pricing.lib" "$(SolutionDir)EurostralWebApplication\bin\pricing.lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

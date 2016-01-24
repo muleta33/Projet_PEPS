@@ -132,7 +132,8 @@
       </AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)x64\Debug\models.lib" "$(SolutionDir)UI_Test\bin\Debug\models.lib"</Command>
+      <Command>copy "$(SolutionDir)x64\Debug\models.lib" "$(SolutionDir)UI_Test\bin\Debug\models.lib"
+copy "$(SolutionDir)x64\Debug\models.lib" "$(SolutionDir)EurostralWebApplication\bin\models.lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -117,6 +117,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Eurostral.cs" />
+    <Compile Include="Models\Index.cs" />
+    <Compile Include="Models\Portfolio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +158,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Eurostral\Index.cshtml" />
+    <Content Include="Views\Eurostral\Pricing.cshtml" />
+    <Content Include="Views\Eurostral\UpdatePortfolio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

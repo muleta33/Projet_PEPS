@@ -19,11 +19,6 @@ namespace EurostralWebApplication.Models
             Price = 0;
         }
 
-        private void pastMatrixConstruction(double currentTime, double[] past, int numberOfPastPricesPerIndex)
-        {
-            
-        }
-
         public double getPrice()
         {
             foreach (Index index in Indexes)

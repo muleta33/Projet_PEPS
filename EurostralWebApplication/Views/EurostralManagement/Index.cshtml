@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Pricing</h2>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <td>
+                @Ajax.ActionLink("Price", "getEurostralPrice", new { },
+                                 new AjaxOptions
+                                 {
+                                     InsertionMode = InsertionMode.Replace,
+                                     UpdateTargetId = "eurostralPrice",
+                                     HttpMethod = "GET"
+                                 },
+                                 new { @class = "btn btn-primary" })
+            </td>
+            <td><span id="eurostralPrice">@Html.Partial("EurostralPrice", null)</span></td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Portfolio composition</h2>
+
+<table class="table">
+    <thead>
+        <tr><th>Product</th><th>Quantity</th><th>Price</th><th></th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Euro Stoxx 50</th>
+            <td><span id="EuroStoxxQuantity">...</span></td>
+            <td><span id="EuroStoxxPrice">...</span></td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <th>SP ASX 200</th>
+            <td><span id="SPASXQuantity">...</span></td>
+            <td><span id="SPASXPrice">...</span></td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <th>SP 500</th>
+            <td><span id="SP500Quantity">...</span></td>
+            <td><span id="SP500Price">...</span></td>
+            <td>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+

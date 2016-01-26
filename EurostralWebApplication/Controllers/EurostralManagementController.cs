@@ -7,12 +7,12 @@ using EurostralWebApplication.Models;
 
 namespace EurostralWebApplication.Controllers
 {
-    public class EurostralController : Controller
+    public class EurostralManagementController : Controller
     {
         public Eurostral eurostral { get; set; }
         public Portfolio portfolio { get; set; }
 
-        public EurostralController()
+        public EurostralManagementController()
         {
             Index[] indexes = new Index[3] { new Index("Euro Stoxx 50"), new Index("SP ASX 200"), new Index("SP 500") };
             eurostral = new Eurostral(indexes);
@@ -22,8 +22,13 @@ namespace EurostralWebApplication.Controllers
         // GET: Eurostral
         public ActionResult Index()
         {
-            ViewBag.Price = eurostral.getPrice();
-            return View(portfolio);
+            return View();
+        }
+
+        public ActionResult getEurostralPrice()
+        {
+            eurostral.getPrice();
+            return PartialView("EurostralPrice", eurostral);
         }
     }
 }

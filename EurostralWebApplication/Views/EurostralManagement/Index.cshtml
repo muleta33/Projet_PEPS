@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Pricing</h2>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <td>
+                @Ajax.ActionLink("Price", "getEurostralPrice", new { },
+                                 new AjaxOptions
+                                 {
+                                     InsertionMode = InsertionMode.Replace,
+                                     UpdateTargetId = "eurostralPrice",
+                                     HttpMethod = "GET"
+                                 },
+                                 new { @class = "btn btn-primary" })
+            </td>
+            <td><span id="eurostralPrice">@Html.Partial("EurostralPrice", null)</span></td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Portfolio composition</h2>
+
+<table class="table">
+    <thead>
+        <tr><th>Product</th><th>Euro Stoxx 50</th><th>SP ASX 200</th><th>SP 500</th></tr>
+    </thead>
+    <tbody>
+        <tr id="eurostralHedging">@Html.Partial("EurostralHedging", null)</tr>
+        <tr>
+            <th>Price</th>
+            <td><span id="EuroStoxxPrice">...</span></td>
+            <td><span id="SPASXPrice">...</span></td>
+            <td><span id="SP500Price">...</span></td>
+        </tr>
+    </tbody>
+</table>
+
+@Ajax.ActionLink("Hedge", "getEurostralHedging", new { },
+                 new AjaxOptions { InsertionMode = InsertionMode.Replace,
+                                   UpdateTargetId = "eurostralHedging",
+                                   HttpMethod = "GET" },
+                 new { @class = "btn btn-primary" })

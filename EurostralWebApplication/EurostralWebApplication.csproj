@@ -160,6 +160,7 @@
     <Content Include="Views\EurostralManagement\Index.cshtml" />
     <Content Include="Views\EurostralManagement\EurostralPrice.cshtml" />
     <Content Include="Views\EurostralManagement\UpdatePortfolio.cshtml" />
+    <Content Include="Views\EurostralManagement\EurostralHedging.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

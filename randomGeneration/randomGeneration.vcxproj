@@ -120,7 +120,8 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\..\pnl-win64-1.7.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)x64\Debug\randomGeneration.lib" "$(SolutionDir)UI_Test\bin\Debug\randomGeneration.lib"</Command>
+      <Command>copy "$(SolutionDir)x64\Debug\randomGeneration.lib" "$(SolutionDir)UI_Test\bin\Debug\randomGeneration.lib"
+copy "$(SolutionDir)x64\Debug\randomGeneration.lib" "$(SolutionDir)EurostralWebApplication\bin\randomGeneration.lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

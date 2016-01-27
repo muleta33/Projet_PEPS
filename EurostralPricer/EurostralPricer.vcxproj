@@ -110,7 +110,8 @@
       </DelayLoadDLLs>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)x64\Debug\EurostralPricer.dll" "$(SolutionDir)UI_Test\bin\Debug\EurostralPricer.dll"</Command>
+      <Command>copy "$(SolutionDir)x64\Debug\EurostralPricer.dll" "$(SolutionDir)UI_Test\bin\Debug\EurostralPricer.dll"
+copy "$(SolutionDir)x64\Debug\EurostralPricer.dll" "$(SolutionDir)EurostralWebApplication\bin\EurostralPricer.dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

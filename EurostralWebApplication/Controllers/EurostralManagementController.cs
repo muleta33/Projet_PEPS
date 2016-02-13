@@ -9,16 +9,13 @@ namespace EurostralWebApplication.Controllers
 {
     public class EurostralManagementController : Controller
     {
-        public Index[] indexes { get; set; }
-        public Eurostral eurostral { get; set; }
-        public Portfolio portfolio { get; set; }
+        private const int underlyingNumber = 3;
 
-        public EurostralManagementController()
-        {
-            indexes = new Index[3] { new Index("Euro Stoxx 50"), new Index("SP ASX 200"), new Index("SP 500") };
-            eurostral = new Eurostral();
-            portfolio = new Portfolio(indexes);
-        }
+        public const double InterestRate = 0.0485;
+
+        public static Index[] Indexes = new Index[underlyingNumber] { new Index("Euro Stoxx 50", "STOXX50E"), new Index("SP ASX 200", "AXJO"), new Index("SP 500", "GSPC") };
+        public static Eurostral Eurostral = new Eurostral(Indexes);
+        public static Portfolio Portfolio = new Portfolio();
 
         // GET: Eurostral
         public ActionResult Index()
@@ -28,18 +25,53 @@ namespace EurostralWebApplication.Controllers
 
         public ActionResult getEurostralPrice()
         {
-            foreach (Index index in indexes)
-                index.updatePastPrices();
-            eurostral.getPrice(indexes);
-            return PartialView("EurostralPrice", eurostral);
+            Eurostral.getPrice();
+            return PartialView("EurostralPrice", Eurostral);
         }
 
-        public ActionResult getEurostralHedging()
+        public ActionResult getIndexesPrices()
         {
-            foreach (Index index in indexes)
-                index.updatePastPrices();
-            eurostral.getHedging(indexes);
-            return PartialView("EurostralHedging", eurostral);
+            double[] indexesPrices = new double[underlyingNumber];
+            int underlyingIndex = 0;
+            foreach (Index index in Indexes)
+            {
+                indexesPrices[underlyingIndex] = index.getCurrentPrice();
+                underlyingIndex++;
+            }
+            return PartialView("IndexesPrices", indexesPrices);
         }
+
+        public ActionResult startHedgingEurostral()
+        {
+            double[] indexesPrices = new double[underlyingNumber];
+            int underlyingIndex = 0;
+            foreach (Index index in Indexes)
+            {
+                indexesPrices[underlyingIndex] = index.getCurrentPrice();
+                underlyingIndex++;
+            }
+            double currentTime = TimeManagement.convertCurrentTimeInDouble(Eurostral.BeginDate);
+            Portfolio.initialisation(Eurostral.getPrice(), Eurostral.getHedging(), indexesPrices, currentTime);
+            return PartialView("Portfolio", Portfolio);
+        }
+
+        public ActionResult rebalanceHedgingPortfolio()
+        {
+            double [] hedge = Eurostral.getHedging();
+
+            double[] indexesPrices = new double[underlyingNumber];
+            int underlyingIndex = 0;
+            foreach (Index index in Indexes)
+            {
+                indexesPrices[underlyingIndex] = index.getCurrentPrice();
+                underlyingIndex++;
+            }
+
+            double currentTime = TimeManagement.convertCurrentTimeInDouble(Eurostral.BeginDate);
+            Portfolio.rebalancing(hedge, indexesPrices, InterestRate, currentTime);
+
+            return PartialView("Portfolio", Portfolio);
+        }
+
     }
 }

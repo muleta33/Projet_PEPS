@@ -43,6 +43,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -116,9 +117,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataRetrieving\Data.cs" />
+    <Compile Include="Models\DataRetrieving\DataReturn.cs" />
+    <Compile Include="Models\DataRetrieving\DataType.cs" />
     <Compile Include="Models\Eurostral.cs" />
     <Compile Include="Models\Index.cs" />
     <Compile Include="Models\Portfolio.cs" />
+    <Compile Include="Models\TimeManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -159,8 +164,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\EurostralManagement\Index.cshtml" />
     <Content Include="Views\EurostralManagement\EurostralPrice.cshtml" />
-    <Content Include="Views\EurostralManagement\UpdatePortfolio.cshtml" />
-    <Content Include="Views\EurostralManagement\EurostralHedging.cshtml" />
+    <Content Include="Views\EurostralManagement\Portfolio.cshtml" />
+    <Content Include="Views\EurostralManagement\IndexesPrices.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

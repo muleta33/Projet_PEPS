@@ -1,0 +1,15 @@
+﻿@model double[]
+
+@{
+    ViewBag.Title = "IndexesPrices";
+}
+
+<th>Price</th>
+@if (@Model != null)
+{
+    foreach (var price in @Model)
+    {
+        <td><em>@price</em></td>
+    }
+}
+

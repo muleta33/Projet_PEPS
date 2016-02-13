@@ -1,0 +1,38 @@
+﻿@model EurostralWebApplication.Models.Portfolio
+
+@{
+    ViewBag.Title = "Portfolio";
+}
+
+<table class="table">
+    <thead>
+        <tr><th>Product</th><th>Euro Stoxx 50</th><th>SP ASX 200</th><th>SP 500</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Quantity</th>
+            @if (@Model != null)
+            {
+                foreach (var quantity in @Model.Composition)
+                {
+                    <td><em>@quantity</em></td>
+                }
+            }
+        </tr>
+    </tbody>
+</table>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Valeur du portefeuille</th>
+            <td>
+                @if (@Model != null)
+                {
+                    <em>@Model.Value</em>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>
+

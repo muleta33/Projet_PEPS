@@ -29,7 +29,10 @@ namespace EurostralWebApplication.Models
             url += "^" + YahooFinanceName;
             var json = client.DownloadString(url);
             DataRetrieving.DataReturn dataReturn = JsonConvert.DeserializeObject<DataRetrieving.DataReturn>(@json);
-            return Convert.ToDouble(dataReturn.data.Ds.Tables[0].Rows[0].ItemArray[2].ToString().Replace(".", ","));
+            double pastPrice = 0;
+            if (dataReturn.data != null)
+                pastPrice = Convert.ToDouble(dataReturn.data.Ds.Tables[0].Rows[0].ItemArray[2].ToString().Replace(".", ","));
+            return pastPrice;
         }
 
         public double getCurrentPrice()
@@ -38,7 +41,7 @@ namespace EurostralWebApplication.Models
             string url = "http://localhost:8080/actif/realtime/E" + YahooFinanceName;
             var json = client.DownloadString(url);
             DataRetrieving.DataReturn dataReturn = JsonConvert.DeserializeObject<DataRetrieving.DataReturn>(@json);
-            return Convert.ToDouble(dataReturn.data.Ds.Tables[0].ToString().Replace(".", ","));
+            return Convert.ToDouble(dataReturn.data.Ds.Tables[0].ToString().Replace(".", ",")); // Attention si erreur ???
         }
 
         

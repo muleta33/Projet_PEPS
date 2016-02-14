@@ -15,15 +15,16 @@ namespace EurostralWebApplication.Models
 
         public List<List<double>> PastMatrix { get; set; }
 
-        private const int underlyingNumber = 3;
+        private int UnderlyingNumber;
 
         public double Price { get; set; }
         public double[] Hedge { get; set; }
 
-        public Eurostral(Index[] indexes)
+        public Eurostral(Index[] indexes, int underlyingNumber)
         {
             Indexes = indexes;
-            
+            UnderlyingNumber = underlyingNumber;
+
             BeginDate = new DateTime(2015, 4, 30);
 
             ObservationDates = new List<DateTime>();
@@ -60,7 +61,14 @@ namespace EurostralWebApplication.Models
                 int ind = 0;
                 foreach (Index index in Indexes)
                 {
-                    PastMatrix.ElementAt(ind).Add(index.getPastPrice(ObservationDates.ElementAt(0)));
+                    double pastPrice = 0;
+                    DateTime pastDate = ObservationDates.ElementAt(0);
+                    while (pastPrice == 0)
+                    {
+                        pastPrice = index.getPastPrice(pastDate);
+                        pastDate = pastDate.AddDays(1);
+                    }
+                    PastMatrix.ElementAt(ind).Add(pastPrice);
                     ind++;
                 }
                 ObservationDates.RemoveAt(0);
@@ -75,7 +83,7 @@ namespace EurostralWebApplication.Models
                 int priceIndex = 0;
                 foreach (double price in indexPastPrices)
                 {
-                    past[priceIndex * underlyingNumber + underlyingIndex] = price;
+                    past[priceIndex * UnderlyingNumber + underlyingIndex] = price;
                     priceIndex++;
                 }
                 underlyingIndex++;
@@ -87,12 +95,12 @@ namespace EurostralWebApplication.Models
             int underlyingIndex = 0;
             foreach (Index index in Indexes)
             {
-                past[line * underlyingNumber + underlyingIndex] = index.getCurrentPrice();
+                past[line * UnderlyingNumber + underlyingIndex] = index.getCurrentPrice();
                 underlyingIndex++;
             }
         }
 
-        public double getPrice()
+        public double getPrice(ParametersManager parametersManager)
         {
             // On met à jour la matrice des prix du passé
             fillPastMatrix();
@@ -106,22 +114,22 @@ namespace EurostralWebApplication.Models
                 numberOfPastPricesPerIndex++;
 
             // Allocation matrice de prix des indices de taille cohérente
-            double[] past = new double[numberOfPastPricesPerIndex * underlyingNumber];
+            double[] past = new double[numberOfPastPricesPerIndex * UnderlyingNumber];
 
             // Remplissage de la matrice de prix des indices
             fillPastArray(PastMatrix, past);
 
             // Ajout des prix courants
             addCurrentPricesToPastArray(numberOfPastPricesPerIndex - 1, past);
-            
+
             // Appel au pricer
-            PricerWrapper wrapper = new PricerWrapper();
+            PricerWrapper wrapper = new PricerWrapper(parametersManager.getHistoricalVolatilities(), parametersManager.getHistoricalCorrelationMatrix());
             wrapper.compute_price_at(currentTime, past, numberOfPastPricesPerIndex);
             Price = wrapper.get_price();
             return Price;
         }
 
-        public double[] getHedging()
+        public double[] getHedging(ParametersManager parametersManager)
         {
             // On met à jour la matrice des prix du passé
             fillPastMatrix();
@@ -135,7 +143,7 @@ namespace EurostralWebApplication.Models
                 numberOfPastPricesPerIndex++;
 
             // Allocation matrice de prix des indices de taille cohérente
-            double[] past = new double[numberOfPastPricesPerIndex * underlyingNumber];
+            double[] past = new double[numberOfPastPricesPerIndex * UnderlyingNumber];
 
             // Remplissage de la matrice de prix des indices
             fillPastArray(PastMatrix, past);
@@ -144,7 +152,7 @@ namespace EurostralWebApplication.Models
             addCurrentPricesToPastArray(numberOfPastPricesPerIndex - 1, past);
 
             // Appel au pricer
-            PricerWrapper wrapper = new PricerWrapper();
+            PricerWrapper wrapper = new PricerWrapper(parametersManager.getHistoricalVolatilities(), parametersManager.getHistoricalCorrelationMatrix());
             wrapper.compute_deltas_at(currentTime, past, numberOfPastPricesPerIndex);
             Hedge = wrapper.get_deltas();
             return Hedge;

@@ -8,9 +8,10 @@
 
 // This is the constructor of a class that has been exported.
 // see EurostralPricer.h for the class definition
-EurostralPricer::EurostralPricer(double *vol, double correlation, int sample_number)
+EurostralPricer::EurostralPricer(double *vol, double * correlation_matrix, int sample_number)
 {
 	PnlVect * volatilities = pnl_vect_create_from_ptr(underlying_number, vol);
+	PnlMat * correlation = pnl_mat_create_from_ptr(underlying_number, underlying_number, correlation_matrix);
 	const EurostralMutualFundInputParameters fund_parameters;
 	fund = new products::EurostralMutualFund(fund_parameters);
 	random_generator = new generators::PnlRandomGeneration();

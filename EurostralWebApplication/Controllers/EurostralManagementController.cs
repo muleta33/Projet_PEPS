@@ -9,13 +9,15 @@ namespace EurostralWebApplication.Controllers
 {
     public class EurostralManagementController : Controller
     {
-        private const int underlyingNumber = 3;
+        private const int UnderlyingNumber = 3;
 
         public const double InterestRate = 0.0485;
 
-        public static Index[] Indexes = new Index[underlyingNumber] { new Index("Euro Stoxx 50", "STOXX50E"), new Index("SP ASX 200", "AXJO"), new Index("SP 500", "GSPC") };
-        public static Eurostral Eurostral = new Eurostral(Indexes);
-        public static Portfolio Portfolio = new Portfolio();
+        public static Index[] Indexes = new Index[UnderlyingNumber] { new Index("Euro Stoxx 50", "STOXX50E"), new Index("SP ASX 200", "AXJO"), new Index("SP 500", "GSPC") };
+        public static Eurostral Eurostral = new Eurostral(Indexes, UnderlyingNumber);
+        public static Portfolio Portfolio = new Portfolio(UnderlyingNumber);
+
+        public static ParametersManager parametersManager = new ParametersManager(Indexes, UnderlyingNumber);
 
         // GET: Eurostral
         public ActionResult Index()
@@ -25,13 +27,13 @@ namespace EurostralWebApplication.Controllers
 
         public ActionResult getEurostralPrice()
         {
-            Eurostral.getPrice();
+            Eurostral.getPrice(parametersManager);
             return PartialView("EurostralPrice", Eurostral);
         }
 
         public ActionResult getIndexesPrices()
         {
-            double[] indexesPrices = new double[underlyingNumber];
+            double[] indexesPrices = new double[UnderlyingNumber];
             int underlyingIndex = 0;
             foreach (Index index in Indexes)
             {
@@ -43,7 +45,7 @@ namespace EurostralWebApplication.Controllers
 
         public ActionResult startHedgingEurostral()
         {
-            double[] indexesPrices = new double[underlyingNumber];
+            double[] indexesPrices = new double[UnderlyingNumber];
             int underlyingIndex = 0;
             foreach (Index index in Indexes)
             {
@@ -51,15 +53,15 @@ namespace EurostralWebApplication.Controllers
                 underlyingIndex++;
             }
             double currentTime = TimeManagement.convertCurrentTimeInDouble(Eurostral.BeginDate);
-            Portfolio.initialisation(Eurostral.getPrice(), Eurostral.getHedging(), indexesPrices, currentTime);
+            Portfolio.initialisation(Eurostral.getPrice(parametersManager), Eurostral.getHedging(parametersManager), indexesPrices, currentTime);
             return PartialView("Portfolio", Portfolio);
         }
 
         public ActionResult rebalanceHedgingPortfolio()
         {
-            double [] hedge = Eurostral.getHedging();
+            double[] hedge = Eurostral.getHedging(parametersManager);
 
-            double[] indexesPrices = new double[underlyingNumber];
+            double[] indexesPrices = new double[UnderlyingNumber];
             int underlyingIndex = 0;
             foreach (Index index in Indexes)
             {

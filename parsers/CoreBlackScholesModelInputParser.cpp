@@ -14,10 +14,14 @@ int CoreBlackScholesModelInputParser::get_monitoring_times() const
 	return result;
 }
 
-double CoreBlackScholesModelInputParser::get_correlation_parameter() const
+PnlMat * CoreBlackScholesModelInputParser::get_correlation_matrix() const
 {
-	double result;
-	parser.extract("correlation", result);
+	// Possibilité de faire une fonction d'extraction d'une matrice dans le parser
+	double extractionResult;
+	parser.extract("correlation", extractionResult);
+	PnlMat * result = pnl_mat_create_from_double(underlying_number, underlying_number, extractionResult);
+	for (int i = 0; i < underlying_number; ++i)
+		MLET(result, i, i) = 1;
 	return result;
 }
 

@@ -11,17 +11,28 @@ using namespace models;
 BlackScholesModelRoutine::BlackScholesModelRoutine(int underlying_number, int monitoring_times, double maturity, const PnlVect * trend, PnlVect * volatilities,
 	double correlation_parameter, const generators::RandomGeneration &random_generator) :
 	underlying_number_(underlying_number), maturity_(maturity), volatilities_(volatilities), 
-	correlation_parameter_(correlation_parameter), random_generator_(random_generator)
+	random_generator_(random_generator)
 {
 	trend_ = pnl_vect_copy(trend);
 	gaussian_vector_for_simulation_ = pnl_vect_create(underlying_number_);
 	timestep_ = maturity_ / monitoring_times;
 	cholesky_matrix_corr_ = pnl_mat_create(underlying_number_, underlying_number_);
-	compute_cholesky_matrix();
+	compute_cholesky_matrix(correlation_parameter);
 }
 
+BlackScholesModelRoutine::BlackScholesModelRoutine(int underlying_number, int monitoring_times, double maturity, const PnlVect * trend, PnlVect * volatilities,
+	const PnlMat * correlation_matrix, const generators::RandomGeneration &random_generator) :
+	underlying_number_(underlying_number), maturity_(maturity), volatilities_(volatilities),
+	random_generator_(random_generator)
+{
+	trend_ = pnl_vect_copy(trend);
+	gaussian_vector_for_simulation_ = pnl_vect_create(underlying_number_);
+	timestep_ = maturity_ / monitoring_times;
+	cholesky_matrix_corr_ = pnl_mat_create(underlying_number_, underlying_number_);
+	compute_cholesky_matrix(correlation_matrix);
+}
 
-int BlackScholesModelRoutine::compute_cholesky_matrix()
+int BlackScholesModelRoutine::compute_cholesky_matrix(double correlation_parameter)
 {
 	int i, j;
 	for (i = 0; i < underlying_number_; i++)
@@ -29,10 +40,16 @@ int BlackScholesModelRoutine::compute_cholesky_matrix()
 		MLET(cholesky_matrix_corr_, i, i) = 1.0;
 		for (j = 0; j < i; j++)
 		{
-			MLET(cholesky_matrix_corr_, i, j) = correlation_parameter_;
-			MLET(cholesky_matrix_corr_, j, i) = correlation_parameter_;
+			MLET(cholesky_matrix_corr_, i, j) = correlation_parameter;
+			MLET(cholesky_matrix_corr_, j, i) = correlation_parameter;
 		}
 	}
+	return pnl_mat_chol(cholesky_matrix_corr_);
+}
+
+int BlackScholesModelRoutine::compute_cholesky_matrix(const PnlMat * correlation_matrix)
+{
+	pnl_mat_clone(cholesky_matrix_corr_, correlation_matrix);
 	return pnl_mat_chol(cholesky_matrix_corr_);
 }
 

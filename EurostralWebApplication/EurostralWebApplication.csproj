@@ -122,6 +122,8 @@
     <Compile Include="Models\DataRetrieving\DataType.cs" />
     <Compile Include="Models\Eurostral.cs" />
     <Compile Include="Models\Index.cs" />
+    <Compile Include="Models\ParametersEstimation.cs" />
+    <Compile Include="Models\ParametersManager.cs" />
     <Compile Include="Models\Portfolio.cs" />
     <Compile Include="Models\TimeManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -18,7 +18,15 @@ namespace Wrapper_Pricer {
 		PricerWrapper()
 		{
 			double vol[3] = { 0.1, 0.3, 0.15 };
-			pricer = new EurostralPricer(vol, 0.3, 10000);
+			double correlation_matrix[3 * 3] = { 1, 0.3, 0.3, 0.3, 1, 0.3, 0.3, 0.3, 1 };
+			pricer = new EurostralPricer(vol, correlation_matrix, 10000);
+		}
+
+		PricerWrapper(array<System::Double>^ volatilities, array<System::Double>^ correlation_matrix)
+		{
+			cli::pin_ptr<double> volatilities_pointer = &volatilities[0];
+			cli::pin_ptr<double> correlation_matrix_pointer = &correlation_matrix[0];
+			pricer = new EurostralPricer(volatilities_pointer, correlation_matrix_pointer, 10000);
 		}
 
 		void compute_price(array<System::Double>^ spots);

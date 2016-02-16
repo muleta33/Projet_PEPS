@@ -8,10 +8,12 @@ BlackScholesModelRiskNeutral::BlackScholesModelRiskNeutral(const input_parsers::
 {
 	interest_rate_ = parser.get_interest_rate();
 	underlying_number_ = parser.get_underlying_number();
-	PnlVect * trend = pnl_vect_create_from_scalar(underlying_number_, interest_rate_);
+	//PnlVect * trend = pnl_vect_create_from_scalar(underlying_number_, interest_rate_);
+	PnlVect * trend = pnl_vect_create_from_scalar(2*underlying_number_, interest_rate_);
 	routine = new BlackScholesModelRoutine(underlying_number_, parser.get_monitoring_times(), parser.get_maturity(), trend, parser.get_volatility(),
 		parser.get_correlation_parameter(), random_generator);
-	generated_asset_paths_ = pnl_mat_create(parser.get_monitoring_times() + 1, parser.get_underlying_number());
+	//generated_asset_paths_ = pnl_mat_create(parser.get_monitoring_times() + 1, parser.get_underlying_number());
+	generated_asset_paths_ = pnl_mat_create(parser.get_monitoring_times() + 1, 2*parser.get_underlying_number());
 	timestep_ = parser.get_maturity() / parser.get_monitoring_times();
 	pnl_vect_free(&trend);
 }
@@ -31,7 +33,8 @@ const PnlMat* const BlackScholesModelRiskNeutral::simulate_asset_paths_from_time
 	bool is_at_monitoring_time = timespan_to_monitoring < TIME_PRECISION;
 	if (!is_at_monitoring_time)
 	{
-		PnlVect * last_values = pnl_vect_create_from_zero(underlying_number_);
+		//PnlVect * last_values = pnl_vect_create_from_zero(underlying_number_);
+		PnlVect * last_values = pnl_vect_create_from_zero(2*underlying_number_);
 		pnl_mat_get_row(last_values, past_values, number_of_values - 1);
 		routine->add_one_simulation_to_generated_asset_paths(number_of_values - 1, timespan_to_monitoring, last_values, generated_asset_paths_);
 		pnl_vect_free(&last_values);

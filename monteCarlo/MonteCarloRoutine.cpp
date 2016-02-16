@@ -23,7 +23,8 @@ void MonteCarloRoutine::price(double &price, double &confidence_interval) const
 
 void MonteCarloRoutine::delta_hedge(const double shift, PnlVect * deltas) const
 {
-	PnlVect * payoff_differences_sum = pnl_vect_create_from_zero(product.get_underlying_number());
+	//PnlVect * payoff_differences_sum = pnl_vect_create_from_zero(product.get_underlying_number());
+	PnlVect * payoff_differences_sum = pnl_vect_create_from_zero(2*product.get_underlying_number());
 	const PnlMat * generated_path = NULL;
 	PnlMat * shifted_asset_path = pnl_mat_new();
 
@@ -33,13 +34,29 @@ void MonteCarloRoutine::delta_hedge(const double shift, PnlVect * deltas) const
 
 		for (int underlying = 0; underlying < product.get_underlying_number(); ++underlying)
 		{
-			underlying_model.get_shifted_asset_paths(generated_path, underlying, -shift, get_time(), get_past_values_number(), shifted_asset_path); 
+			/*underlying_model.get_shifted_asset_paths(generated_path, underlying, -shift, get_time(), get_past_values_number(), shifted_asset_path); 
 			double payoff_down = product.get_payoff(shifted_asset_path); 
 			
 			underlying_model.get_shifted_asset_paths(generated_path, underlying, shift, get_time(), get_past_values_number(), shifted_asset_path);
 			double payoff_up = product.get_payoff(shifted_asset_path);
 
-			LET(payoff_differences_sum, underlying) = GET(payoff_differences_sum, underlying) + payoff_up - payoff_down;
+			LET(payoff_differences_sum, underlying) = GET(payoff_differences_sum, underlying) + payoff_up - payoff_down; */
+
+			underlying_model.get_shifted_asset_paths(generated_path, underlying, -shift, get_time(), get_past_values_number(), shifted_asset_path);
+			double payoff_down_asset = product.get_payoff(shifted_asset_path);
+
+			underlying_model.get_shifted_asset_paths(generated_path, underlying, shift, get_time(), get_past_values_number(), shifted_asset_path);
+			double payoff_up_asset = product.get_payoff(shifted_asset_path);
+
+			LET(payoff_differences_sum, underlying) = GET(payoff_differences_sum, underlying) + payoff_up_asset - payoff_down_asset;
+
+			underlying_model.get_shifted_asset_paths(generated_path, underlying, 1/(1-shift) - 1, get_time(), get_past_values_number(), shifted_asset_path);
+			double payoff_down_exchange = product.get_payoff(shifted_asset_path);
+
+			underlying_model.get_shifted_asset_paths(generated_path, underlying, 1/(1+shift) - 1, get_time(), get_past_values_number(), shifted_asset_path);
+			double payoff_up_exchange = product.get_payoff(shifted_asset_path);
+
+			LET(payoff_differences_sum, underlying + product.get_underlying_number()) = GET(payoff_differences_sum, underlying) + payoff_up_exchange - payoff_down_exchange;
 		}
 	}
 	double interest_rate = underlying_model.interest_rate();

@@ -8,96 +8,154 @@ namespace EurostralWebApplication.Models
 {
     public class Eurostral
     {
-        public DateTime beginDate = new DateTime(2015, 4, 30);
+        public Index[] Indexes { get; set; }
+
+        public DateTime BeginDate { get; set; }
+        public List<DateTime> ObservationDates { get; set; }
+
+        public List<List<double>> PastMatrix { get; set; }
+
+        private int UnderlyingNumber;
 
         public double Price { get; set; }
         public double[] Hedge { get; set; }
 
-        private const int underlyingNumber = 3;
-
-        public Eurostral()
+        public Eurostral(Index[] indexes, int underlyingNumber)
         {
+            Indexes = indexes;
+            UnderlyingNumber = underlyingNumber;
+
+            BeginDate = new DateTime(2015, 4, 30);
+
+            ObservationDates = new List<DateTime>();
+            ObservationDates.Add(BeginDate);
+            ObservationDates.Add(new DateTime(2015, 10, 30));
+            ObservationDates.Add(new DateTime(2016, 5, 2));
+            ObservationDates.Add(new DateTime(2016, 10, 31));
+            ObservationDates.Add(new DateTime(2017, 5, 2));
+            ObservationDates.Add(new DateTime(2017, 10, 31));
+            ObservationDates.Add(new DateTime(2018, 4, 30));
+            ObservationDates.Add(new DateTime(2018, 10, 30));
+            ObservationDates.Add(new DateTime(2019, 4, 30));
+            ObservationDates.Add(new DateTime(2019, 10, 30));
+            ObservationDates.Add(new DateTime(2020, 4, 30));
+            ObservationDates.Add(new DateTime(2020, 10, 30));
+            ObservationDates.Add(new DateTime(2021, 4, 30));
+            ObservationDates.Add(new DateTime(2021, 11, 2));
+            ObservationDates.Add(new DateTime(2022, 5, 2));
+            ObservationDates.Add(new DateTime(2022, 10, 31));
+            ObservationDates.Add(new DateTime(2013, 4, 27));
+
+            PastMatrix = new List<List<double>>(underlyingNumber);
+            for (int i = 0; i < underlyingNumber; ++i)
+                PastMatrix.Add(new List<double>());
+            fillPastMatrix();
             Price = 0;
             Hedge = new double[underlyingNumber];
         }
 
-        private double convertCurrentTimeInDouble()
+        private void fillPastMatrix()
         {
-            return (DateTime.Now - beginDate).Days / 365.0;
-        }
-
-        private bool isAtObservationDate(double currentTime)
-        {
-            return Math.Abs((currentTime * 2) % 1) < 1 / 365;
-        }
-
-        private void fillPastMatrix(Index[] indexes, double[] past, bool isAtObservationDate)
-        {
-            int currentUnderlyingIndex = 0;
-            foreach (Index index in indexes)
+            while ((DateTime.Now - ObservationDates.ElementAt(0)).Days > 1)
             {
-                int currentPriceIndex = 0;
-                foreach (double price in index.PastPrices)
+                int ind = 0;
+                foreach (Index index in Indexes)
                 {
-                    past[currentPriceIndex * underlyingNumber + currentUnderlyingIndex] = price;
-                    currentPriceIndex++;
+                    double pastPrice = 0;
+                    DateTime pastDate = ObservationDates.ElementAt(0);
+                    while (pastPrice == 0)
+                    {
+                        pastPrice = index.getPastPrice(pastDate);
+                        pastDate = pastDate.AddDays(1);
+                    }
+                    PastMatrix.ElementAt(ind).Add(pastPrice);
+                    ind++;
                 }
-                currentUnderlyingIndex++;
-            }
-
-            currentUnderlyingIndex = 0;
-            if (!isAtObservationDate)
-            {
-                foreach (Index index in indexes)
-                {
-                    past[indexes.ElementAt(0).PastPrices.Count * underlyingNumber + currentUnderlyingIndex] = index.getCurrentPrice();
-                    currentUnderlyingIndex++;
-                }
+                ObservationDates.RemoveAt(0);
             }
         }
 
-        public double getPrice(Index[] indexes)
+        private void fillPastArray(List<List<double>> pastMatrix, double[] past)
         {
-            // Allocation matrice de prix des indices de taille cohérente
-            double currentTime = convertCurrentTimeInDouble();
+            int underlyingIndex = 0;
+            foreach (List<double> indexPastPrices in pastMatrix)
+            {
+                int priceIndex = 0;
+                foreach (double price in indexPastPrices)
+                {
+                    past[priceIndex * UnderlyingNumber + underlyingIndex] = price;
+                    priceIndex++;
+                }
+                underlyingIndex++;
+            }
+        }
 
-            bool isAtObsDate = isAtObservationDate(currentTime);
-            int numberOfPastPricesPerIndex = indexes.ElementAt(0).PastPrices.Count;
+        private void addCurrentPricesToPastArray(int line, double[] past)
+        {
+            int underlyingIndex = 0;
+            foreach (Index index in Indexes)
+            {
+                past[line * UnderlyingNumber + underlyingIndex] = index.getCurrentPrice();
+                underlyingIndex++;
+            }
+        }
+
+        public double getPrice(ParametersManager parametersManager)
+        {
+            // On met à jour la matrice des prix du passé
+            fillPastMatrix();
+
+            int numberOfPastPricesPerIndex = PastMatrix.ElementAt(0).Count;
+
+            double currentTime = TimeManagement.convertCurrentTimeInDouble(BeginDate);
+            bool isAtObsDate = TimeManagement.isAtObservationDate(currentTime);
+            // Si on n'est pas à une date de constatation, on aura une ligne de plus : les prix courants
             if (!isAtObsDate)
-                numberOfPastPricesPerIndex = numberOfPastPricesPerIndex + 1;
+                numberOfPastPricesPerIndex++;
 
-            double[] past = new double[numberOfPastPricesPerIndex * underlyingNumber];
-            // NB matrice past reconstruite à chaque fois, stockage ???
+            // Allocation matrice de prix des indices de taille cohérente
+            double[] past = new double[numberOfPastPricesPerIndex * UnderlyingNumber];
 
             // Remplissage de la matrice de prix des indices
-            fillPastMatrix(indexes, past, isAtObsDate);
-            
+            fillPastArray(PastMatrix, past);
+
+            // Ajout des prix courants
+            addCurrentPricesToPastArray(numberOfPastPricesPerIndex - 1, past);
+
             // Appel au pricer
-            PricerWrapper wrapper = new PricerWrapper();
+            PricerWrapper wrapper = new PricerWrapper(parametersManager.getHistoricalVolatilities(), parametersManager.getHistoricalCorrelationMatrix());
             wrapper.compute_price_at(currentTime, past, numberOfPastPricesPerIndex);
             Price = wrapper.get_price();
             return Price;
         }
 
-        public void getHedging(Index[] indexes)
+        public double[] getHedging(ParametersManager parametersManager)
         {
-            // Allocation matrice de prix des indices de taille cohérente
-            double currentTime = convertCurrentTimeInDouble();
+            // On met à jour la matrice des prix du passé
+            fillPastMatrix();
 
-            bool isAtObsDate = isAtObservationDate(currentTime);
-            int numberOfPastPricesPerIndex = indexes.ElementAt(0).PastPrices.Count;
+            int numberOfPastPricesPerIndex = PastMatrix.ElementAt(0).Count;
+
+            double currentTime = TimeManagement.convertCurrentTimeInDouble(BeginDate);
+            bool isAtObsDate = TimeManagement.isAtObservationDate(currentTime);
+            // Si on n'est pas à une date de constatation, on aura une ligne de plus : les prix courants
             if (!isAtObsDate)
-                numberOfPastPricesPerIndex = numberOfPastPricesPerIndex + 1;
+                numberOfPastPricesPerIndex++;
 
-            double[] past = new double[numberOfPastPricesPerIndex * underlyingNumber];
+            // Allocation matrice de prix des indices de taille cohérente
+            double[] past = new double[numberOfPastPricesPerIndex * UnderlyingNumber];
 
             // Remplissage de la matrice de prix des indices
-            fillPastMatrix(indexes, past, isAtObsDate);
+            fillPastArray(PastMatrix, past);
+
+            // Ajout des prix courants
+            addCurrentPricesToPastArray(numberOfPastPricesPerIndex - 1, past);
 
             // Appel au pricer
-            PricerWrapper wrapper = new PricerWrapper();
+            PricerWrapper wrapper = new PricerWrapper(parametersManager.getHistoricalVolatilities(), parametersManager.getHistoricalCorrelationMatrix());
             wrapper.compute_deltas_at(currentTime, past, numberOfPastPricesPerIndex);
             Hedge = wrapper.get_deltas();
+            return Hedge;
         }
     }
 }

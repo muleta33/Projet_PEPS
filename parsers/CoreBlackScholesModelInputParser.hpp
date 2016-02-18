@@ -12,7 +12,7 @@ namespace input_parsers
 	public:
 		int get_underlying_number() const;
 		int get_monitoring_times() const;
-		double get_correlation_parameter() const;
+		PnlMat * get_correlation_matrix() const;
 		double get_interest_rate() const;
 		double get_maturity() const;
 		PnlVect * get_volatility() const;

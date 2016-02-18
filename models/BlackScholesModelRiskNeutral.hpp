@@ -14,6 +14,7 @@ namespace models
 		const PnlMat* const simulate_asset_paths_from_time(const double from_time, const PnlMat * const past_values) const;
 		const PnlMat* const simulate_asset_paths_from_start(const PnlVect * const spot) const;
 		void get_shifted_asset_paths(const PnlMat * const asset_path, int underlying_to_shift, double shift, double from_time, int past_values_number, PnlMat * shifted_asset_path) const;
+		void get_generated_foreign_asset_paths(const PnlMat * const generated_asset_paths, PnlMat * generated_foreign_asset_paths) const;
 		~BlackScholesModelRiskNeutral();
 
 	private:

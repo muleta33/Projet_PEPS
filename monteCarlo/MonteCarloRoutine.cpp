@@ -8,8 +8,7 @@ void MonteCarloRoutine::price(double &price, double &confidence_interval) const
 	double payoff;
 	for (unsigned long i = 0; i < sample_number; i++)
 	{
-		const PnlMat * const generated_path = get_generated_path();
-
+		const PnlMat * const generated_path = get_generated_path();		
 		payoff = product.get_payoff(generated_path);
 		runningSum += payoff;
 		runningSquaredSum += payoff * payoff;
@@ -40,7 +39,7 @@ void MonteCarloRoutine::delta_hedge(const double shift, PnlVect * deltas) const
 			underlying_model.get_shifted_asset_paths(generated_path, underlying, shift, get_time(), get_past_values_number(), shifted_asset_path);
 			double payoff_up = product.get_payoff(shifted_asset_path);
 
-			LET(payoff_differences_sum, underlying) = GET(payoff_differences_sum, underlying) + payoff_up - payoff_down; */
+			LET(payoff_differences_sum, underlying) = GET(payoff_differences_sum, underlying) + payoff_up - payoff_down;*/ 
 
 			underlying_model.get_shifted_asset_paths(generated_path, underlying, -shift, get_time(), get_past_values_number(), shifted_asset_path);
 			double payoff_down_asset = product.get_payoff(shifted_asset_path);
@@ -50,13 +49,13 @@ void MonteCarloRoutine::delta_hedge(const double shift, PnlVect * deltas) const
 
 			LET(payoff_differences_sum, underlying) = GET(payoff_differences_sum, underlying) + payoff_up_asset - payoff_down_asset;
 
-			underlying_model.get_shifted_asset_paths(generated_path, underlying, 1/(1-shift) - 1, get_time(), get_past_values_number(), shifted_asset_path);
-			double payoff_down_exchange = product.get_payoff(shifted_asset_path);
+			underlying_model.get_shifted_asset_paths(generated_path, underlying, 1 / (1 - shift) - 1, get_time(), get_past_values_number(), shifted_asset_path);
+			double payoff_down_exchange_rate = product.get_payoff(shifted_asset_path);
 
-			underlying_model.get_shifted_asset_paths(generated_path, underlying, 1/(1+shift) - 1, get_time(), get_past_values_number(), shifted_asset_path);
-			double payoff_up_exchange = product.get_payoff(shifted_asset_path);
+			underlying_model.get_shifted_asset_paths(generated_path, underlying, 1 / (1 + shift) - 1, get_time(), get_past_values_number(), shifted_asset_path);
+			double payoff_up_exchange_rate = product.get_payoff(shifted_asset_path);
 
-			LET(payoff_differences_sum, underlying + product.get_underlying_number()) = GET(payoff_differences_sum, underlying) + payoff_up_exchange - payoff_down_exchange;
+			LET(payoff_differences_sum, underlying + product.get_underlying_number()) = GET(payoff_differences_sum, underlying) + payoff_up_exchange_rate - payoff_down_exchange_rate;
 		}
 	}
 	double interest_rate = underlying_model.interest_rate();
@@ -64,9 +63,10 @@ void MonteCarloRoutine::delta_hedge(const double shift, PnlVect * deltas) const
 
 	double actualisation = exp(-interest_rate * (maturity - get_time()));
 
-	PnlVect * current_stock_values = pnl_vect_create_from_zero(generated_path->n);
+	PnlVect * current_stock_values = pnl_vect_create_from_zero(2*generated_path->n);
 	get_current_stock_values(current_stock_values);
-	for (int underlying = 0; underlying < product.get_underlying_number(); ++underlying)
+	//for (int underlying = 0; underlying < product.get_underlying_number(); ++underlying)
+	for (int underlying = 0; underlying < 2*product.get_underlying_number(); ++underlying)
 	{
 		double factor = 1 / (sample_number * 2 * shift * GET(current_stock_values, underlying));
 		LET(deltas, underlying) = actualisation * factor * GET(payoff_differences_sum, underlying);

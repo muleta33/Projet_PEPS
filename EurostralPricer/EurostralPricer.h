@@ -28,7 +28,7 @@ private:
 	const int underlying_number = 3;
 
 public:
-	EurostralPricer(double *vol, double correlation, int sample_number);
+	EurostralPricer(double * vol, double * correlation_matrix, int sample_number);
 	~EurostralPricer();
 	void price(double * spots, double &price, double &confidence_interval);
 	void price_at(const double time, int number_of_rows_past, double * past, double &price, double &confidence_interval);

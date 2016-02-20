@@ -11,10 +11,14 @@ namespace UnitTests {
 	public:
 		FakeBlackScholesModelInputParserForCall()
 		{
-			vol = pnl_vect_create(1);
+			vol = pnl_vect_create(2);
 			LET(vol, 0) = 0.15;
-			correlation = pnl_mat_create(1, 1);
+			LET(vol, 1) = 0;
+			correlation = pnl_mat_create(2, 2);
 			MLET(correlation, 0, 0) = 1;
+			MLET(correlation, 1, 1) = 1;
+			MLET(correlation, 0, 1) = 0;
+			MLET(correlation, 1, 0) = 0;
 		}
 
 		~FakeBlackScholesModelInputParserForCall()

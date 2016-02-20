@@ -11,15 +11,22 @@ namespace UnitTests {
 	public:
 		FakeBlackScholesModelInputParser()
 		{
-			vol = pnl_vect_create(5);
+			vol = pnl_vect_create(6);
 			LET(vol, 0) = 0.1;
 			LET(vol, 1) = 0.3;
 			LET(vol, 2) = 0.15;
-			LET(vol, 3) = 0.25;
-			LET(vol, 4) = 0.2;
-			correlation = pnl_mat_create_from_double(5, 5, 0.3);
-			for (int i = 0; i < 5; ++i)
+			LET(vol, 3) = 0;
+			LET(vol, 4) = 0;
+			LET(vol, 5) = 0;
+			correlation = pnl_mat_create_from_double(6, 6, 0);
+			for (int i = 0; i < 6; ++i)
 				MLET(correlation, i, i) = 1;
+			MLET(correlation, 0, 1) = 0.3;
+			MLET(correlation, 0, 2) = 0.3;
+			MLET(correlation, 1, 0) = 0.3;
+			MLET(correlation, 1, 2) = 0.3;
+			MLET(correlation, 2, 0) = 0.3;
+			MLET(correlation, 2, 1) = 0.3;
 		}
 
 		~FakeBlackScholesModelInputParser()
@@ -28,7 +35,7 @@ namespace UnitTests {
 			vol = nullptr;
 		}
 
-		int get_underlying_number() const { return 5; }
+		int get_underlying_number() const { return 3; }
 		virtual int get_monitoring_times() const { return 8; }
 		virtual PnlMat * get_correlation_matrix() const { return correlation; }
 		virtual double get_interest_rate() const { return 0.05; }

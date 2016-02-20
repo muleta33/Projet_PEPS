@@ -31,13 +31,14 @@ namespace UnitTests
 			double strike = 150;
 			Call call(fake_model_parser.get_maturity(), strike);
 
-			PnlVect * spot = pnl_vect_create_from_scalar(1, 45);
+			PnlVect * spot = pnl_vect_create_from_scalar(2, 45);
+			LET(spot, 1) = 1;
 
 			int sample_number = 50000;
 			double shift = 0.01;
 			MonteCarloHedging monteCarloHedging(model, call, sample_number, shift);
 
-			PnlVect * delta = pnl_vect_create_from_zero(1);
+			PnlVect * delta = pnl_vect_create_from_zero(2);
 			monteCarloHedging.hedge(spot, delta);
 
 			bool is_delta_very_low = false;
@@ -59,13 +60,14 @@ namespace UnitTests
 			double strike = 75;
 			Call call(fake_model_parser.get_maturity(), strike);
 
-			PnlVect * spot = pnl_vect_create_from_scalar(1, 150);
+			PnlVect * spot = pnl_vect_create_from_scalar(2, 150);
+			LET(spot, 1) = 1;
 
 			int sample_number = 50000;
 			double shift = 0.01;
 			MonteCarloHedging monteCarloHedging(model, call, sample_number, shift);
 
-			PnlVect * delta = pnl_vect_create_from_zero(1);
+			PnlVect * delta = pnl_vect_create_from_zero(2);
 			monteCarloHedging.hedge(spot, delta);
 
 			bool is_delta_very_high = false;
@@ -87,13 +89,14 @@ namespace UnitTests
 			double strike = 90;
 			Call call(fake_model_parser.get_maturity(), strike);
 
-			PnlVect * spot = pnl_vect_create_from_scalar(1, 100);
+			PnlVect * spot = pnl_vect_create_from_scalar(2, 100);
+			LET(spot, 1) = 1;
 
 			int sample_number = 50000;
 			double shift = 0.05;
 			MonteCarloHedging monteCarloHedging(model, call, sample_number, shift);
 
-			PnlVect * computed_delta = pnl_vect_create_from_zero(1);
+			PnlVect * computed_delta = pnl_vect_create_from_zero(2);
 			monteCarloHedging.hedge(spot, computed_delta);
 
 			double * reference_price = new double;
@@ -122,17 +125,22 @@ namespace UnitTests
 			Call call(fake_model_parser.get_maturity(), strike);
 			Call call_lower_maturity(fake_model_parser_bis.get_maturity(), strike);
 
-			PnlVect * spots = pnl_vect_create_from_scalar(1, 50);
-			PnlMat * past_values = pnl_mat_create_from_scalar(3, 1, 50);
+			PnlVect * spots = pnl_vect_create_from_scalar(2, 50);
+			LET(spots, 1) = 1;
+
+			PnlMat * past_values = pnl_mat_create_from_scalar(3, 2, 50);
+			MLET(past_values, 0, 1) = 1;
+			MLET(past_values, 1, 1) = exp(0.05*0.5);
+			MLET(past_values, 2, 1) = exp(0.05);
 
 			int sample_number = 50000;
 			double shift = 0.01;
 
 			MonteCarloHedging monteCarloHedgingAt(model, call, sample_number, shift);
-			PnlVect * delta_at = pnl_vect_create_from_zero(1);
+			PnlVect * delta_at = pnl_vect_create_from_zero(2);
 			monteCarloHedgingAt.hedge_at(1, past_values, delta_at);
 			MonteCarloHedging monteCarloHedging(model_lower_maturity, call_lower_maturity, sample_number, shift);
-			PnlVect * delta = pnl_vect_create_from_zero(1);
+			PnlVect * delta = pnl_vect_create_from_zero(2);
 			monteCarloHedging.hedge(spots, delta);
 
 			Assert::AreEqual(GET(delta, 0), GET(delta_at, 0));

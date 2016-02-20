@@ -34,7 +34,8 @@ namespace UnitTests
 
 			BasketOption call(fake_model_parser.get_maturity(), fake_option_parser);
 
-			PnlVect * spot = pnl_vect_create_from_scalar(1, 100);
+			PnlVect * spot = pnl_vect_create_from_scalar(2, 100);
+			LET(spot, 1) = 1;
 
 			int sample_number = 50000;
 			MonteCarloPricing pricer(model, call, sample_number);

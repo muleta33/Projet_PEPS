@@ -22,7 +22,7 @@ namespace EurostralWebApplication.Controllers
         // GET: Eurostral
         public ActionResult Index()
         {
-            return View();
+            return View("Index");
         }
 
         public ActionResult getEurostralPrice()

@@ -8,6 +8,7 @@ private:
 	double const maturity = 8;
 	int const monitoring_times = 16;
 	double interest_rate = 0.0485;
+	PnlVect * foreign_interest_rates =pnl_vect_create_from_double(0.0485, 3);
 	PnlVect * volatilities;
 	PnlMat * correlation_matrix;
 
@@ -18,6 +19,7 @@ public:
 	PnlMat * get_correlation_matrix() const { return correlation_matrix; }
 	double get_interest_rate() const { return interest_rate; }
 	PnlVect * get_volatility() const { return volatilities; }
+	PnlVect * get_foreign_interest_rates() const { return foreign_interest_rates; }
 
 	BlackScholesModelParameters(PnlVect * vol, PnlMat * correlation)
 	{
@@ -25,6 +27,7 @@ public:
 		pnl_vect_clone(volatilities, vol);
 		correlation_matrix = pnl_mat_create(underlying_number, underlying_number);
 		pnl_mat_clone(correlation_matrix, correlation);
+		
 	}
 
 	virtual ~BlackScholesModelParameters() {};

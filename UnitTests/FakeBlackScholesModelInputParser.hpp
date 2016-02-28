@@ -41,6 +41,6 @@ namespace UnitTests {
 		virtual double get_interest_rate() const { return 0.05; }
 		virtual double get_maturity() const { return 4; }
 		virtual PnlVect * get_volatility() const { return vol; }
-
+		virtual PnlVect * get_foreign_interest_rates() const { return pnl_vect_create_from_double(3, 0.05); }
 	};
 }

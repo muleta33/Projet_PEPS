@@ -12,6 +12,7 @@ namespace input_parsers
 		virtual double get_indexes_return_percentage() const = 0;
 		virtual double get_initial_capital() const = 0;
 		virtual PnlVect * get_underlying_coefficients() const = 0;
+		virtual PnlVect * get_currencies() const  = 0;
 
 		virtual ~EurostralMutualFundInputParser() {};
 	};

@@ -10,7 +10,7 @@ namespace UnitTests {
 
 	public:
 		Call() : Product(), strike(0) {};
-		Call(double maturity, double strike) : Product(maturity, 1), strike(strike) {};
+		Call(double maturity, double strike) : Product(maturity, 1, pnl_vect_create_from_zero(2)), strike(strike) { LET(currencies_, 0) = 1; };
 
 		double get_payoff(const PnlMat * const underlying_paths) const
 		{

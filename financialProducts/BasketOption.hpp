@@ -10,12 +10,12 @@ private:
 
 public:
 	BasketOption() : Product(), strike_(0) {};
-	BasketOption(const input_parsers::BasketOptionInputParser &parser) : Product(parser.get_maturity(), parser.get_underlying_number())
+	BasketOption(const input_parsers::BasketOptionInputParser &parser) : Product(parser.get_maturity(), parser.get_underlying_number(), parser.get_currencies())
 	{
 		strike_ = parser.get_strike();
 		lambda_ = parser.get_underlying_coefficients();
 	}
-	BasketOption(double maturity, const input_parsers::BasketOptionInputParser &parser) : Product(maturity, parser.get_underlying_number())
+	BasketOption(double maturity, const input_parsers::BasketOptionInputParser &parser) : Product(maturity, parser.get_underlying_number(), parser.get_currencies())
 	{
 		strike_ = parser.get_strike();
 		lambda_ = parser.get_underlying_coefficients();

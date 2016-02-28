@@ -16,6 +16,7 @@ namespace input_parsers
 		double get_indexes_return_percentage() const;
 		double get_initial_capital() const;
 		PnlVect * get_underlying_coefficients() const;
+		PnlVect * get_currencies() const;
 
 		CoreEurostralMutualFundInputParser(const Parser & p) : parser(p)
 		{

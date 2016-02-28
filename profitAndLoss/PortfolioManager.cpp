@@ -20,7 +20,8 @@ double PortfolioManager::hedge()
 {
 	// Simulation du marché
 	const PnlMat * market_path = market_.simulate_market_asset_paths(spot_);
-	PnlMat * past = pnl_mat_create_from_zero(monitoring_times_ + 1, model_.underlying_number());
+	//PnlMat * past = pnl_mat_create_from_zero(monitoring_times_ + 1, model_.underlying_number());
+	PnlMat * past = pnl_mat_create_from_zero(monitoring_times_ + 1, 2*model_.underlying_number());
 	pnl_mat_set_row(past, spot_, 0);
 
 	// Initialisation du portefeuille
@@ -30,9 +31,12 @@ double PortfolioManager::hedge()
 	double p0 = product_price;
 	std::cout << "p0 : " << p0 << " - ic : " << ic << std::endl;
 
-	PnlVect *deltas = pnl_vect_create_from_zero(model_.underlying_number());
+	
+	//PnlVect *deltas = pnl_vect_create_from_zero(model_.underlying_number());
+	PnlVect *deltas = pnl_vect_create_from_zero(2*model_.underlying_number());
 	hedging_unit_.hedge(spot_, deltas);
-	PnlVect *prices = pnl_vect_create_from_zero(model_.underlying_number());
+	//PnlVect *prices = pnl_vect_create_from_zero(model_.underlying_number());
+	PnlVect *prices = pnl_vect_create_from_zero(2*model_.underlying_number());
 	pnl_mat_get_row(prices, market_path, 0);
 
 	portfolio_.initialisation(p0, deltas, prices);
@@ -73,7 +77,8 @@ void PortfolioManager::manage_market_path_for_pricing_at_time_T(const PnlMat *ma
 	int market_index = static_cast<int>(round(t * rebalancing_times_ / product_.get_maturity()));
 	int past_index = static_cast<int>(floor((t - TIME_PRECISION) / (product_.get_maturity() / monitoring_times_) + 1));
 	pnl_mat_resize(past, past_index + 1, past->n);
-	for (int j = 0; j < model_.underlying_number(); ++j)
+	//for (int j = 0; j < model_.underlying_number(); ++j)
+	for (int j = 0; j < 2*model_.underlying_number(); ++j)
 	{
 		MLET(past, past_index, j) = MGET(market_path, market_index, j);
 	}

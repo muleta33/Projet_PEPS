@@ -9,7 +9,7 @@ namespace products {
 		EurostralMutualFund();
 		EurostralMutualFund(const input_parsers::EurostralMutualFundInputParser &parser);
 		EurostralMutualFund(double maturity, int underlying_number, double guaranteed_capital_percentage,
-			double indexes_return_percentage, PnlVect * underlying_coefficients, double initial_capital);
+			double indexes_return_percentage, PnlVect * underlying_coefficients, double initial_capital, PnlVect * currencies);
 		EurostralMutualFund(const EurostralMutualFund & eurostralMutualFund);
 
 		EurostralMutualFund& operator=(const EurostralMutualFund & eurostralMutualFund);

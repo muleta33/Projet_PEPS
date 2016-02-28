@@ -41,3 +41,10 @@ PnlVect * CoreEurostralMutualFundInputParser::get_underlying_coefficients() cons
 	parser.extract("underlying coefficients", result, underlying_number);
 	return result;
 }
+
+PnlVect * CoreEurostralMutualFundInputParser::get_currencies() const
+{
+	PnlVect * result;
+	parser.extract("currencies", result, 2*underlying_number);
+	return result;
+}

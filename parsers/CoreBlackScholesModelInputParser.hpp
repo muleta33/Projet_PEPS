@@ -16,6 +16,7 @@ namespace input_parsers
 		double get_interest_rate() const;
 		double get_maturity() const;
 		PnlVect * get_volatility() const;
+		PnlVect * get_foreign_interest_rates() const;
 
 		CoreBlackScholesModelInputParser(const Parser & p) : parser(p)
 		{

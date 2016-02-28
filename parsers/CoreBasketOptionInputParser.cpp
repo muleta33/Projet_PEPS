@@ -27,3 +27,10 @@ double CoreBasketOptionInputParser::get_strike() const
 	parser.extract("strike", result);
 	return result;
 }
+
+PnlVect * CoreBasketOptionInputParser::get_currencies() const
+{
+	PnlVect * result;
+	parser.extract("currencies", result, 2*underlying_number);
+	return result;
+}

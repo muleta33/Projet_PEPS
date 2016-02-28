@@ -11,7 +11,7 @@ namespace models
 		int underlying_number_;
 		double interest_rate_;
 
-		PnlVect * interest_rates_;
+		PnlVect * foreign_interest_rates_;
 
 	public:
 		UnderlyingModel() {};

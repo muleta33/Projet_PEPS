@@ -19,8 +19,11 @@ PnlMat * CoreBlackScholesModelInputParser::get_correlation_matrix() const
 	// Possibilité de faire une fonction d'extraction d'une matrice dans le parser
 	double extractionResult;
 	parser.extract("correlation", extractionResult);
-	PnlMat * result = pnl_mat_create_from_double(underlying_number, underlying_number, extractionResult);
-	for (int i = 0; i < underlying_number; ++i)
+
+	/*PnlMat * result = pnl_mat_create_from_double(underlying_number, underlying_number, extractionResult);*/
+	PnlMat * result = pnl_mat_create_from_double(2*underlying_number, 2*underlying_number, extractionResult);
+	/*for (int i = 0; i < underlying_number; ++i)*/
+	for (int i = 0; i < 2 * underlying_number; ++i)
 		MLET(result, i, i) = 1;
 	return result;
 }
@@ -42,6 +45,15 @@ double CoreBlackScholesModelInputParser::get_maturity() const
 PnlVect * CoreBlackScholesModelInputParser::get_volatility() const
 {
 	PnlVect * result;
-	parser.extract("volatility", result, underlying_number);
+	//parser.extract("volatility", result, underlying_number);
+	parser.extract("volatility", result, 2*underlying_number);
 	return result;
 }
+
+PnlVect * CoreBlackScholesModelInputParser::get_foreign_interest_rates() const
+{
+	PnlVect * result;
+	parser.extract("foreign interest rates", result, underlying_number);
+	return result;
+}
+

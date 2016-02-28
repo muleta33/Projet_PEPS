@@ -11,6 +11,7 @@ private:
 	double const maturity = 8;
 	double const initial_capital = 150;
 	PnlVect *underlying_coefficients;
+	PnlVect * currencies;
 public:
 	double get_maturity() const { return maturity; }
 	int get_underlying_number() const { return underlying_number; }
@@ -18,6 +19,7 @@ public:
 	double get_indexes_return_percentage() const { return indexes_return_percentage; }
 	double get_initial_capital() const { return initial_capital; }
 	PnlVect * get_underlying_coefficients() const { return underlying_coefficients; }
+	PnlVect * get_currencies() const { return currencies; };
 
 	EurostralMutualFundInputParameters()
 	{
@@ -25,6 +27,8 @@ public:
 		LET(underlying_coefficients, 0) = 0.5;
 		LET(underlying_coefficients, 1) = 0.3;
 		LET(underlying_coefficients, 2) = 0.2;
+		currencies = pnl_vect_create_from_double(2*underlying_number,1); 
+		LET(currencies, 5) = 0;
 	}
 
 	virtual ~EurostralMutualFundInputParameters() { pnl_vect_free(&underlying_coefficients); }

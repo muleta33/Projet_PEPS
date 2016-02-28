@@ -10,9 +10,8 @@ BlackScholesModelRiskNeutral::BlackScholesModelRiskNeutral(const input_parsers::
 
 	underlying_number_ = parser.get_underlying_number();
 
-	// à changer le vecteur des taux d'interets étrangers
-	interest_rates_ = pnl_vect_create_from_scalar(underlying_number_, interest_rate_);
-	//TODO
+	// taux de change étrangers
+	foreign_interest_rates_ = parser.get_foreign_interest_rates();
 	
 	//PnlVect * trend = pnl_vect_create_from_scalar(underlying_number_, interest_rate_);
 	PnlVect * trend = pnl_vect_create_from_scalar(2*underlying_number_, interest_rate_);
@@ -72,7 +71,7 @@ void BlackScholesModelRiskNeutral::get_generated_foreign_asset_paths(const PnlMa
 		for (int j = 0; j < generated_foreing_asset_paths->n; j++)
 		{
 			MLET(generated_foreing_asset_paths, i, j) = MGET(generated_asset_paths, i, j) / MGET(generated_asset_paths, i, (j + generated_asset_paths->n / 2))
-				*exp(GET(interest_rates_, j) * i* timestep_);
+				*exp(GET(foreign_interest_rates_, j) * i* timestep_);
 		}
 	}
 

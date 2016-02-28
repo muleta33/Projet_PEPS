@@ -25,12 +25,13 @@ EurostralMutualFund::EurostralMutualFund(const input_parsers::EurostralMutualFun
 	indexes_return_percentage_ = parser.get_indexes_return_percentage();
 	underlying_coefficients_ = pnl_vect_copy(parser.get_underlying_coefficients());
 	initial_capital_ = parser.get_initial_capital();
+	currencies_ = parser.get_currencies();
 }
 
 
 EurostralMutualFund::EurostralMutualFund(double maturity, int underlying_number, double guaranteed_capital_percentage,
-	double indexes_return_percentage, PnlVect * underlying_coefficients, double initial_capital) :
-	Product(maturity, underlying_number),
+	double indexes_return_percentage, PnlVect * underlying_coefficients, double initial_capital, PnlVect * currencies) :
+	Product(maturity, underlying_number, currencies),
 	guaranteed_capital_percentage_(guaranteed_capital_percentage),
 	indexes_return_percentage_(indexes_return_percentage),
 	initial_capital_(initial_capital)
@@ -40,7 +41,7 @@ EurostralMutualFund::EurostralMutualFund(double maturity, int underlying_number,
 
 
 EurostralMutualFund::EurostralMutualFund(const EurostralMutualFund & eurostralMutualFund) :
-	Product(eurostralMutualFund.maturity_, eurostralMutualFund.underlying_number_),
+	Product(eurostralMutualFund.maturity_, eurostralMutualFund.underlying_number_, eurostralMutualFund.currencies_),
 	guaranteed_capital_percentage_(eurostralMutualFund.guaranteed_capital_percentage_),
 	indexes_return_percentage_(eurostralMutualFund.indexes_return_percentage_),
 	initial_capital_(eurostralMutualFund.initial_capital_)
@@ -55,6 +56,7 @@ EurostralMutualFund& EurostralMutualFund::operator=(const EurostralMutualFund & 
 	{
 		maturity_ = eurostralMutualFund.maturity_;
 		underlying_number_ = eurostralMutualFund.underlying_number_;
+		currencies_ = eurostralMutualFund.currencies_;
 		guaranteed_capital_percentage_ = eurostralMutualFund.guaranteed_capital_percentage_;
 		indexes_return_percentage_ = eurostralMutualFund.indexes_return_percentage_;
 		initial_capital_ = eurostralMutualFund.initial_capital_;

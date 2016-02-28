@@ -24,6 +24,7 @@ namespace UnitTests {
 		double get_maturity() const { return 0; };
 		int get_underlying_number() const { return 1; };
 		double get_strike() const { return 90; }
-		PnlVect * get_underlying_coefficients() const { return underlying_coefficients; };
+		PnlVect * get_underlying_coefficients() const { return underlying_coefficients; }
+		PnlVect * get_currencies() const { PnlVect * res = pnl_vect_create_from_zero(2); LET(res, 0) = 1; return res; };
 	};
 }

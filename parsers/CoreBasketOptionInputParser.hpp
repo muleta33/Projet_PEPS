@@ -14,6 +14,7 @@ namespace input_parsers
 		int get_underlying_number() const;
 		PnlVect * get_underlying_coefficients() const;
 		double get_strike() const;
+		PnlVect * get_currencies() const;
 
 		CoreBasketOptionInputParser(const Parser & p) : parser(p)
 		{

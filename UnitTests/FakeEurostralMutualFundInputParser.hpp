@@ -29,5 +29,7 @@ namespace UnitTests {
 		double get_indexes_return_percentage() const { return 0.95; };
 		double get_initial_capital() const { return 100; };
 		PnlVect * get_underlying_coefficients() const { return underlying_coefficients; };
+		virtual PnlVect * get_currencies() const { PnlVect * res = pnl_vect_create_from_double(6, 1); LET(res, 5) = 0; return res; }
+
 	};
 }

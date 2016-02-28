@@ -72,6 +72,10 @@ void MonteCarloRoutine::delta_hedge(const double shift, PnlVect * deltas) const
 		LET(deltas, underlying) = actualisation * factor * GET(payoff_differences_sum, underlying);
 	}
 
+	//on met à zero les deltas dont on a pas besoin (actifs déjà en euros)
+	pnl_vect_mult_vect_term(deltas, product.get_currencies());
+	
+
 	pnl_vect_free(&current_stock_values);
 	pnl_mat_free(&shifted_asset_path);
 	pnl_vect_free(&payoff_differences_sum);

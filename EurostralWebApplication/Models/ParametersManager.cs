@@ -53,7 +53,7 @@ namespace EurostralWebApplication.Models
             foreach (double[] prices in historicalPrices)
             {
                 for (int i = 1; i < prices.Length; ++i)
-                    historicalRentabilities[ind][i - 1] = Math.Log(prices[i] - prices[i - 1]);
+                    historicalRentabilities[ind][i - 1] = Math.Log(prices[i] / prices[i - 1]);
                 ++ind;
             }
         }

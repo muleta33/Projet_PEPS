@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Synthèse</h2>
+
+<div id="prices">@Html.Partial("Prices", null)</div>
+
+<script type="text/javascript">
+    function loadUpdatePrices() {
+        $.ajax({
+            url: "@Url.Action("UpdatePrices", "Synthesis")",
+            type: 'GET',
+            dataType: 'html',
+            success: function (result) {
+                $('#prices').html(String(result));
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        loadUpdatePrices();
+        window.setInterval("loadUpdatePrices()", 15000);
+    });
+</script>

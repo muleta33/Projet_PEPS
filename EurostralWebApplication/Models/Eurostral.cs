@@ -8,22 +8,28 @@ namespace EurostralWebApplication.Models
 {
     public class Eurostral
     {
+        private int UnderlyingNumber;
+
         public Index[] Indexes { get; set; }
+        public double[] CurrentIndexesPerformances { get; set; }
+
+        public ExchangeRate[] ExchangeRates { get; set; }
 
         public DateTime BeginDate { get; set; }
         public List<DateTime> ObservationDates { get; set; }
 
         public List<List<double>> PastMatrix { get; set; }
 
-        private int UnderlyingNumber;
-
         public double Price { get; set; }
         public double[] Hedge { get; set; }
 
-        public Eurostral(Index[] indexes, int underlyingNumber)
+        public Eurostral(Index[] indexes, ExchangeRate[] exchangeRates, int underlyingNumber)
         {
             Indexes = indexes;
             UnderlyingNumber = underlyingNumber;
+            CurrentIndexesPerformances = new double[UnderlyingNumber];
+
+            ExchangeRates = exchangeRates;
 
             BeginDate = new DateTime(2015, 4, 30);
 
@@ -98,6 +104,30 @@ namespace EurostralWebApplication.Models
                 past[line * UnderlyingNumber + underlyingIndex] = index.getCurrentPrice();
                 underlyingIndex++;
             }
+        }
+
+        public void computeCurrentPerformances()
+        {
+            int ind = 0;
+            foreach (Index index in Indexes)
+            {
+                CurrentIndexesPerformances[ind] = index.getPerformance(PastMatrix.ElementAt(ind).ElementAt(0));
+                ++ind;
+            }
+        }
+
+        public double getIndexWeight(int ind)
+        {
+            int[] idx = CurrentIndexesPerformances.Select((x, i) => new KeyValuePair<double, int>(x, i))
+                                                  .OrderBy(x => x.Key)
+                                                  .Select(x => x.Value)
+                                                  .ToArray();
+            double weight = 20;
+            if (idx[1] == ind)
+                weight = 30;
+            else if (idx[2] == ind)
+                weight = 50;
+            return weight;
         }
 
         public double getPrice(ParametersManager parametersManager)

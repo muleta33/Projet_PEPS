@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,6 +25,27 @@ namespace EurostralWebApplication.Models
         {
             double performance = (Price - initialPrice) / initialPrice;
             return performance;
+        }
+
+        public List<object[]> getPastPricesPeriod(DateTime firstDate, DateTime lastDate)
+        {
+            WebClient client = new WebClient();
+            // Forme de l'url : "http://localhost:8080/actif/2015-01-01/2015-01-02/close/^GSPC";
+            string url = "http://localhost:8080/actif/";
+            url += firstDate.Year + "-" + firstDate.Month + "-" + firstDate.Day + "/";
+            url += lastDate.Year + "-" + lastDate.Month + "-" + lastDate.Day + "/";
+            url += "close/";
+            url += "^" + YahooFinanceName;
+            var json = client.DownloadString(url);
+            DataRetrieving.DataReturn dataReturn = JsonConvert.DeserializeObject<DataRetrieving.DataReturn>(@json);
+            List<object[]> values = new List<object[]>();
+            DataTable data = dataReturn.data.Ds.Tables[0];
+            if (dataReturn.data != null)
+                for (int i = data.Rows.Count - 1; i >= 0; i--)
+                {
+                    values.Add(new object[] {Convert.ToDateTime(data.Rows[i].ItemArray[1]).ToUniversalTime(), Convert.ToDouble(data.Rows[i].ItemArray[2].ToString().Replace(".", ",")) });
+                }
+            return values;
         }
 
         public double getPastPrice(DateTime retrievingDate)

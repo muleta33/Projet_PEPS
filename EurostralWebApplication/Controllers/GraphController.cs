@@ -13,24 +13,47 @@ namespace EurostralWebApplication.Controllers
     public class GraphController : Controller
     {
 
-        public static Index[] Indexes = new Index[3] { new Index("Euro Stoxx 50", "STOXX50E"), new Index("SP ASX 200", "AXJO"), new Index("SP 500", "GSPC") };
-
         //
         // GET: /Graph/
         public ActionResult Index()
         {
+            ViewModelGraph model = new ViewModelGraph();
+            return View(model);
+        }
 
-            List<object[]> values_List = new List<object[]>();
-            DateTime firstDate = new DateTime(2015, 5, 2, 0, 0, 0);
-            DateTime lastDate = new DateTime(2016, 3, 2, 0, 0, 0);
-            object[] values = Indexes[0].getPastPricesPeriod(firstDate, lastDate).ToArray();
+        [HttpPost]
+        public ActionResult onChangeIndex(ViewModelGraph model) 
+        {
+            DateTime firstDate = new DateTime(2015, 1, 1, 0, 0, 0);
+            DateTime lastDate = DateTime.Now;
+            object[] values = model.getCurrentIndex().getPastPricesPeriod(firstDate, lastDate).ToArray();
 
             DotNet.Highstock.Highstock chart = new DotNet.Highstock.Highstock("chart")
                 .InitChart(new Chart
                 {
                     Type = ChartTypes.Line,
-                    ClassName = "chart"
+                    ClassName = "chart",
+                    Events = new ChartEvents
+                    {
+                        Load = "ChartEventsLoad"
+                    }
                 })
+                .AddJavascripFunction("ChartEventsLoad",
+                                      @"// set up the updating of the chart each second
+                                       this.addSeries({type : 'flags',
+                                        data : [{
+                                            x : Date.UTC(2015, 3, 30),
+                                            title : '0',
+                                            text : 'Niveau initial'
+                                        }, {
+                                            x : Date.UTC(2015, 9, 30),
+                                            title : '1',
+                                            text : 'Première date de constatation'
+                                        }],
+                                        onSeries : 'dataseries',
+                                        shape : 'circlepin',
+                                        width : 16
+                                    });")
                 .SetRangeSelector(new RangeSelector
                 {
                     AllButtonsEnabled = true,
@@ -38,11 +61,11 @@ namespace EurostralWebApplication.Controllers
                 })
                 .SetTitle(new Title
                 {
-                    Text = "USD to EUR exchange rate"
+                    Text = model.getCurrentIndex().Name
                 })
                 .SetYAxis(new YAxis
                 {
-                    Title = new YAxisTitle { Text = "Exchange rate" }
+                    Title = new YAxisTitle { Text = "Cours de l indice" }
                 })
                 .SetTooltip(new Tooltip
                 {
@@ -50,12 +73,11 @@ namespace EurostralWebApplication.Controllers
                 })
                 .SetSeries(new[]
                 {
-                    new Series { Name = "USD to EUR", Id = "dataseries", Data = new Data(values) }
+                    new Series { Name = model.getCurrentIndex().Name, Id = "dataseries", Data = new Data(values) }
                 })
                 ;
 
-            return View(chart);
-
+            return PartialView("PartialViewGraph", chart);
         }
 	}
 }

@@ -11,11 +11,19 @@ namespace EurostralWebApplication.Models
     {
         public string Name { get; set; }
         public string YahooFinanceName { get; set; }
+        public double Price { get; set; }
 
         public Index(string name, string yahooFinanceName)
         {
             Name = name;
             YahooFinanceName = yahooFinanceName;
+            Price = 0;
+        }
+
+        public double getPerformance(double initialPrice)
+        {
+            double performance = (Price - initialPrice) / initialPrice;
+            return performance;
         }
 
         public double getPastPrice(DateTime retrievingDate)
@@ -41,7 +49,8 @@ namespace EurostralWebApplication.Models
             string url = "http://localhost:8080/actif/realtime/E" + YahooFinanceName;
             var json = client.DownloadString(url);
             DataRetrieving.DataReturn dataReturn = JsonConvert.DeserializeObject<DataRetrieving.DataReturn>(@json);
-            return Convert.ToDouble(dataReturn.data.Ds.Tables[0].ToString().Replace(".", ",")); // Attention si erreur ???
+            Price = Convert.ToDouble(dataReturn.data.Ds.Tables[0].Rows[0].ItemArray[0].ToString().Replace(".", ",")); // Attention si erreur ???
+            return Price;
         }
 
         

@@ -20,7 +20,7 @@ namespace EurostralWebApplication.Models
             return HistoricalCorrelationMatrix;
         }
 
-        public static void computeHistoricalVolatilities(double[][] historicalRentabilities, int numberOfEstimationDates)
+        public static void computeHistoricalVolatilities(double[][] historicalRentabilities)
         {
             HistoricalVolatilities = new double[historicalRentabilities.Length];
 
@@ -32,7 +32,7 @@ namespace EurostralWebApplication.Models
             } 
         }
 
-        public static void computeHistoricalCorrelationMatrix(double[][] historicalRentabilities, int numberOfEstimationDates, double[] volatilities)
+        public static void computeHistoricalCorrelationMatrix(double[][] historicalRentabilities, double[] volatilities)
         {
             HistoricalCorrelationMatrix = new double[historicalRentabilities.Length * historicalRentabilities.Length];
 

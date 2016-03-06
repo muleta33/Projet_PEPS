@@ -39,7 +39,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNet.Highstock">
+    <Reference Include="DotNet.Highstock, Version=1.1.3.35983, Culture=neutral, PublicKeyToken=5fa70fbb1a057bfa, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DotNet.Highstock.1.1.3.35983\lib\net45\DotNet.Highstock.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -116,11 +117,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EurostralManagementController.cs" />
-    <Compile Include="Controllers\GraphController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SynthesisController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ExchangeRate.cs" />
     <Compile Include="Models\DataRetrieving\Data.cs" />
     <Compile Include="Models\DataRetrieving\DataReturn.cs" />
     <Compile Include="Models\DataRetrieving\DataType.cs" />
@@ -139,8 +141,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="highstock.ico" />
-    <Content Include="highstock.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -174,7 +174,8 @@
     <Content Include="Views\EurostralManagement\EurostralPrice.cshtml" />
     <Content Include="Views\EurostralManagement\Portfolio.cshtml" />
     <Content Include="Views\EurostralManagement\IndexesPrices.cshtml" />
-    <Content Include="Views\Graph\Index.cshtml" />
+    <Content Include="Views\Synthesis\Index.cshtml" />
+    <Content Include="Views\Synthesis\Prices.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

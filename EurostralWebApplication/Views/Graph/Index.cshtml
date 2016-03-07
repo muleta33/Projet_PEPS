@@ -1,0 +1,32 @@
+﻿@model EurostralWebApplication.Models.ViewModelGraph
+
+@{
+    ViewBag.Title = "Cours historiques";
+}
+  
+<h2>Historique des cours</h2>
+
+@using (Ajax.BeginForm("onChangeIndex", "Graph", FormMethod.Post,  new AjaxOptions
+{
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "graph"
+}))
+{
+
+@Html.LabelFor(m => m.selectedUnderlyingId)
+<div class="row">
+    <div class="col-sm-4">
+        @Html.DropDownListFor(m => m.selectedUnderlyingId, Model.underlyingsItems, new { @class = "form-control" })
+    </div>
+    <div class="col-sm-4">
+        <input type="submit" value="Tracer" class="btn btn-primary">
+    </div>
+</div>    
+}
+
+<div id="graph">
+</div>
+
+
+
+

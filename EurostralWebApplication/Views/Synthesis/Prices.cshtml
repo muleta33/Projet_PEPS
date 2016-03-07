@@ -1,0 +1,116 @@
+﻿@model EurostralWebApplication.Models.Eurostral
+
+@{
+    ViewBag.Title = "Prices";
+}
+
+<table class="table">
+    <thead>
+        <tr><th>Indices</th><th>Cours actuel</th><th>Monnaie</th><th>Performance</th><th>Poids</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Euro Stoxx 50</th>
+            <td>
+                @if (@Model != null)
+                {
+                    <em>@Model.Indexes[0].Price</em>
+                }
+            </td>
+            <td>EUR</td>
+            <td>
+                @if (@Model != null)
+                {
+                    <em>@Model.CurrentIndexesPerformances[0]</em>
+                }
+            </td>
+            <td>
+                @if (@Model != null)
+                {
+                    <em>@Model.getIndexWeight(0)</em>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>S&P 500</th>
+            <td>
+                @if (@Model != null)
+                {
+                    <em>@Model.Indexes[1].Price</em>
+                }
+            </td>
+            <td>USD</td>
+            <td>
+                @if (@Model != null)
+                {
+                    <em>@Model.CurrentIndexesPerformances[1]</em>
+                }
+            </td>
+
+            <td>
+                @if (@Model != null)
+                {
+                    <em>@Model.getIndexWeight(1)</em>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>S&P ASX 200</th>
+            <td>
+                @if (@Model != null)
+                {
+                    <em>@Model.Indexes[2].Price</em>
+                }
+            </td>
+            <td>AUD</td>
+            <td>
+                @if (@Model != null)
+                {
+                    <em>@Model.CurrentIndexesPerformances[2]</em>
+                }
+            </td>
+
+            <td>
+                @if (@Model != null)
+                {
+                    <em>@Model.getIndexWeight(2)</em>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table">
+    <thead>
+        <tr><th>Taux de change</th><th>Valeur</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>EUR/USD</th>
+            <td>
+                @if (@Model != null)
+                {
+                    <em>@Model.ExchangeRates[0].Value</em>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>EUR/AUD</th>
+            <td>
+                @if (@Model != null)
+                {
+                    <em>@Model.ExchangeRates[1].Value</em>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>USD/AUD</th>
+            <td>
+                @if (@Model != null)
+                {
+                    <em>@Model.ExchangeRates[2].Value</em>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

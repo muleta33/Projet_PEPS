@@ -27,13 +27,14 @@ using namespace input_parsers;
 int main(int argc, char* argv[])
 {
 	const char * input_file = argv[1];
+	//const char * input_file = "Call_Etranger.dat";
 	Parser parser(input_file);
 	const CoreBlackScholesModelInputParser model_parser(parser);
 	const CoreProfitAndLossInputParser profit_and_loss_parser(parser);
-	//const CoreEurostralMutualFundInputParser fund_parser(parser);
-	//EurostralMutualFund product(fund_parser);
-	const CoreBasketOptionInputParser basket_parser(parser);
-	BasketOption product(basket_parser);
+	const CoreEurostralMutualFundInputParser fund_parser(parser);
+	EurostralMutualFund product(fund_parser);
+	//const CoreBasketOptionInputParser basket_parser(parser);
+	//BasketOption product(basket_parser);
 	const PnlRandomGeneration random_generator;
 	BlackScholesModelRiskNeutral model(model_parser, random_generator);
 	BlackScholesModelMarket market(model_parser, profit_and_loss_parser, random_generator);

@@ -55,7 +55,7 @@ void MonteCarloRoutine::delta_hedge(const double shift, PnlVect * deltas) const
 			underlying_model.get_shifted_asset_paths(generated_path, underlying, 1 / (1 + shift) - 1, get_time(), get_past_values_number(), shifted_asset_path);
 			double payoff_up_exchange_rate = product.get_payoff(shifted_asset_path);
 
-			LET(payoff_differences_sum, underlying + product.get_underlying_number()) = GET(payoff_differences_sum, underlying) + payoff_up_exchange_rate - payoff_down_exchange_rate;
+			LET(payoff_differences_sum, underlying + product.get_underlying_number()) = GET(payoff_differences_sum, underlying + product.get_underlying_number()) + payoff_up_exchange_rate - payoff_down_exchange_rate;
 		}
 	}
 	double interest_rate = underlying_model.interest_rate();
@@ -72,7 +72,7 @@ void MonteCarloRoutine::delta_hedge(const double shift, PnlVect * deltas) const
 		LET(deltas, underlying) = actualisation * factor * GET(payoff_differences_sum, underlying);
 	}
 
-	//on met à zero les deltas dont on a pas besoin (actifs déjà en euros)
+	//on met à zero les deltas dont on a pas besoin (taux de change dont les actifs sont déjà en euros)
 	pnl_vect_mult_vect_term(deltas, product.get_currencies());
 	
 

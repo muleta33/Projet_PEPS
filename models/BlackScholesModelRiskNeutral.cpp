@@ -25,7 +25,7 @@ BlackScholesModelRiskNeutral::BlackScholesModelRiskNeutral(const input_parsers::
 	pnl_vect_free(&trend);
 }
 
-//TODO : noms à changer?
+
 const PnlMat* const BlackScholesModelRiskNeutral::simulate_asset_paths_from_start(const PnlVect * const spot) const
 {
 	pnl_mat_set_row(generated_asset_paths_, spot, 0);
@@ -37,7 +37,7 @@ const PnlMat* const BlackScholesModelRiskNeutral::simulate_asset_paths_from_star
 	return generated_foreign_asset_paths;
 }
 
-//TODO : idem
+
 const PnlMat* const BlackScholesModelRiskNeutral::simulate_asset_paths_from_time(const double from_time, const PnlMat * const past_values) const
 {
 	pnl_mat_set_subblock(generated_asset_paths_, past_values, 0, 0);
@@ -61,16 +61,16 @@ const PnlMat* const BlackScholesModelRiskNeutral::simulate_asset_paths_from_time
 
 }
 
-void BlackScholesModelRiskNeutral::get_generated_foreign_asset_paths(const PnlMat * const generated_asset_paths, PnlMat * generated_foreing_asset_paths) const
+void BlackScholesModelRiskNeutral::get_generated_foreign_asset_paths(const PnlMat * const generated_asset_paths, PnlMat * generated_foreign_asset_paths) const
 {
-	if (generated_foreing_asset_paths == NULL)
-		generated_foreing_asset_paths = pnl_mat_new();
-	pnl_mat_resize(generated_foreing_asset_paths, generated_asset_paths->m, generated_asset_paths->n / 2);
-	for (int i = 0; i < generated_foreing_asset_paths->m; i++)
+	if (generated_foreign_asset_paths == NULL)
+		generated_foreign_asset_paths = pnl_mat_new();
+	pnl_mat_resize(generated_foreign_asset_paths, generated_asset_paths->m, generated_asset_paths->n / 2);
+	for (int i = 0; i < generated_foreign_asset_paths->m; i++)
 	{
-		for (int j = 0; j < generated_foreing_asset_paths->n; j++)
+		for (int j = 0; j < generated_foreign_asset_paths->n; j++)
 		{
-			MLET(generated_foreing_asset_paths, i, j) = MGET(generated_asset_paths, i, j) / MGET(generated_asset_paths, i, (j + generated_asset_paths->n / 2))
+			MLET(generated_foreign_asset_paths, i, j) = MGET(generated_asset_paths, i, j) / MGET(generated_asset_paths, i, (j + generated_asset_paths->n / 2))
 				*exp(GET(foreign_interest_rates_, j) * i* timestep_);
 		}
 	}

@@ -9,7 +9,7 @@ BlackScholesModelMarket::BlackScholesModelMarket(const BlackScholesModelInputPar
 {
 	routine = new BlackScholesModelRoutine(model_parser.get_underlying_number(), pl_parser.get_rebalancing_times(), model_parser.get_maturity(), 
 		pl_parser.get_trend(), model_parser.get_volatility(), model_parser.get_correlation_matrix(), random_generator);
-	generated_market_asset_paths_ = pnl_mat_create(pl_parser.get_rebalancing_times() + 1, model_parser.get_underlying_number());
+	generated_market_asset_paths_ = pnl_mat_create(pl_parser.get_rebalancing_times() + 1, 2*model_parser.get_underlying_number());
 	timestep_ = model_parser.get_maturity() / pl_parser.get_rebalancing_times();
 }
 

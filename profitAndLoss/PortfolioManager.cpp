@@ -29,7 +29,7 @@ double PortfolioManager::hedge()
 	double ic = 0;
 	pricing_unit_.price(spot_, product_price, ic);
 	double p0 = product_price;
-	std::cout << "p0 : " << p0 << " - ic : " << ic << std::endl;
+//	std::cout << "p0 : " << p0 << " - ic : " << ic << std::endl;
 
 	
 	//PnlVect *deltas = pnl_vect_create_from_zero(model_.underlying_number());
@@ -40,6 +40,7 @@ double PortfolioManager::hedge()
 	pnl_mat_get_row(prices, market_path, 0);
 
 	portfolio_.initialisation(p0, deltas, prices);
+	
 	// Rebalancement du portefeuille
 	double step = product_.get_maturity() / rebalancing_times_;
 
@@ -48,20 +49,26 @@ double PortfolioManager::hedge()
 		// Rebalancement au temps i * step
 		manage_market_path_for_pricing_at_time_T(market_path, past, i * step);
 		hedging_unit_.hedge_at(i * step, past, deltas);
+
 		pnl_mat_get_row(prices, market_path, i);
 		portfolio_.rebalancing(deltas, prices, model_.interest_rate(), step);
 		double price, ic;
 		pricing_unit_.price_at(i * step, past, price, ic);
-		std::cout << i << " | " << portfolio_.compute_value(prices) << " - " << price << std::endl;
+//		std::cout << i << " | " << portfolio_.compute_value(prices) << " - " << price << std::endl;
 	}
 	// Valeur finale du portefeuille
 	pnl_mat_get_row(prices, market_path, rebalancing_times_);
 	double portfolio_value = portfolio_.compute_final_value(prices, model_.interest_rate(), step);
 	// Payoff à maturité
 	manage_market_path_for_pricing_at_time_T(market_path, past, rebalancing_times_ * step);
-	double payoff = product_.get_payoff(past);
+
+	// On modifie past pour passer seulement les trajectoires des indices à product.get_payoff
+	PnlMat * generated_foreign_assets_paths = pnl_mat_create(past->m, past->n / 2);
+	model_.get_generated_foreign_asset_paths(past, generated_foreign_assets_paths);
+	double payoff = product_.get_payoff(generated_foreign_assets_paths);
+
 	// Calcul du P&L
-	std::cout << "portfolio_value: " << portfolio_.compute_value(prices) << "  payoff: " << payoff << "  p0: " << p0 << std::endl;
+//	std::cout << "portfolio_value: " << portfolio_.compute_value(prices) << "  payoff: " << payoff << "  p0: " << p0 << std::endl;
 	double pl = 100 * fabs(portfolio_value - payoff) / p0;
 
 	// Libération de la mémoire

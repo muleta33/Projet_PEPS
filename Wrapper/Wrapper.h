@@ -16,10 +16,10 @@ namespace Wrapper_Pricer {
 		array<System::Double>^ deltas;
 
 	public:
-		PricerWrapper(array<System::Double>^ past_data, int number_of_samples)
+		PricerWrapper(array<System::Double>^ past_data, int number_of_past_dates, int number_of_samples)
 		{
 			cli::pin_ptr<double> past_data_pointer = &past_data[0];
-			pricer = new EurostralPricer(past_data_pointer, number_of_samples);
+			pricer = new EurostralPricer(past_data_pointer, number_of_past_dates, number_of_samples);
 		}
 
 		void compute_price(array<System::Double>^ spots);

@@ -7,7 +7,7 @@ private:
 	const unsigned long sample_number;
 
 public:
-	MonteCarloPricing(const models::UnderlyingModel & underlying_model, const products::Product & product, const unsigned long sample_nb) : 
+	MonteCarloPricing(models::UnderlyingModel & underlying_model, const products::Product & product, const unsigned long sample_nb) : 
 		Pricing(underlying_model, product), sample_number(sample_nb) {};
 	void price(PnlVect * spots, double &price, double &confidence_interval) const;
 	void price_at(const double time, PnlMat * past, double &price, double &confidence_interval) const;

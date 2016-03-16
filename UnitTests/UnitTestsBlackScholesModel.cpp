@@ -3,8 +3,9 @@
 #include "BlackScholesModelRiskNeutral.hpp"
 #include "BlackScholesModelRoutine.hpp"
 #include "PNLRandomGeneration.hpp"
-#include "BlackScholesModelInputParser.hpp"
-#include "FakeBlackScholesModelInputParser.hpp"
+#include "BlackScholesModelInputParameters.hpp"
+#include "BlackScholesModelUtilities.hpp"
+#include "FakeBlackScholesModelInputParameters.hpp"
 #include "ConstantRandomGeneration.hpp"
 #include "SameSeedRandomGeneration.hpp"
 
@@ -70,9 +71,9 @@ namespace UnitTests
 
 		TEST_METHOD(get_generated_foreign_asset_paths)
 		{
-			const FakeBlackScholesModelInputParser fake_model_parser;
+			const FakeBlackScholesModelInputParameters fake_model_input_parameters;
 			const ConstantRandomGeneration fake_random_generator;
-			models::BlackScholesModelRiskNeutral under_test(fake_model_parser, fake_random_generator);
+			models::BlackScholesModelRiskNeutral under_test(fake_model_input_parameters, fake_random_generator);
 			
 			int underlying_number = 3;
 
@@ -81,7 +82,8 @@ namespace UnitTests
 			double timestep = 0.5;
 			double interest_rate = 0.05;
 
-			under_test.get_generated_foreign_asset_paths(generated_asset_paths, generated_foreign_asset_paths);
+			models::get_generated_foreign_asset_paths(generated_asset_paths, generated_foreign_asset_paths, fake_model_input_parameters.get_foreign_interest_rates(), 
+				timestep);
 
 			for (int i = 0; i < 8; i++)
 			{
@@ -97,9 +99,9 @@ namespace UnitTests
 
 		TEST_METHOD(simulate_asset_paths_from_time)
 		{
-			const FakeBlackScholesModelInputParser fake_model_parser;
+			const FakeBlackScholesModelInputParameters fake_model_input_parameters;
 			const ConstantRandomGeneration fake_random_generator;
-			models::BlackScholesModelRiskNeutral under_test(fake_model_parser, fake_random_generator);
+			models::BlackScholesModelRiskNeutral under_test(fake_model_input_parameters, fake_random_generator);
 			PnlMat *past_matrix = pnl_mat_create_from_scalar(7, 6, 5);
 			for (int i = 0; i < 6; i++){
 				for (int j = 3; j < 6; j++) {
@@ -111,7 +113,7 @@ namespace UnitTests
 			MLET(past_matrix, 6, 5) = exp(5.5*0.05*0.5);
 			
 			const PnlMat * result = under_test.simulate_asset_paths_from_time(2.75, past_matrix);
-			PnlVect * vol = fake_model_parser.get_volatility();
+			PnlVect * vol = fake_model_input_parameters.get_volatility();
 			for (int i = 0; i < under_test.underlying_number(); i++)
 			{			
 				double res = 5*exp(0.05*1.25 - 1.25*0.5 * (GET(vol, i) * GET(vol, i)));
@@ -123,9 +125,9 @@ namespace UnitTests
 
 		TEST_METHOD(simulate_asset_paths_from_time_border_case)
 		{
-			const FakeBlackScholesModelInputParser fake_model_parser;
+			const FakeBlackScholesModelInputParameters fake_model_input_parameters;
 			const ConstantRandomGeneration fake_random_generator;
-			models::BlackScholesModelRiskNeutral under_test(fake_model_parser, fake_random_generator);
+			models::BlackScholesModelRiskNeutral under_test(fake_model_input_parameters, fake_random_generator);
 			PnlMat *past_matrix = pnl_mat_create_from_scalar(9, 6, 5);
 			for (int i = 0; i < 9; i++){
 				for (int j = 3; j < 6; j++) {
@@ -134,7 +136,7 @@ namespace UnitTests
 			}
 
 			const PnlMat * result = under_test.simulate_asset_paths_from_time(4, past_matrix);
-			PnlVect * vol = fake_model_parser.get_volatility();
+			PnlVect * vol = fake_model_input_parameters.get_volatility();
 			for (int i = 0; i < under_test.underlying_number(); i++)
 			{
 				Assert::AreEqual(5, MGET(result, 8, i), 0.0001);
@@ -145,15 +147,15 @@ namespace UnitTests
 
 		TEST_METHOD(simulate_asset_paths_from_zero)
 		{
-			const FakeBlackScholesModelInputParser fake_model_parser;
+			const FakeBlackScholesModelInputParameters fake_model_input_parameters;
 			const ConstantRandomGeneration fake_random_generator;
-			models::BlackScholesModelRiskNeutral under_test(fake_model_parser, fake_random_generator);
+			models::BlackScholesModelRiskNeutral under_test(fake_model_input_parameters, fake_random_generator);
 			PnlVect *spot = pnl_vect_create_from_scalar(6, 10);
 			for (int i = 3; i < 6; i++){
 				LET(spot, i) = 1;
 			}
 			const PnlMat * result = under_test.simulate_asset_paths_from_start(spot);
-			PnlVect * vol = fake_model_parser.get_volatility();
+			PnlVect * vol = fake_model_input_parameters.get_volatility();
 			for (int i = 0; i < under_test.underlying_number(); i++)
 			{
 				double sigma = GET(vol, i);
@@ -165,11 +167,11 @@ namespace UnitTests
 
 		TEST_METHOD(simulate_asset_paths_from_zero_from_time_coherence)
 		{
-			const FakeBlackScholesModelInputParser fake_model_parser;
+			const FakeBlackScholesModelInputParameters fake_model_input_parameters;
 			const SameSeedRandomGeneration fake_random_generator;
 			const SameSeedRandomGeneration fake_random_generator2;
-			models::BlackScholesModelRiskNeutral under_test(fake_model_parser, fake_random_generator);
-			models::BlackScholesModelRiskNeutral under_test2(fake_model_parser, fake_random_generator2);
+			models::BlackScholesModelRiskNeutral under_test(fake_model_input_parameters, fake_random_generator);
+			models::BlackScholesModelRiskNeutral under_test2(fake_model_input_parameters, fake_random_generator2);
 			PnlVect *spot = pnl_vect_create_from_scalar(6, 15);
 			for (int i = 3; i < 6; i++){
 				LET(spot, i) = 1;
@@ -183,7 +185,7 @@ namespace UnitTests
 
 
 			const PnlMat * result_from_time = under_test2.simulate_asset_paths_from_time(0, past_matrix);
-			PnlVect * vol = fake_model_parser.get_volatility();
+			PnlVect * vol = fake_model_input_parameters.get_volatility();
 			for (int i = 0; i < under_test.underlying_number(); i++)
 			{
 				Assert::AreEqual(MGET(result_from_zero, 4, i), MGET(result_from_time, 4, i), 0.0001);
@@ -195,9 +197,9 @@ namespace UnitTests
 
 		TEST_METHOD(shift_up_asset_paths_from_time)
 		{
-			const FakeBlackScholesModelInputParser fake_model_parser;
+			const FakeBlackScholesModelInputParameters fake_model_input_parameters;
 			const ConstantRandomGeneration fake_random_generator;
-			models::BlackScholesModelRiskNeutral black_scholes_model(fake_model_parser, fake_random_generator);
+			models::BlackScholesModelRiskNeutral black_scholes_model(fake_model_input_parameters, fake_random_generator);
 
 			PnlMat * past_values = pnl_mat_create_from_scalar(2, 6, 5);
 			PnlMat * shifted_up_asset_path = pnl_mat_new();
@@ -224,9 +226,9 @@ namespace UnitTests
 
 		TEST_METHOD(shift_down_asset_paths_from_start)
 		{
-			const FakeBlackScholesModelInputParser fake_model_parser;
+			const FakeBlackScholesModelInputParameters fake_model_input_parameters;
 			const ConstantRandomGeneration fake_random_generator;
-			models::BlackScholesModelRiskNeutral black_scholes_model(fake_model_parser, fake_random_generator);
+			models::BlackScholesModelRiskNeutral black_scholes_model(fake_model_input_parameters, fake_random_generator);
 
 			PnlMat * asset_path = pnl_mat_create_from_scalar(9, 6, 5);
 			PnlMat * shifted_down_asset_path = pnl_mat_new();

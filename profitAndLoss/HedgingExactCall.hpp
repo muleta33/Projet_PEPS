@@ -1,11 +1,11 @@
 #pragma once
 #include "Hedging.hpp"
-#include "pnl\pnl_finance.h"
+#include "pnl/pnl_finance.h"
 
 class HedgingExactCall : public Hedging
 {
 public:
-	HedgingExactCall(const models::UnderlyingModel & underlying_model, const products::Product & product) :
+	HedgingExactCall(models::UnderlyingModel & underlying_model, const products::Product & product) :
 		Hedging(underlying_model, product) {};
 	void hedge(const PnlVect * const spots, PnlVect * hedging_results) const;
 	void hedge_at(const double time, const PnlMat * const past, PnlVect * hedging_results) const;

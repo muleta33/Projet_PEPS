@@ -24,12 +24,18 @@
     <ClInclude Include="BlackScholesModelRiskNeutral.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BlackScholesModelUtilities.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BlackScholesModelRoutine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BlackScholesModelRiskNeutral.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackScholesModelUtilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

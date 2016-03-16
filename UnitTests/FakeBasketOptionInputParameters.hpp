@@ -1,20 +1,20 @@
 #pragma once
-#include "BasketOptionInputParser.hpp"
+#include "BasketOptionInputParameters.hpp"
 
 namespace UnitTests {
-	class FakeBasketOptionInputParser : public input_parsers::BasketOptionInputParser
+	class FakeBasketOptionInputParameters : public input_parameters::BasketOptionInputParameters
 	{
 	private:
 		PnlVect * underlying_coefficients;
 
 	public:
-		FakeBasketOptionInputParser()
+		FakeBasketOptionInputParameters()
 		{
 			underlying_coefficients = pnl_vect_create(1);
 			LET(underlying_coefficients, 0) = 1.0;
 		}
 
-		~FakeBasketOptionInputParser()
+		~FakeBasketOptionInputParameters()
 		{
 			// Ligne suivante à commenter pour lancement des tests sans mode DEBUG : explications ?
 			//pnl_vect_free(&underlying_coefficients);

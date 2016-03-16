@@ -8,18 +8,16 @@
 
 // This is the constructor of a class that has been exported.
 // see EurostralPricer.h for the class definition
-EurostralPricer::EurostralPricer(double *vol, double * correlation_matrix, int sample_number)
+EurostralPricer::EurostralPricer(double * past_data_array, int sample_number)
 {
-	PnlVect * volatilities = pnl_vect_create_from_ptr(underlying_number, vol);
-	PnlMat * correlation = pnl_mat_create_from_ptr(underlying_number, underlying_number, correlation_matrix);
-	const EurostralMutualFundInputParameters fund_parameters;
+	PnlMat * past_data = pnl_mat_create_from_ptr(2 * underlying_number, 2 * underlying_number, past_data_array);
+	const EurostralMutualFundParameters fund_parameters;
 	fund = new products::EurostralMutualFund(fund_parameters);
 	random_generator = new generators::PnlRandomGeneration();
-	const BlackScholesModelParameters model_parameters(volatilities, correlation);
+	const BlackScholesModelParameters model_parameters(past_data);
 	model = new models::BlackScholesModelRiskNeutral(model_parameters, *random_generator);
 	pricer = new MonteCarloPricing(*model, *fund, sample_number);
 	hedger = new MonteCarloHedging(*model, *fund, sample_number, 0.1);
-	pnl_vect_free(&volatilities);
 }
 
 EurostralPricer::~EurostralPricer() {

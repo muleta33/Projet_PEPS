@@ -15,10 +15,14 @@
             dataType: 'html',
             success: function (result) {
                 $('#prices').html(String(result));
+                setTimeout(function () {
+                    $(".text-success").removeClass("text-success");
+                    $(".text-danger").removeClass("text-danger");
+                }, 5000);
             }
         });
     }
-
+    
     $(document).ready(function () {
         loadUpdatePrices();
         window.setInterval("loadUpdatePrices()", 15000);

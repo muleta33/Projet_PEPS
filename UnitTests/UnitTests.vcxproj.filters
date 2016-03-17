@@ -21,28 +21,28 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FakeBlackScholesModelInputParser.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ConstantRandomGeneration.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FakeEurostralMutualFundInputParser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Call.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FakeBlackScholesModelInputParserForCall.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FakeBlackScholesModelInputParserForCallBis.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SameSeedRandomGeneration.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FakeBasketOptionInputParser.hpp">
+    <ClInclude Include="FakeBlackScholesModelInputParameters.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FakeBasketOptionInputParameters.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FakeBlackScholesModelInputParametersForCall.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FakeBlackScholesModelInputParametersForCallBis.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FakeEurostralMutualFundInputParameters.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

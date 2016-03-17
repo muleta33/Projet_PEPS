@@ -5,20 +5,16 @@
 #include "BlackScholesModelInputParser.hpp"
 #include "ProfitAndLossInputParser.hpp"
 
-using namespace input_parsers;
+using namespace input_parameters;
 
 class BlackScholesModelMarket
 {
 
 public:
-	BlackScholesModelMarket(const BlackScholesModelInputParser &model_parser, const ProfitAndLossInputParser &pl_parser, 
-		const generators::RandomGeneration &random_generator);
-	const PnlMat* const simulate_market_asset_paths(const PnlVect * const spot) const;
-	~BlackScholesModelMarket();
+	virtual const PnlMat * const get_market_asset_paths() const = 0;
+	virtual void get_volatilities_and_correlations(PnlVect * volatilities, PnlMat * correlations, int before) const = 0;
+	virtual ~BlackScholesModelMarket() {};
 
-private:
-	PnlMat * generated_market_asset_paths_;
-	const double TIME_PRECISION = 10.e-5;
-	double timestep_;
-	models::BlackScholesModelRoutine* routine;
+protected:
+	PnlMat * market_asset_paths_;
 };

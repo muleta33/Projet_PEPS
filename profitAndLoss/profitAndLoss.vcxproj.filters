@@ -30,23 +30,29 @@
     <ClInclude Include="PortfolioManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ProfitAndLossInputParser.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CoreProfitAndLossInputParser.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PricingExactCall.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HedgingExactCall.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BlackScholesModelMarketSimulate.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlackScholesModelMarketHistorical.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HistoricalDataParser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProfitAndLossInputParameters.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProfitAndLossInputParser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BlackScholesModelMarket.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -59,7 +65,13 @@
     <ClCompile Include="PortfolioManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CoreProfitAndLossInputParser.cpp">
+    <ClCompile Include="BlackScholesModelMarketSimulate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackScholesModelMarketHistorical.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProfitAndLossInputParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

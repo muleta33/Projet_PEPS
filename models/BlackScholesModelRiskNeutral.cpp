@@ -1,27 +1,36 @@
 #pragma once
 #include <vector>
 #include "BlackScholesModelRiskNeutral.hpp"
+#include "BlackScholesModelUtilities.hpp"
 
 using namespace models;
 
-BlackScholesModelRiskNeutral::BlackScholesModelRiskNeutral(const input_parsers::BlackScholesModelInputParser &parser, const generators::RandomGeneration &random_generator) 
+BlackScholesModelRiskNeutral::BlackScholesModelRiskNeutral(const input_parameters::BlackScholesModelInputParameters &input_parameters, const generators::RandomGeneration &random_generator)
 {
-	interest_rate_ = parser.get_interest_rate();
+	interest_rate_ = input_parameters.get_interest_rate();
 
-	underlying_number_ = parser.get_underlying_number();
+	underlying_number_ = input_parameters.get_underlying_number();
 
 	// taux de change étrangers
-	foreign_interest_rates_ = parser.get_foreign_interest_rates();
+	foreign_interest_rates_ = input_parameters.get_foreign_interest_rates();
 	
 	//PnlVect * trend = pnl_vect_create_from_scalar(underlying_number_, interest_rate_);
 	PnlVect * trend = pnl_vect_create_from_scalar(2*underlying_number_, interest_rate_);
 
-	routine = new BlackScholesModelRoutine(underlying_number_, parser.get_monitoring_times(), parser.get_maturity(), trend, parser.get_volatility(),
-		parser.get_correlation_matrix(), random_generator);
+	volatilities_ = pnl_vect_new();
+	pnl_vect_clone(volatilities_, input_parameters.get_volatility());
+
+	correlations_ = pnl_mat_new();
+	pnl_mat_clone(correlations_, input_parameters.get_correlation_matrix());
+
+	routine = new BlackScholesModelRoutine(underlying_number_, input_parameters.get_monitoring_times(), input_parameters.get_maturity(), trend, volatilities_,
+		input_parameters.get_correlation_matrix(), random_generator);
 
 	//generated_asset_paths_ = pnl_mat_create(parser.get_monitoring_times() + 1, parser.get_underlying_number());
-	generated_asset_paths_ = pnl_mat_create(parser.get_monitoring_times() + 1, 2*parser.get_underlying_number());
-	timestep_ = parser.get_maturity() / parser.get_monitoring_times();
+	generated_asset_paths_ = pnl_mat_create(input_parameters.get_monitoring_times() + 1, 2 * input_parameters.get_underlying_number());
+	generated_foreign_asset_paths_ = pnl_mat_create(input_parameters.get_monitoring_times() + 1, input_parameters.get_underlying_number());
+	timestep_ = input_parameters.get_maturity() / input_parameters.get_monitoring_times();
+
 	pnl_vect_free(&trend);
 }
 
@@ -31,10 +40,9 @@ const PnlMat* const BlackScholesModelRiskNeutral::simulate_asset_paths_from_star
 	pnl_mat_set_row(generated_asset_paths_, spot, 0);
 	routine->fill_remainder_of_generated_asset_paths(1, generated_asset_paths_);
 
-	PnlMat * generated_foreign_asset_paths = pnl_mat_new();
-	get_generated_foreign_asset_paths(generated_asset_paths_, generated_foreign_asset_paths);
+	get_generated_foreign_asset_paths(generated_asset_paths_, generated_foreign_asset_paths_, foreign_interest_rates_, timestep_);
 
-	return generated_foreign_asset_paths;
+	return generated_foreign_asset_paths_;
 }
 
 
@@ -54,26 +62,9 @@ const PnlMat* const BlackScholesModelRiskNeutral::simulate_asset_paths_from_time
 	}
 	routine->fill_remainder_of_generated_asset_paths(number_of_values, generated_asset_paths_);
 
-	PnlMat * generated_foreign_asset_paths = pnl_mat_new();
-	get_generated_foreign_asset_paths(generated_asset_paths_, generated_foreign_asset_paths);
+	get_generated_foreign_asset_paths(generated_asset_paths_, generated_foreign_asset_paths_, foreign_interest_rates_, timestep_);
 
-	return generated_foreign_asset_paths;
-
-}
-
-void BlackScholesModelRiskNeutral::get_generated_foreign_asset_paths(const PnlMat * const generated_asset_paths, PnlMat * generated_foreign_asset_paths) const
-{
-	if (generated_foreign_asset_paths == NULL)
-		generated_foreign_asset_paths = pnl_mat_new();
-	pnl_mat_resize(generated_foreign_asset_paths, generated_asset_paths->m, generated_asset_paths->n / 2);
-	for (int i = 0; i < generated_foreign_asset_paths->m; i++)
-	{
-		for (int j = 0; j < generated_foreign_asset_paths->n; j++)
-		{
-			MLET(generated_foreign_asset_paths, i, j) = MGET(generated_asset_paths, i, j) / MGET(generated_asset_paths, i, (j + generated_asset_paths->n / 2))
-				*exp(GET(foreign_interest_rates_, j) * i* timestep_);
-		}
-	}
+	return generated_foreign_asset_paths_;
 
 }
 
@@ -98,6 +89,10 @@ void BlackScholesModelRiskNeutral::get_shifted_asset_paths(const PnlMat * const 
 BlackScholesModelRiskNeutral::~BlackScholesModelRiskNeutral()
 {
 	pnl_mat_free(&generated_asset_paths_);
+	pnl_mat_free(&generated_foreign_asset_paths_);
+	pnl_vect_free(&volatilities_);
 	generated_asset_paths_ = nullptr;
+	generated_foreign_asset_paths_ = nullptr;
+	volatilities_ = nullptr;
 	delete(routine);
 }

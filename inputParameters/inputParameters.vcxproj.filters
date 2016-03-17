@@ -15,39 +15,51 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BlackScholesModelInputParser.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CoreBlackScholesModelInputParser.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Parser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EurostralMutualFundInputParser.hpp">
+    <ClInclude Include="BlackScholesModelInputParameters.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CoreEurostralMutualFundInputParser.hpp">
+    <ClInclude Include="BasketOptionInputParameters.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EurostralMutualFundInputParameters.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BasketOptionInputParser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CoreBasketOptionInputParser.hpp">
+    <ClInclude Include="BlackScholesModelInputParser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EurostralMutualFundInputParser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlackScholesModelInputHistorical.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputParametersUtilities.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CoreBlackScholesModelInputParser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CoreEurostralMutualFundInputParser.cpp">
+    <ClCompile Include="BasketOptionInputParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CoreBasketOptionInputParser.cpp">
+    <ClCompile Include="BlackScholesModelInputParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EurostralMutualFundInputParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackScholesModelInputHistorical.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InputParametersUtilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,8 +1,8 @@
 #pragma once
-#include "EurostralMutualFundInputParser.hpp"
+#include "EurostralMutualFundInputParameters.hpp"
 #include "pnl\pnl_vector.h"
 
-class EurostralMutualFundInputParameters : public input_parsers::EurostralMutualFundInputParser
+class EurostralMutualFundParameters : public input_parameters::EurostralMutualFundInputParameters
 {
 private:
 	int const underlying_number = 3;
@@ -21,7 +21,7 @@ public:
 	PnlVect * get_underlying_coefficients() const { return underlying_coefficients; }
 	PnlVect * get_currencies() const { return currencies; };
 
-	EurostralMutualFundInputParameters()
+	EurostralMutualFundParameters()
 	{
 		underlying_coefficients = pnl_vect_create(underlying_number);
 		LET(underlying_coefficients, 0) = 0.5;
@@ -31,5 +31,9 @@ public:
 		LET(currencies, 5) = 0;
 	}
 
-	virtual ~EurostralMutualFundInputParameters() { pnl_vect_free(&underlying_coefficients); }
+	~EurostralMutualFundParameters() 
+	{ 
+		pnl_vect_free(&underlying_coefficients);
+		pnl_vect_free(&currencies);
+	}
 };

@@ -17,15 +17,15 @@ EurostralMutualFund::EurostralMutualFund() :
 }
 
 
-EurostralMutualFund::EurostralMutualFund(const input_parsers::EurostralMutualFundInputParser &parser)
+EurostralMutualFund::EurostralMutualFund(const input_parameters::EurostralMutualFundInputParameters &input_parameters)
 {
-	maturity_ = parser.get_maturity();
-	underlying_number_ = parser.get_underlying_number();
-	guaranteed_capital_percentage_ = parser.get_guaranteed_capital_percentage();
-	indexes_return_percentage_ = parser.get_indexes_return_percentage();
-	underlying_coefficients_ = pnl_vect_copy(parser.get_underlying_coefficients());
-	initial_capital_ = parser.get_initial_capital();
-	currencies_ = parser.get_currencies();
+	maturity_ = input_parameters.get_maturity();
+	underlying_number_ = input_parameters.get_underlying_number();
+	guaranteed_capital_percentage_ = input_parameters.get_guaranteed_capital_percentage();
+	indexes_return_percentage_ = input_parameters.get_indexes_return_percentage();
+	underlying_coefficients_ = pnl_vect_copy(input_parameters.get_underlying_coefficients());
+	initial_capital_ = input_parameters.get_initial_capital();
+	currencies_ = input_parameters.get_currencies();
 }
 
 

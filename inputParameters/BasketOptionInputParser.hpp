@@ -1,10 +1,10 @@
 #pragma once
-#include "BasketOptionInputParser.hpp"
+#include "BasketOptionInputParameters.hpp"
 #include "Parser.hpp"
 
-namespace input_parsers
+namespace input_parameters
 {
-	class CoreBasketOptionInputParser : public BasketOptionInputParser
+	class BasketOptionInputParser : public BasketOptionInputParameters
 	{
 	private:
 		const Parser & parser;
@@ -16,11 +16,11 @@ namespace input_parsers
 		double get_strike() const;
 		PnlVect * get_currencies() const;
 
-		CoreBasketOptionInputParser(const Parser & p) : parser(p)
+		BasketOptionInputParser(const Parser & p) : parser(p)
 		{
 			parser.extract("option size", underlying_number);
 		}
 
-		virtual ~CoreBasketOptionInputParser() {};
+		virtual ~BasketOptionInputParser() {};
 	};
 }

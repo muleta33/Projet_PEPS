@@ -1,9 +1,9 @@
 #pragma once
 #include "pnl/pnl_vector.h"
 
-namespace input_parsers
+namespace input_parameters
 {
-	class EurostralMutualFundInputParser
+	class EurostralMutualFundInputParameters
 	{
 	public:
 		virtual double get_maturity() const = 0;
@@ -14,6 +14,6 @@ namespace input_parsers
 		virtual PnlVect * get_underlying_coefficients() const = 0;
 		virtual PnlVect * get_currencies() const  = 0;
 
-		virtual ~EurostralMutualFundInputParser() {};
+		virtual ~EurostralMutualFundInputParameters() {};
 	};
 }

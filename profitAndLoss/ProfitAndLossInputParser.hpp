@@ -1,14 +1,26 @@
 #pragma once
-#include "pnl/pnl_vector.h"
+#include "ProfitAndLossInputParameters.hpp"
+#include "Parser.hpp"
 
-class ProfitAndLossInputParser
+namespace input_parameters
 {
-public:
-	virtual PnlVect * get_trend() const = 0;
-	virtual int get_rebalancing_times() const = 0;
-	virtual double get_fd_step() const = 0;
-	virtual int get_sample_number() const = 0;
-	virtual PnlVect * get_spot() const = 0;
+	class ProfitAndLossInputParser : public ProfitAndLossInputParameters
+	{
+	private:
+		const Parser & parser;
+		int underlying_number;
+	public:
+		PnlVect * get_trend() const;
+		int get_rebalancing_times() const;
+		double get_fd_step() const;
+		int get_sample_number() const;
+		PnlVect * get_spot() const;
 
-	virtual ~ProfitAndLossInputParser() {};
-};
+		ProfitAndLossInputParser(const Parser & p) : parser(p)
+		{
+			parser.extract("option size", underlying_number);
+		}
+
+		virtual ~ProfitAndLossInputParser() {};
+	};
+}

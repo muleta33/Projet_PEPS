@@ -1,14 +1,17 @@
 #pragma once
-#include "BlackScholesModelInputParser.hpp"
+#include "BlackScholesModelInputParameters.hpp"
+#include "InputParametersUtilities.hpp"
 
-class BlackScholesModelParameters : public input_parsers::BlackScholesModelInputParser
+using namespace input_parameters;
+
+class BlackScholesModelParameters : public input_parameters::BlackScholesModelInputParameters
 {
 private:
 	int const underlying_number = 3;
 	double const maturity = 8;
 	int const monitoring_times = 16;
 	double interest_rate = 0.0485;
-	PnlVect * foreign_interest_rates =pnl_vect_create_from_double(0.0485, 3);
+	PnlVect * foreign_interest_rates = pnl_vect_create_from_double(0.0485, 3);
 	PnlVect * volatilities;
 	PnlMat * correlation_matrix;
 
@@ -21,14 +24,21 @@ public:
 	PnlVect * get_volatility() const { return volatilities; }
 	PnlVect * get_foreign_interest_rates() const { return foreign_interest_rates; }
 
-	BlackScholesModelParameters(PnlVect * vol, PnlMat * correlation)
+	BlackScholesModelParameters(PnlMat * past_data)
 	{
-		volatilities = pnl_vect_create(underlying_number);
-		pnl_vect_clone(volatilities, vol);
-		correlation_matrix = pnl_mat_create(underlying_number, underlying_number);
-		pnl_mat_clone(correlation_matrix, correlation);
-		
+		PnlMat * past_returns = pnl_mat_create(past_data->m - 1, past_data->n);
+		compute_returns(past_returns, past_data);
+		volatilities = pnl_vect_create(2 * underlying_number);
+		compute_volatilities(volatilities, past_returns);
+		correlation_matrix = pnl_mat_create(2 * underlying_number, 2 * underlying_number);
+		compute_correlation_matrix(correlation_matrix, past_returns, volatilities);
+		pnl_mat_free(&past_returns);
 	}
 
-	virtual ~BlackScholesModelParameters() {};
+	~BlackScholesModelParameters() 
+	{
+		pnl_vect_free(&volatilities);
+		pnl_mat_free(&correlation_matrix);
+		pnl_vect_free(&foreign_interest_rates);
+	};
 };

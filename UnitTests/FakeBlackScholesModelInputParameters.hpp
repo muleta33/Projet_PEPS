@@ -1,15 +1,15 @@
 #pragma once
-#include "BlackScholesModelInputParser.hpp"
+#include "BlackScholesModelInputParameters.hpp"
 
 namespace UnitTests {
-	class FakeBlackScholesModelInputParser : public input_parsers::BlackScholesModelInputParser
+	class FakeBlackScholesModelInputParameters : public input_parameters::BlackScholesModelInputParameters
 	{
 	private:
 		PnlVect * vol;
 		PnlMat * correlation;
 
 	public:
-		FakeBlackScholesModelInputParser()
+		FakeBlackScholesModelInputParameters()
 		{
 			vol = pnl_vect_create(6);
 			LET(vol, 0) = 0.1;
@@ -29,7 +29,7 @@ namespace UnitTests {
 			MLET(correlation, 2, 1) = 0.3;
 		}
 
-		~FakeBlackScholesModelInputParser()
+		~FakeBlackScholesModelInputParameters()
 		{
 			pnl_vect_free(&vol);
 			vol = nullptr;

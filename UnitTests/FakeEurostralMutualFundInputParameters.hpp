@@ -1,14 +1,14 @@
 #pragma once
-#include "EurostralMutualFundInputParser.hpp"
+#include "EurostralMutualFundInputParameters.hpp"
 
 namespace UnitTests {
-	class FakeEurostralMutualFundInputParser : public input_parsers::EurostralMutualFundInputParser
+	class FakeEurostralMutualFundInputParameters : public input_parameters::EurostralMutualFundInputParameters
 	{
 	private:
 		PnlVect * underlying_coefficients;
 
 	public:
-		FakeEurostralMutualFundInputParser()
+		FakeEurostralMutualFundInputParameters()
 		{
 			underlying_coefficients = pnl_vect_create(3);
 			LET(underlying_coefficients, 0) = 0.5;
@@ -16,7 +16,7 @@ namespace UnitTests {
 			LET(underlying_coefficients, 2) = 0.2;
 		}
 
-		~FakeEurostralMutualFundInputParser()
+		~FakeEurostralMutualFundInputParameters()
 		{
 			// Ligne suivante à commenter pour lancement des tests sans mode DEBUG : explications ?
 			pnl_vect_free(&underlying_coefficients);

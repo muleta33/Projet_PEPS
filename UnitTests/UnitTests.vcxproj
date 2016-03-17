@@ -104,7 +104,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)\hedging;$(SolutionDir)\monteCarlo;$(SolutionDir)\financialProducts;$(SolutionDir)\pricing;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\parsers;$(VCInstallDir)UnitTest\include;$(SolutionDir)\..\pnl-win64-1.7.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\hedging;$(SolutionDir)\monteCarlo;$(SolutionDir)\financialProducts;$(SolutionDir)\pricing;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\inputParameters;$(VCInstallDir)UnitTest\include;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\..\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
     </ClCompile>
@@ -157,11 +157,11 @@
   <ItemGroup>
     <ClInclude Include="Call.hpp" />
     <ClInclude Include="ConstantRandomGeneration.hpp" />
-    <ClInclude Include="FakeBasketOptionInputParser.hpp" />
-    <ClInclude Include="FakeBlackScholesModelInputParser.hpp" />
-    <ClInclude Include="FakeBlackScholesModelInputParserForCall.hpp" />
-    <ClInclude Include="FakeBlackScholesModelInputParserForCallBis.hpp" />
-    <ClInclude Include="FakeEurostralMutualFundInputParser.hpp" />
+    <ClInclude Include="FakeBasketOptionInputParameters.hpp" />
+    <ClInclude Include="FakeBlackScholesModelInputParameters.hpp" />
+    <ClInclude Include="FakeBlackScholesModelInputParametersForCall.hpp" />
+    <ClInclude Include="FakeBlackScholesModelInputParametersForCallBis.hpp" />
+    <ClInclude Include="FakeEurostralMutualFundInputParameters.hpp" />
     <ClInclude Include="SameSeedRandomGeneration.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -185,14 +185,14 @@
     <ProjectReference Include="..\hedging\hedging.vcxproj">
       <Project>{432197b4-04e4-428e-9831-795cf3adf676}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\inputParameters\inputParameters.vcxproj">
+      <Project>{c7a0d34f-13e0-494e-b5d1-0abf567f9384}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\models\models.vcxproj">
       <Project>{d05869fc-4602-4b6e-a852-3d67f3d79410}</Project>
     </ProjectReference>
     <ProjectReference Include="..\monteCarlo\monteCarlo.vcxproj">
       <Project>{000adb6f-7437-4b92-92e2-96b54c860fdd}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\parsers\parsers.vcxproj">
-      <Project>{c7a0d34f-13e0-494e-b5d1-0abf567f9384}</Project>
     </ProjectReference>
     <ProjectReference Include="..\pricing\pricing.vcxproj">
       <Project>{060f24bc-4953-41cd-9a96-ee2a95f9401f}</Project>

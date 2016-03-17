@@ -6,10 +6,10 @@
 class Pricing
 {
 protected:
-	const models::UnderlyingModel &underlying_model_;
+	models::UnderlyingModel &underlying_model_;
 	const products::Product &product_;
 public:
-	Pricing(const models::UnderlyingModel & underlying_model, const products::Product & product) : underlying_model_(underlying_model), product_(product) {};
+	Pricing(models::UnderlyingModel & underlying_model, const products::Product & product) : underlying_model_(underlying_model), product_(product) {};
 	virtual void price(PnlVect * spots, double &price, double &confidence_interval) const = 0;
 	virtual void price_at(const double time, PnlMat * past, double &price, double &confidence_interval) const = 0;
 };

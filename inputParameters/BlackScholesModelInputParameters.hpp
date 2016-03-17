@@ -1,9 +1,10 @@
 #pragma once
 #include "pnl/pnl_vector.h"
+#include "pnl/pnl_matrix.h"
 
-namespace input_parsers
+namespace input_parameters
 {
-	class BlackScholesModelInputParser
+	class BlackScholesModelInputParameters
 	{
 	public:
 		virtual int get_underlying_number() const = 0;
@@ -14,6 +15,6 @@ namespace input_parsers
 		virtual PnlVect * get_volatility() const = 0;
 		virtual PnlVect * get_foreign_interest_rates() const = 0;
 
-		virtual ~BlackScholesModelInputParser() {};
+		virtual ~BlackScholesModelInputParameters() {};
 	};
 }

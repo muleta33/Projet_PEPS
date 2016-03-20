@@ -1,0 +1,74 @@
+﻿@model EurostralWebApplication.Models.ViewModelPricingAndHedging
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Pricing & Hedging</h2>
+
+@using (Ajax.BeginForm("automaticOrManualHedging", "PricingAndHedging", FormMethod.Post,
+                       new AjaxOptions
+                       {
+                           InsertionMode = InsertionMode.Replace,
+                           UpdateTargetId = "portfolioComposition"
+                       }))
+{
+    <ul>
+        @foreach (var item in Model.HedgingModes)
+        {
+            <li>
+                @Html.RadioButtonFor(m => m.AutomaticOrManualHedging, @item, new { @id = @item })
+                <label for=@item>@item</label>
+            </li>
+        }
+    </ul>
+    @Html.LabelFor(m => m.Frequency)
+    @Html.DropDownListFor(m => m.Frequency, Model.FrequencyOptionsItems, new { @class = "form-control" })
+    <input type="submit" id="startButton" value="Lancement" class="btn btn-primary">
+}
+
+<div id="portfolioComposition"></div>
+
+@*
+<div class="radio">
+    <label><input type="radio" name="automaticOrManualRadio" value="automatic">Automatique</label>
+</div>
+<div class="radio">
+    <label><input type="radio" name="automaticOrManualRadio" value="manual">Manuel</label>
+</div>
+
+<div class="dropdown">
+    <button id="frequency" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+        Fréquence
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li>15 secondes</li>
+        <li>30 secondes</li>
+    </ul>
+</div>
+
+<button type="button" class="btn btn-primary" id="startButton">Lancement</button>
+*@
+
+<script type="text/javascript">
+    function updateAvailableItems() {
+        var radioButtonChecked = $("input[name='automaticOrManualRadio']:checked").val();
+        if (radioButtonChecked == "automatic") {
+            $("#startButton").val("Lancement"); // .text avant 
+            $("#frequency").removeClass("disabled");
+        }
+        else {
+            $("#startButton").val("Rebalancer"); // .text avant 
+            $("#frequency").addClass("disabled");
+        }
+    }
+
+    $(document).ready(function () {
+        $("input[name='automaticOrManualRadio']").change(updateAvailableItems);
+    });
+</script>
+
+
+
+

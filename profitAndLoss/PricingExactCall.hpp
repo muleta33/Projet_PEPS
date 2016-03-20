@@ -5,7 +5,7 @@
 class PricingExactCall : public Pricing
 {
 public:
-	PricingExactCall(const models::UnderlyingModel & underlying_model, const products::Product & product) :
+	PricingExactCall(models::UnderlyingModel & underlying_model, const products::Product & product) :
 		Pricing(underlying_model, product) {};
 	void price(PnlVect * spots, double &price, double &confidence_interval) const;
 	void price_at(const double time, PnlMat * past, double &price, double &confidence_interval) const;

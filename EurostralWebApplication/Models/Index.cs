@@ -13,18 +13,29 @@ namespace EurostralWebApplication.Models
         public string Name { get; set; }
         public string YahooFinanceName { get; set; }
         public double Price { get; set; }
+        public double Performance { get; set; }
+        public int IsIncreasingOrDecreasing { get; set; }
 
         public Index(string name, string yahooFinanceName)
         {
             Name = name;
             YahooFinanceName = yahooFinanceName;
             Price = 0;
+            Performance = 0;
+            IsIncreasingOrDecreasing = 0;
         }
 
         public double getPerformance(double initialPrice)
         {
             double performance = (Price - initialPrice) / initialPrice;
-            return performance;
+            if (performance > Performance)
+                IsIncreasingOrDecreasing = 1;
+            else if (performance < Performance)
+                IsIncreasingOrDecreasing = -1;
+            else
+                IsIncreasingOrDecreasing = 0;
+            Performance = performance;
+            return Performance;
         }
 
         public List<object[]> getPastPricesPeriod(DateTime firstDate, DateTime lastDate)

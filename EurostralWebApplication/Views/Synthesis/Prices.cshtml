@@ -4,7 +4,7 @@
     ViewBag.Title = "Prices";
 }
 
-<table class="table">
+<table class="table canChange">
     <thead>
         <tr><th>Indices</th><th>Cours actuel</th><th>Monnaie</th><th>Performance</th><th>Poids</th></tr>
     </thead>
@@ -21,7 +21,18 @@
             <td>
                 @if (@Model != null)
                 {
-                    <em>@Model.CurrentIndexesPerformances[0]</em>
+                    if (@Model.Indexes[0].IsIncreasingOrDecreasing == 1)
+                    {
+                        <em class="text-success">@Model.Indexes[0].Performance</em>
+                    }
+                    else if (@Model.Indexes[0].IsIncreasingOrDecreasing == -1)
+                    {
+                        <em class="text-danger">@Model.Indexes[0].Performance</em>
+                    }
+                    else
+                    {
+                        <em>@Model.Indexes[0].Performance</em>
+                    }
                 }
             </td>
             <td>
@@ -43,7 +54,18 @@
             <td>
                 @if (@Model != null)
                 {
-                    <em>@Model.CurrentIndexesPerformances[1]</em>
+                    if (@Model.Indexes[1].IsIncreasingOrDecreasing == 1)
+                    {
+                        <em class="text-success">@Model.Indexes[1].Performance</em>
+                    }
+                    else if (@Model.Indexes[1].IsIncreasingOrDecreasing == -1)
+                    {
+                        <em class="text-danger">@Model.Indexes[1].Performance</em>
+                    }
+                    else
+                    {
+                        <em>@Model.Indexes[1].Performance</em>
+                    }
                 }
             </td>
 
@@ -66,7 +88,18 @@
             <td>
                 @if (@Model != null)
                 {
-                    <em>@Model.CurrentIndexesPerformances[2]</em>
+                    if (@Model.Indexes[2].IsIncreasingOrDecreasing == 1)
+                    {
+                        <em class="text-success">@Model.Indexes[2].Performance</em>
+                    }
+                    else if (@Model.Indexes[2].IsIncreasingOrDecreasing == -1)
+                    {
+                        <em class="text-danger">@Model.Indexes[2].Performance</em>
+                    }
+                    else
+                    {
+                        <em>@Model.Indexes[2].Performance</em>
+                    }
                 }
             </td>
 
@@ -80,7 +113,7 @@
     </tbody>
 </table>
 
-<table class="table">
+<table class="table canChange">
     <thead>
         <tr><th>Taux de change</th><th>Valeur</th></tr>
     </thead>
@@ -90,7 +123,18 @@
             <td>
                 @if (@Model != null)
                 {
-                    <em>@Model.ExchangeRates[0].Value</em>
+                    if (@Model.ExchangeRates[0].IsIncreasingOrDecreasing == 1)
+                    {
+                        <em class="text-success">@Model.ExchangeRates[0].Value</em>
+                    }
+                    else if (@Model.ExchangeRates[0].IsIncreasingOrDecreasing == -1)
+                    {
+                        <em class="text-danger">@Model.ExchangeRates[0].Value</em>
+                    }
+                    else
+                    {
+                        <em>@Model.ExchangeRates[0].Value</em>
+                    }
                 }
             </td>
         </tr>
@@ -99,7 +143,18 @@
             <td>
                 @if (@Model != null)
                 {
-                    <em>@Model.ExchangeRates[1].Value</em>
+                    if (@Model.ExchangeRates[1].IsIncreasingOrDecreasing == 1)
+                    {
+                        <em class="text-success">@Model.ExchangeRates[1].Value</em>
+                    }
+                    else if (@Model.ExchangeRates[1].IsIncreasingOrDecreasing == -1)
+                    {
+                        <em class="text-danger">@Model.ExchangeRates[1].Value</em>
+                    }
+                    else
+                    {
+                        <em>@Model.ExchangeRates[1].Value</em>
+                    }
                 }
             </td>
         </tr>
@@ -108,7 +163,18 @@
             <td>
                 @if (@Model != null)
                 {
-                    <em>@Model.ExchangeRates[2].Value</em>
+                    if (@Model.ExchangeRates[2].IsIncreasingOrDecreasing == 1)
+                    {
+                        <em class="text-success">@Model.ExchangeRates[2].Value</em>
+                    }
+                    else if (@Model.ExchangeRates[2].IsIncreasingOrDecreasing == -1)
+                    {
+                        <em class="text-danger">@Model.ExchangeRates[2].Value</em>
+                    }
+                    else
+                    {
+                        <em>@Model.ExchangeRates[2].Value</em>
+                    }
                 }
             </td>
         </tr>

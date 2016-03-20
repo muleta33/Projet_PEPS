@@ -19,24 +19,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasketOptionInputParameters.hpp" />
+    <ClInclude Include="BlackScholesModelInputHistorical.hpp" />
+    <ClInclude Include="BlackScholesModelInputParameters.hpp" />
     <ClInclude Include="BasketOptionInputParser.hpp" />
     <ClInclude Include="BlackScholesModelInputParser.hpp" />
-    <ClInclude Include="CoreBasketOptionInputParser.hpp" />
-    <ClInclude Include="CoreBlackScholesModelInputParser.hpp" />
-    <ClInclude Include="CoreEurostralMutualFundInputParser.hpp" />
     <ClInclude Include="EurostralMutualFundInputParser.hpp" />
+    <ClInclude Include="EurostralMutualFundInputParameters.hpp" />
+    <ClInclude Include="InputParametersUtilities.hpp" />
     <ClInclude Include="Parser.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CoreBasketOptionInputParser.cpp" />
-    <ClCompile Include="CoreBlackScholesModelInputParser.cpp" />
-    <ClCompile Include="CoreEurostralMutualFundInputParser.cpp" />
+    <ClCompile Include="BasketOptionInputParser.cpp" />
+    <ClCompile Include="BlackScholesModelInputHistorical.cpp" />
+    <ClCompile Include="BlackScholesModelInputParser.cpp" />
+    <ClCompile Include="EurostralMutualFundInputParser.cpp" />
+    <ClCompile Include="InputParametersUtilities.cpp" />
     <ClCompile Include="Parser.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C7A0D34F-13E0-494E-B5D1-0ABF567F9384}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>parsers</RootNamespace>
+    <RootNamespace>intputParameters</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -121,8 +125,8 @@
       <AdditionalDependencies>libpnl.lib</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)x64\Debug\parsers.lib" "$(SolutionDir)UI_Test\bin\Debug\parsers.lib"
-copy "$(SolutionDir)x64\Debug\parsers.lib" "$(SolutionDir)EurostralWebApplication\bin\parsers.lib"</Command>
+      <Command>copy "$(SolutionDir)x64\Debug\inputParameters.lib" "$(SolutionDir)UI_Test\bin\Debug\inputParameters.lib"
+copy "$(SolutionDir)x64\Debug\inputParameters.lib" "$(SolutionDir)EurostralWebApplication\bin\inputParameters.lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -164,7 +168,7 @@ copy "$(SolutionDir)x64\Debug\parsers.lib" "$(SolutionDir)EurostralWebApplicatio
       <AdditionalLibraryDirectories>$(SolutionDir)\..\pnl-win64-1.7.2\lib;$(SolutionDir)\..\boost_1_59_0\libs;%(AdditionalIncludeDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)x64\Release\parsers.lib" "$(SolutionDir)UI_Test\bin\Release\parsers.lib"</Command>
+      <Command>copy "$(SolutionDir)x64\Release\inputParameters.lib" "$(SolutionDir)UI_Test\bin\Release\inputParameters.lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

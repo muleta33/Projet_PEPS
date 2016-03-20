@@ -1,10 +1,10 @@
 #pragma once
-#include "EurostralMutualFundInputParser.hpp"
+#include "EurostralMutualFundInputParameters.hpp"
 #include "Parser.hpp"
 
-namespace input_parsers
+namespace input_parameters
 {
-	class CoreEurostralMutualFundInputParser : public EurostralMutualFundInputParser
+	class EurostralMutualFundInputParser : public EurostralMutualFundInputParameters
 	{
 	private:
 		const Parser & parser;
@@ -18,11 +18,11 @@ namespace input_parsers
 		PnlVect * get_underlying_coefficients() const;
 		PnlVect * get_currencies() const;
 
-		CoreEurostralMutualFundInputParser(const Parser & p) : parser(p)
+		EurostralMutualFundInputParser(const Parser & p) : parser(p)
 		{
 			parser.extract("option size", underlying_number);
 		}
 
-		virtual ~CoreEurostralMutualFundInputParser() {};
+		virtual ~EurostralMutualFundInputParser() {};
 	};
 }

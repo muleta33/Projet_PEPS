@@ -103,12 +103,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\hedging;$(SolutionDir)\pricing;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\financialProducts;$(SolutionDir)\parsers;$(SolutionDir)\..\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\hedging;$(SolutionDir)\pricing;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\financialProducts;$(SolutionDir)\inputParameters;$(SolutionDir)\..\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>models.lib;randomGeneration.lib;financialProducts.lib;parsers.lib;pricing.lib;hedging.lib;monteCarlo.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -143,7 +144,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\hedging;$(SolutionDir)\pricing;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\financialProducts;$(SolutionDir)\parsers;$(SolutionDir)\..\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\hedging;$(SolutionDir)\pricing;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\financialProducts;$(SolutionDir)\inputParameters;$(SolutionDir)\..\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,10 +157,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CoreProfitAndLossInputParser.hpp" />
-    <ClInclude Include="HedgingExactCall.hpp" />
-    <ClInclude Include="PricingExactCall.hpp" />
+    <ClInclude Include="BlackScholesModelMarketHistorical.hpp" />
+    <ClInclude Include="BlackScholesModelMarketSimulate.hpp" />
     <ClInclude Include="ProfitAndLossInputParser.hpp" />
+    <ClInclude Include="HedgingExactCall.hpp" />
+    <ClInclude Include="HistoricalDataParser.hpp" />
+    <ClInclude Include="PricingExactCall.hpp" />
+    <ClInclude Include="ProfitAndLossInputParameters.hpp" />
     <ClInclude Include="BlackScholesModelMarket.hpp" />
     <ClInclude Include="Portfolio.hpp" />
     <ClInclude Include="PortfolioManager.hpp" />
@@ -167,8 +171,9 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BlackScholesModelMarket.cpp" />
-    <ClCompile Include="CoreProfitAndLossInputParser.cpp" />
+    <ClCompile Include="BlackScholesModelMarketHistorical.cpp" />
+    <ClCompile Include="BlackScholesModelMarketSimulate.cpp" />
+    <ClCompile Include="ProfitAndLossInputParser.cpp" />
     <ClCompile Include="Portfolio.cpp" />
     <ClCompile Include="PortfolioManager.cpp" />
     <ClCompile Include="ProfitAndLoss.cpp" />
@@ -181,14 +186,14 @@
     <ProjectReference Include="..\hedging\hedging.vcxproj">
       <Project>{432197b4-04e4-428e-9831-795cf3adf676}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\inputParameters\inputParameters.vcxproj">
+      <Project>{c7a0d34f-13e0-494e-b5d1-0abf567f9384}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\models\models.vcxproj">
       <Project>{d05869fc-4602-4b6e-a852-3d67f3d79410}</Project>
     </ProjectReference>
     <ProjectReference Include="..\monteCarlo\monteCarlo.vcxproj">
       <Project>{000adb6f-7437-4b92-92e2-96b54c860fdd}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\parsers\parsers.vcxproj">
-      <Project>{c7a0d34f-13e0-494e-b5d1-0abf567f9384}</Project>
     </ProjectReference>
     <ProjectReference Include="..\pricing\pricing.vcxproj">
       <Project>{060f24bc-4953-41cd-9a96-ee2a95f9401f}</Project>

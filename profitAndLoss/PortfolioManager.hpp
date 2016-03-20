@@ -3,6 +3,7 @@
 #include "EurostralMutualFund.hpp"
 #include "UnderlyingModel.hpp"
 #include "BlackScholesModelMarket.hpp"
+#include "BlackScholesModelUtilities.hpp"
 #include "Pricing.hpp"
 #include "Hedging.hpp"
 
@@ -13,7 +14,7 @@ class PortfolioManager
 {
 public:
 	PortfolioManager(Product &product, UnderlyingModel &model, BlackScholesModelMarket &market, Pricing &pricing_unit, Hedging &hedging_unit, 
-		int rebalancing_times, int monitoring_times, const PnlVect *spot);
+		int rebalancing_times, int monitoring_times);
 	double hedge();
 	~PortfolioManager();
 

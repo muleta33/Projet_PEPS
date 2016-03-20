@@ -21,14 +21,16 @@
   <ItemGroup>
     <ClInclude Include="BlackScholesModelRiskNeutral.hpp" />
     <ClInclude Include="BlackScholesModelRoutine.hpp" />
+    <ClInclude Include="BlackScholesModelUtilities.hpp" />
     <ClInclude Include="UnderlyingModel.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BlackScholesModelRiskNeutral.cpp" />
     <ClCompile Include="BlackScholesModelRoutine.cpp" />
+    <ClCompile Include="BlackScholesModelUtilities.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\parsers\parsers.vcxproj">
+    <ProjectReference Include="..\inputParameters\inputParameters.vcxproj">
       <Project>{c7a0d34f-13e0-494e-b5d1-0abf567f9384}</Project>
     </ProjectReference>
     <ProjectReference Include="..\randomGeneration\randomGeneration.vcxproj">
@@ -115,7 +117,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\parsers;$(SolutionDir)\randomGeneration;$(SolutionDir)\..\pnl-win64-1.7.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\inputParameters;$(SolutionDir)\randomGeneration;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\..\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -163,7 +165,7 @@ copy "$(SolutionDir)x64\Debug\models.lib" "$(SolutionDir)EurostralWebApplication
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\parsers;$(SolutionDir)\randomGeneration;$(SolutionDir)\..\pnl-win64-1.7.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\inputParameters;$(SolutionDir)\randomGeneration;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\..\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

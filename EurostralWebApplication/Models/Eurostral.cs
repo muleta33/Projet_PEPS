@@ -11,7 +11,6 @@ namespace EurostralWebApplication.Models
         private int UnderlyingNumber;
 
         public Index[] Indexes { get; set; }
-        public double[] CurrentIndexesPerformances { get; set; }
 
         public ExchangeRate[] ExchangeRates { get; set; }
 
@@ -27,7 +26,6 @@ namespace EurostralWebApplication.Models
         {
             Indexes = indexes;
             UnderlyingNumber = underlyingNumber;
-            CurrentIndexesPerformances = new double[UnderlyingNumber];
 
             ExchangeRates = exchangeRates;
 
@@ -111,14 +109,22 @@ namespace EurostralWebApplication.Models
             int ind = 0;
             foreach (Index index in Indexes)
             {
-                CurrentIndexesPerformances[ind] = index.getPerformance(PastMatrix.ElementAt(ind).ElementAt(0));
+                index.getPerformance(PastMatrix.ElementAt(ind).ElementAt(0));
                 ++ind;
             }
         }
 
         public double getIndexWeight(int ind)
         {
-            int[] idx = CurrentIndexesPerformances.Select((x, i) => new KeyValuePair<double, int>(x, i))
+            double[] currentIndexPerformances = new double[UnderlyingNumber];
+            int iterationIndex = 0;
+            foreach (Index index in Indexes)
+            {
+                currentIndexPerformances[iterationIndex] = index.Performance;
+                ++iterationIndex;
+            }
+
+            int[] idx = currentIndexPerformances.Select((x, i) => new KeyValuePair<double, int>(x, i))
                                                   .OrderBy(x => x.Key)
                                                   .Select(x => x.Value)
                                                   .ToArray();

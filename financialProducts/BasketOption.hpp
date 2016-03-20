@@ -1,6 +1,6 @@
 #pragma once
 #include "Product.hpp"
-#include "BasketOptionInputParser.hpp"
+#include "BasketOptionInputParameters.hpp"
 
 class BasketOption : public products::Product
 {
@@ -10,15 +10,17 @@ private:
 
 public:
 	BasketOption() : Product(), strike_(0) {};
-	BasketOption(const input_parsers::BasketOptionInputParser &parser) : Product(parser.get_maturity(), parser.get_underlying_number(), parser.get_currencies())
+	BasketOption(const input_parameters::BasketOptionInputParameters &input_parameters) : Product(input_parameters.get_maturity(), 
+		input_parameters.get_underlying_number(), input_parameters.get_currencies())
 	{
-		strike_ = parser.get_strike();
-		lambda_ = parser.get_underlying_coefficients();
+		strike_ = input_parameters.get_strike();
+		lambda_ = input_parameters.get_underlying_coefficients();
 	}
-	BasketOption(double maturity, const input_parsers::BasketOptionInputParser &parser) : Product(maturity, parser.get_underlying_number(), parser.get_currencies())
+	BasketOption(double maturity, const input_parameters::BasketOptionInputParameters &input_parameters) : 
+		Product(maturity, input_parameters.get_underlying_number(), input_parameters.get_currencies())
 	{
-		strike_ = parser.get_strike();
-		lambda_ = parser.get_underlying_coefficients();
+		strike_ = input_parameters.get_strike();
+		lambda_ = input_parameters.get_underlying_coefficients();
 	}
 	~BasketOption() { pnl_vect_free(&lambda_); };
 

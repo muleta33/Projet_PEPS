@@ -1,10 +1,10 @@
 #pragma once
-#include "BlackScholesModelInputParser.hpp"
+#include "BlackScholesModelInputParameters.hpp"
 #include "Parser.hpp"
 
-namespace input_parsers
+namespace input_parameters
 {
-	class CoreBlackScholesModelInputParser : public BlackScholesModelInputParser
+	class BlackScholesModelInputParser : public BlackScholesModelInputParameters
 	{
 	private:
 		const Parser & parser;
@@ -18,11 +18,11 @@ namespace input_parsers
 		PnlVect * get_volatility() const;
 		PnlVect * get_foreign_interest_rates() const;
 
-		CoreBlackScholesModelInputParser(const Parser & p) : parser(p)
+		BlackScholesModelInputParser(const Parser & p) : parser(p)
 		{
 			parser.extract("option size", underlying_number);
 		}
 
-		virtual ~CoreBlackScholesModelInputParser() {};
+		virtual ~BlackScholesModelInputParser() {};
 	};
 }

@@ -4,8 +4,8 @@
 #include "pnl/pnl_finance.h"
 #include "EurostralMutualFund.hpp"
 #include "BlackScholesModelRiskNeutral.hpp"
-#include "FakeBlackScholesModelInputParserForCall.hpp"
-#include "FakeBlackScholesModelInputParserForCallBis.hpp"
+#include "FakeBlackScholesModelInputParametersForCall.hpp"
+#include "FakeBlackScholesModelInputParametersForCallBis.hpp"
 #include "PNLRandomGeneration.hpp"
 #include "ConstantRandomGeneration.hpp"
 #include "MonteCarloHedging.hpp"
@@ -26,10 +26,10 @@ namespace UnitTests
 		TEST_METHOD(hedge_call_with_almost_unreachable_strike)
 		{
 			const generators::PnlRandomGeneration generator;
-			const FakeBlackScholesModelInputParserForCall fake_model_parser;
-			models::BlackScholesModelRiskNeutral model(fake_model_parser, generator);
+			const FakeBlackScholesModelInputParametersForCall fake_model_input_parameters;
+			models::BlackScholesModelRiskNeutral model(fake_model_input_parameters, generator);
 			double strike = 150;
-			Call call(fake_model_parser.get_maturity(), strike);
+			Call call(fake_model_input_parameters.get_maturity(), strike);
 
 			PnlVect * spot = pnl_vect_create_from_scalar(2, 45);
 			LET(spot, 1) = 1;
@@ -55,10 +55,10 @@ namespace UnitTests
 		TEST_METHOD(hedge_call_with_almost_sure_reached_strike)
 		{
 			const generators::PnlRandomGeneration generator;
-			const FakeBlackScholesModelInputParserForCall fake_model_parser;
-			models::BlackScholesModelRiskNeutral model(fake_model_parser, generator);
+			const FakeBlackScholesModelInputParametersForCall fake_model_input_parameters;
+			models::BlackScholesModelRiskNeutral model(fake_model_input_parameters, generator);
 			double strike = 75;
-			Call call(fake_model_parser.get_maturity(), strike);
+			Call call(fake_model_input_parameters.get_maturity(), strike);
 
 			PnlVect * spot = pnl_vect_create_from_scalar(2, 150);
 			LET(spot, 1) = 1;
@@ -84,10 +84,10 @@ namespace UnitTests
 		TEST_METHOD(hedge_call)
 		{
 			const generators::PnlRandomGeneration generator;
-			const FakeBlackScholesModelInputParserForCall fake_model_parser;
-			models::BlackScholesModelRiskNeutral model(fake_model_parser, generator);
+			const FakeBlackScholesModelInputParametersForCall fake_model_input_parameters;
+			models::BlackScholesModelRiskNeutral model(fake_model_input_parameters, generator);
 			double strike = 90;
-			Call call(fake_model_parser.get_maturity(), strike);
+			Call call(fake_model_input_parameters.get_maturity(), strike);
 
 			PnlVect * spot = pnl_vect_create_from_scalar(2, 100);
 			LET(spot, 1) = 1;
@@ -101,8 +101,8 @@ namespace UnitTests
 
 			double * reference_price = new double;
 			double * reference_delta = new double;
-			pnl_cf_call_bs(GET(spot, 0), strike, fake_model_parser.get_maturity(), model.interest_rate(),
-				0, GET(fake_model_parser.get_volatility(), 0), reference_price, reference_delta);
+			pnl_cf_call_bs(GET(spot, 0), strike, fake_model_input_parameters.get_maturity(), model.interest_rate(),
+				0, GET(fake_model_input_parameters.get_volatility(), 0), reference_price, reference_delta);
 
 			Assert::AreEqual(*reference_delta, GET(computed_delta, 0), 0.005);
 
@@ -116,14 +116,14 @@ namespace UnitTests
 		TEST_METHOD(hedge_and_hedge_at_call_coherence)
 		{
 			const ConstantRandomGeneration generator;
-			const FakeBlackScholesModelInputParserForCall fake_model_parser;
-			models::BlackScholesModelRiskNeutral model(fake_model_parser, generator);
-			const FakeBlackScholesModelInputParserForCallBis fake_model_parser_bis;
-			models::BlackScholesModelRiskNeutral model_lower_maturity(fake_model_parser_bis, generator);
+			const FakeBlackScholesModelInputParametersForCall fake_model_input_parameters;
+			models::BlackScholesModelRiskNeutral model(fake_model_input_parameters, generator);
+			const FakeBlackScholesModelInputParametersForCallBis fake_model_input_parameters_bis;
+			models::BlackScholesModelRiskNeutral model_lower_maturity(fake_model_input_parameters_bis, generator);
 			double strike = 50;
 
-			Call call(fake_model_parser.get_maturity(), strike);
-			Call call_lower_maturity(fake_model_parser_bis.get_maturity(), strike);
+			Call call(fake_model_input_parameters.get_maturity(), strike);
+			Call call_lower_maturity(fake_model_input_parameters_bis.get_maturity(), strike);
 
 			PnlVect * spots = pnl_vect_create_from_scalar(2, 50);
 			LET(spots, 1) = 1;

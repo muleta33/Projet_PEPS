@@ -85,7 +85,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;EUROSTRALPRICER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\hedging;$(SolutionDir)\pricing;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\financialProducts;$(SolutionDir)\parsers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\hedging;$(SolutionDir)\pricing;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\financialProducts;$(SolutionDir)\inputParameters;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -104,7 +104,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\..\pnl-win64-1.7.2\lib;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\pnl-win64-1.7.2\lib;$(SolutionDir)\..\boost_1_59_0\libs;</AdditionalLibraryDirectories>
       <AdditionalDependencies>libpnl.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <DelayLoadDLLs>
       </DelayLoadDLLs>
@@ -206,6 +206,11 @@ copy "$(SolutionDir)x64\Debug\EurostralPricer.dll" "$(SolutionDir)EurostralWebAp
     </ProjectReference>
     <ProjectReference Include="..\randomGeneration\randomGeneration.vcxproj">
       <Project>{e5947e68-1ced-472f-85c0-247830218e16}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -11,7 +11,7 @@ private:
 	double const maturity = 8;
 	int const monitoring_times = 16;
 	double interest_rate = 0.0485;
-	PnlVect * foreign_interest_rates = pnl_vect_create_from_double(0.0485, 3);
+	PnlVect * foreign_interest_rates = pnl_vect_create_from_scalar(3, 0.0485);
 	PnlVect * volatilities;
 	PnlMat * correlation_matrix;
 

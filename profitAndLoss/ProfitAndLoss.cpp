@@ -70,14 +70,15 @@ int main(int argc, char* argv[])
 	HedgingExactCall hedging_unit(model, product); */
 
 	const char * config_file = argv[1];
-	//const char * config_file = "EurostralMutualFund_month_change_historical.dat";
+	//const char * config_file = "EurostralMutualFund_historical.dat";
 	Parser parser(config_file);
 	// Construction du parser des données de marché
 	const char * data_file = argv[2];
-	//const char * data_file = "historical_data.csv";
+	//const char * data_file = "historique_brut.csv";
 	int underlying_number;
 	int rebalancing_times;
-	int number_past_data = 20;
+	int number_past_data = 100;
+	string first_date = "04/01/2000";
 	double maturity;
 	PnlVect * foreign_interest_rates;
 	parser.extract("maturity", maturity);
@@ -85,7 +86,7 @@ int main(int argc, char* argv[])
 	parser.extract("rebalancing times", rebalancing_times);
 	parser.extract("foreign interest rates", foreign_interest_rates, underlying_number);
 	double timestep = maturity / rebalancing_times;
-	const HistoricalDataParser data_parser(data_file, rebalancing_times + number_past_data, underlying_number);
+	const HistoricalDataParser data_parser(data_file, first_date, rebalancing_times + number_past_data, underlying_number);
 	// Modification des données passées pour que ça colle avec le modèle - on suppose que ce sont des données journalières
 	PnlMat * past_data_domestic_currency = pnl_mat_create(number_past_data, underlying_number * 2);
 	models::historical_data_to_domestic_currency(data_parser.get_past_data(number_past_data), past_data_domestic_currency, foreign_interest_rates, 1/360);

@@ -8,6 +8,9 @@ namespace EurostralWebApplication.Models
 {
     public class Eurostral
     {
+        // TEMPORAIRE
+        private int NumberOfEstimationDates = 100;
+
         private int UnderlyingNumber;
 
         public Index[] Indexes { get; set; }
@@ -17,6 +20,7 @@ namespace EurostralWebApplication.Models
         public DateTime BeginDate { get; set; }
         public List<DateTime> ObservationDates { get; set; }
 
+        public double[] PastMarketData { get; set; }
         public List<List<double>> PastMatrix { get; set; }
 
         public double Price { get; set; }
@@ -54,6 +58,10 @@ namespace EurostralWebApplication.Models
             for (int i = 0; i < underlyingNumber; ++i)
                 PastMatrix.Add(new List<double>());
             fillPastMatrix();
+
+            PastMarketData = new double[2 * underlyingNumber * NumberOfEstimationDates];
+            fillPastMarketData();
+
             Price = 0;
             Hedge = new double[underlyingNumber];
         }
@@ -76,6 +84,37 @@ namespace EurostralWebApplication.Models
                     ind++;
                 }
                 ObservationDates.RemoveAt(0);
+            }
+        }
+
+        private void fillPastMarketData()
+        {
+            DateTime endEstimationDate = BeginDate.AddDays(-1);
+            int ind = 0;
+            foreach (Index index in Indexes)
+            {
+                DateTime currentEstimationDate = endEstimationDate;
+
+                for (int i = NumberOfEstimationDates - 1; i >= 0; --i)
+                {
+                    double pastPrice = 0;
+                    while (pastPrice == 0)
+                    {
+                        pastPrice = index.getPastPrice(currentEstimationDate);
+                        currentEstimationDate = currentEstimationDate.AddDays(-1);
+                    }
+                    PastMarketData[i * 2 * UnderlyingNumber + ind] = pastPrice;
+                }
+                ++ind;
+            }
+            // TODO : Même chose pour les taux de change
+            // Suite temporaire
+            for (int i = UnderlyingNumber; i < 2 * UnderlyingNumber; ++i)
+            {
+                for (int j = 0; j < NumberOfEstimationDates; ++j)
+                {
+                    PastMarketData[j * 2 * UnderlyingNumber + i] = 1;
+                }
             }
         }
 
@@ -136,7 +175,7 @@ namespace EurostralWebApplication.Models
             return weight;
         }
 
-        public double getPrice(ParametersManager parametersManager)
+        public double getPrice()
         {
             // On met à jour la matrice des prix du passé
             fillPastMatrix();
@@ -159,13 +198,13 @@ namespace EurostralWebApplication.Models
             addCurrentPricesToPastArray(numberOfPastPricesPerIndex - 1, past);
 
             // Appel au pricer
-            PricerWrapper wrapper = new PricerWrapper(parametersManager.getHistoricalVolatilities(), parametersManager.getHistoricalCorrelationMatrix());
+            PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, 20000);
             wrapper.compute_price_at(currentTime, past, numberOfPastPricesPerIndex);
             Price = wrapper.get_price();
             return Price;
         }
 
-        public double[] getHedging(ParametersManager parametersManager)
+        public double[] getHedging()
         {
             // On met à jour la matrice des prix du passé
             fillPastMatrix();
@@ -188,7 +227,7 @@ namespace EurostralWebApplication.Models
             addCurrentPricesToPastArray(numberOfPastPricesPerIndex - 1, past);
 
             // Appel au pricer
-            PricerWrapper wrapper = new PricerWrapper(parametersManager.getHistoricalVolatilities(), parametersManager.getHistoricalCorrelationMatrix());
+            PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, 20000);
             wrapper.compute_deltas_at(currentTime, past, numberOfPastPricesPerIndex);
             Hedge = wrapper.get_deltas();
             return Hedge;

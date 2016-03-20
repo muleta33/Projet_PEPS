@@ -125,6 +125,7 @@
     <Compile Include="Controllers\EurostralManagementController.cs" />
     <Compile Include="Controllers\GraphController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PricingAndHedgingController.cs" />
     <Compile Include="Controllers\SynthesisController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -140,6 +141,7 @@
     <Compile Include="Models\Portfolio.cs" />
     <Compile Include="Models\TimeManagement.cs" />
     <Compile Include="Models\ViewModelGraph.cs" />
+    <Compile Include="Models\ViewModelPricingAndHedging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +187,8 @@
     <Content Include="Views\Graph\Index.cshtml" />
     <Content Include="Views\Graph\PartialViewGraph.cshtml" />
     <Content Include="Scripts\jquery-2.2.1.min.map" />
+    <Content Include="Views\PricingAndHedging\Index.cshtml" />
+    <Content Include="Views\PricingAndHedging\EurostralPrice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

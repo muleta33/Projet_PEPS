@@ -53,7 +53,7 @@ double PortfolioManager::hedge()
 		// Recalcul la volatilité
 		market_.get_volatilities_and_correlations(volatilities, correlations, i);
 		// Modification de la vol et des corrélations avant pricing et hedging
-		//model_.set_volatilities_and_correlations(volatilities, correlations);
+		model_.set_volatilities_and_correlations(volatilities, correlations);
 
 		hedging_unit_.hedge_at(i * step, past, deltas);
 
@@ -71,7 +71,8 @@ double PortfolioManager::hedge()
 
 	// On modifie past pour passer seulement les trajectoires des indices à product.get_payoff
 	PnlMat * generated_foreign_assets_paths = pnl_mat_create(past->m, past->n / 2);
-	get_generated_foreign_asset_paths(past, generated_foreign_assets_paths, model_.foreign_interest_rates(), step);
+	double timestep = product_.get_maturity() / monitoring_times_;
+	get_generated_foreign_asset_paths(past, generated_foreign_assets_paths, model_.foreign_interest_rates(), timestep);
 	double payoff = product_.get_payoff(generated_foreign_assets_paths);
 
 	// Calcul du P&L

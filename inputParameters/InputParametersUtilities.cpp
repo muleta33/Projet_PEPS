@@ -51,15 +51,11 @@ namespace input_parameters
 				if ((GET(volatilities, i) == 0) || (GET(volatilities, j) == 0))
 					correlation = 0.0;
 				else
-					correlation = (compute_covariance(col_data_1, col_data_2) * 52 * 7) / (GET(volatilities, i)*GET(volatilities, j));
+					correlation = (compute_covariance(col_data_1, col_data_2) * 250) / (GET(volatilities, i)*GET(volatilities, j));
 				MLET(correlation_matrix, i, j) = correlation;
 				MLET(correlation_matrix, j, i) = correlation;
 			}
 		}
-		PnlVect * eigen = pnl_vect_create(6);
-		PnlMat * mat = pnl_mat_create(6,6);
-		pnl_mat_eigen(eigen, mat, correlation_matrix, 0);
-		pnl_vect_free(&eigen);
 		pnl_vect_free(&col_data_1);
 		pnl_vect_free(&col_data_2);
 	}
@@ -69,7 +65,7 @@ namespace input_parameters
 
 		for (int i = 0; i < data->n; i++) {
 			pnl_mat_get_col(col_data, data, i);
-			LET(volatilities, i) = sqrt(compute_variance(col_data) * 52 * 7);
+			LET(volatilities, i) = sqrt(compute_variance(col_data) * 250);
 		}
 		pnl_vect_free(&col_data);
 	}

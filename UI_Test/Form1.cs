@@ -20,7 +20,8 @@ namespace UI_Test
 
         private void pricing0_Click(object sender, EventArgs e)
         {
-            PricerWrapper wrapper = new PricerWrapper();
+            double[] past = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            PricerWrapper wrapper = new PricerWrapper(past, 2, 3);
             double[] spots = {100, 200, 150};
             wrapper.compute_price(spots);
             double price = wrapper.get_price();
@@ -29,7 +30,7 @@ namespace UI_Test
 
         private void pricingT_Click(object sender, EventArgs e)
         {
-            PricerWrapper wrapper = new PricerWrapper();
+            PricerWrapper wrapper = new PricerWrapper(null, 10, 6);
             double[] past = { 100, 200, 150, 110, 190, 155 };
             wrapper.compute_price_at(0.4, past, 2);
             double price = wrapper.get_price();
@@ -38,7 +39,7 @@ namespace UI_Test
 
         private void hedging0_Click(object sender, EventArgs e)
         {
-            PricerWrapper wrapper = new PricerWrapper();
+            PricerWrapper wrapper = new PricerWrapper(null, 10, 6);
             double[] spots = { 100, 200, 150 };
             wrapper.compute_deltas(spots);
             double[] deltas = new double[3];
@@ -50,7 +51,7 @@ namespace UI_Test
 
         private void hedgingT_Click(object sender, EventArgs e)
         {
-            PricerWrapper wrapper = new PricerWrapper();
+            PricerWrapper wrapper = new PricerWrapper(null, 10, 6);
             double[] past = { 100, 200, 150, 110, 190, 155 };
             wrapper.compute_deltas_at(0.4, past, 2);
             double[] deltas = new double[3];

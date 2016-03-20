@@ -9,7 +9,7 @@ namespace EurostralWebApplication.Models
     public class Eurostral
     {
         // TEMPORAIRE
-        private int NumberOfEstimationDates = 100;
+        private int NumberOfEstimationDates = 10;
 
         private int UnderlyingNumber;
 
@@ -111,9 +111,14 @@ namespace EurostralWebApplication.Models
             // Suite temporaire
             for (int i = UnderlyingNumber; i < 2 * UnderlyingNumber; ++i)
             {
+                double value = 1;
+                if (i == UnderlyingNumber + 1)
+                    value = 0.67;
+                else if (i == UnderlyingNumber + 2)
+                    value = 0.88;
                 for (int j = 0; j < NumberOfEstimationDates; ++j)
                 {
-                    PastMarketData[j * 2 * UnderlyingNumber + i] = 1;
+                    PastMarketData[j * 2 * UnderlyingNumber + i] = value;
                 }
             }
         }

@@ -25,10 +25,10 @@ public:
 		return data_;
 	}
 
-	HistoricalDataParser(const char * file_name, int data_number, int underlying_number)
+	HistoricalDataParser(const char * file_name, string first_date, int data_number, int underlying_number)
 	{
 		underlying_number_ = underlying_number * 2;
-		parse_csv_file(file_name, data_number, underlying_number * 2);
+		parse_csv_file(file_name, first_date, data_number, underlying_number * 2);
 	}
 
 	~HistoricalDataParser()
@@ -40,16 +40,40 @@ public:
 private:
 	int underlying_number_;
 	PnlMat * data_;
-	int parse_csv_file(const char * file_name, int data_number, int underlying_number) {
+	int parse_csv_file(const char * file_name, string first_date, int data_number, int underlying_number) {
 		ifstream file(file_name, ios::in);  // on ouvre le fichier en lecture
 
 		if (file)  // si l'ouverture a réussi
 		{
 			data_ = pnl_mat_create(data_number + 1, underlying_number);
 			string content;
+			bool start = false;
 			getline(file, content); // première ligne d'en-tête sert à rien
 
-			for (int i = 0; i <= data_number; i++) {
+			// On récupère les données à partir de la date de début
+			while (!start) {
+				getline(file, content, ';');
+				if (content.compare(first_date) == 0)
+					start = true;
+				else
+					getline(file, content);
+			}
+
+
+			// Premières données
+			for (int j = 0; j < underlying_number - 1; j++) {
+				getline(file, content, ';');
+				MLET(data_, 0, j) = boost::lexical_cast<double>(content);
+			}
+
+			getline(file, content);
+			MLET(data_, 0, underlying_number - 1) = boost::lexical_cast<double>(content);
+
+			// Tout le reste des données
+			for (int i = 1; i <= data_number; i++) {
+
+				// Saute la date qu'on ne stocke pas
+				getline(file, content, ';');
 
 				for (int j = 0; j < underlying_number - 1; j++) {
 					getline(file, content, ';');

@@ -1,6 +1,14 @@
-﻿body {
+﻿html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #f0f3f4;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -21,4 +29,45 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 40px;
+}
+
+.bloc {
+    background-color: white;
+    padding: 10px 10px 10px 10px;
+}
+
+.item .thumb {
+	width: 20%;
+    height: 90px;
+    text-align: center;
+	cursor: pointer;
+	float: left;
+    background-color: antiquewhite;
+}
+
+#today {
+    margin: 0 auto;
+    width: 25%;
+}
+
+#startDate {
+    float: left;
+    margin-right: 12px;
+}
+
+#stopDate {
+    float: right;
+    margin-left: 12px;
+}
+
+.jumbotron {
+    background-color: white;
 }

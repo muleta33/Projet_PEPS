@@ -29,6 +29,7 @@
                     <li>@Html.ActionLink("Synthèse", "Index", "Synthesis")</li>
                     <li>@Html.ActionLink("Historique", "Index", "Graph")</li>
                     <li>@Html.ActionLink("Pricing & Hedging", "Index", "PricingAndHedging")</li>
+                    <li>@Html.ActionLink("A propos", "Index", "About")</li>
                 </ul>
             </div>
         </div>
@@ -36,7 +37,7 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
+        <footer class="footer">
             <p>&copy; @DateTime.Now.Year - Eurostral Application</p>
         </footer>
     </div>

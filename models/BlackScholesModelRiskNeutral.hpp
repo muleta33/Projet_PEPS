@@ -23,6 +23,8 @@ namespace models
 
 		~BlackScholesModelRiskNeutral();
 
+		double timestep() { return timestep_; }
+
 	private:
 		PnlMat * generated_asset_paths_;
 		PnlMat * generated_foreign_asset_paths_;

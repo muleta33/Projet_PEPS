@@ -23,9 +23,9 @@ namespace Wrapper_Pricer {
 		}
 
 		void compute_price(array<System::Double>^ spots);
-		void compute_price_at(double time, array<System::Double>^ past, int number_of_observation_dates);
+		void compute_price_at(double time, array<System::Double>^ past, array<System::Double>^ spots, int number_of_observation_dates);
 		void compute_deltas(array<System::Double>^ spots);
-		void compute_deltas_at(double time, array<System::Double>^past, int number_of_observation_dates);
+		void compute_deltas_at(double time, array<System::Double>^past, array<System::Double>^ spots, int number_of_observation_dates);
 
 		double get_price();
 		double get_price_ic();

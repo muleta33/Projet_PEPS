@@ -6,7 +6,7 @@
 body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-color: #f0f3f4;
+    background-color:#f0f3f4;
     /* Margin bottom by footer height */
     margin-bottom: 60px;
 }
@@ -70,4 +70,54 @@ textarea {
 
 .jumbotron {
     background-color: white;
+}
+
+.titleStyle{
+  font-family: Rockwell, 'Times New Roman', serif;
+  font-weight: bold;
+  line-height: 1.1;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 36px;
+  text-align:center;
+  color: #6495ED;
+}
+
+.blocIntern {
+    background-color: red;
+    padding: 10px 10px 10px 10px;
+}
+
+.subtitleStyle{
+  font-family: Rockwell, 'Times New Roman', serif;
+  font-weight: 400;
+  line-height: 1.1;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  font-size: 20px;
+  /*text-align:center;*/
+  color: black;
+}
+
+
+.description {
+  font-family: Rockwell, 'Times New Roman', serif;
+  font-weight: 400;
+  margin-right: 10px;
+  margin-left: 10px;
+  text-align:justify;
+}
+
+.model-content {
+  width: 900px;
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid #999999;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  outline: none;
+  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  background-clip: padding-box;
 }

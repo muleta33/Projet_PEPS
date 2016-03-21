@@ -5644,9 +5644,13 @@ body.modal-open,
   padding: 10px;
   margin-right: auto;
   margin-left: auto;
+  width : auto;
+
+
 }
 
 .modal-content {
+
   position: relative;
   background-color: #ffffff;
   border: 1px solid #999999;

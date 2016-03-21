@@ -1,8 +1,9 @@
 #pragma once
 #include "BlackScholesModelInputParameters.hpp"
 #include "InputParametersUtilities.hpp"
-
+#include "BlackScholesModelUtilities.hpp"
 using namespace input_parameters;
+using namespace models;
 
 class BlackScholesModelParameters : public input_parameters::BlackScholesModelInputParameters
 {

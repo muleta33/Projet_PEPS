@@ -28,7 +28,7 @@ public:
 		LET(underlying_coefficients, 1) = 0.3;
 		LET(underlying_coefficients, 2) = 0.2;
 		currencies = pnl_vect_create_from_scalar(2*underlying_number,1); 
-		LET(currencies, 5) = 0;
+		LET(currencies, 3) = 0;
 	}
 
 	~EurostralMutualFundParameters() 

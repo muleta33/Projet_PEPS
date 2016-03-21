@@ -84,7 +84,8 @@ double PortfolioManager::hedge()
 	pnl_mat_free(&generated_foreign_assets_paths);
 	pnl_vect_free(&deltas);
 	pnl_vect_free(&prices);
-	
+	pnl_vect_free(&volatilities);
+	pnl_mat_free(&correlations);
 	return pl;
 }
 

@@ -27,8 +27,8 @@ const PnlMat* const BlackScholesModelMarketSimulate::get_market_asset_paths() co
 
 void BlackScholesModelMarketSimulate::get_volatilities_and_correlations(PnlVect * volatilities, PnlMat * correlations, int before) const
 {
-	volatilities = pnl_vect_copy(volatilities_);
-	correlations = pnl_mat_copy(correlations_);
+	pnl_vect_clone(volatilities, volatilities_);
+	pnl_mat_clone(correlations, correlations_);
 }
 
 BlackScholesModelMarketSimulate::~BlackScholesModelMarketSimulate()

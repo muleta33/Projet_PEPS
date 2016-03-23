@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Timers;
 using EurostralWebApplication.Models;
 
 namespace EurostralWebApplication.Controllers
@@ -18,7 +19,8 @@ namespace EurostralWebApplication.Controllers
         public static Eurostral Eurostral = new Eurostral(Indexes, ExchangeRates, UnderlyingNumber);
         public static Portfolio Portfolio = new Portfolio(UnderlyingNumber);
 
-        public static ParametersManager parametersManager = new ParametersManager(Indexes, UnderlyingNumber);
+        public static bool IsInStartMode = true;
+        public static bool IsHedgingInitialized = false;
 
         // GET: PricingAndHedging
         public ActionResult Index()
@@ -27,19 +29,49 @@ namespace EurostralWebApplication.Controllers
             return View(modelPricingAndHedging);
         }
 
-        [HttpPost]
-        public ActionResult automaticOrManualHedging(ViewModelPricingAndHedging modelPricingAndHedging)
-        {
-            return View("Index", modelPricingAndHedging);
-        }
-
         public ActionResult getPrice()
         {
             Eurostral.getPrice();
             return PartialView("EurostralPrice", Eurostral);
         }
 
-        public ActionResult startHedgingEurostral()
+        /*public void testFunction(object sender, ElapsedEventArgs e)
+        {
+            int a = 2;
+        }*/
+
+        [HttpPost]
+        public ActionResult hedgingPortfolio(ViewModelPricingAndHedging modelPricingAndHedging)
+        {
+            /*Timer timer = new Timer(modelPricingAndHedging.Frequency * 1000);
+            timer.Elapsed += new ElapsedEventHandler(testFunction);
+            timer.Enabled = true;*/
+            if (IsInStartMode)
+            {
+                if (modelPricingAndHedging.isInAutomaticMode())
+                    IsInStartMode = false;
+                if (!IsHedgingInitialized)
+                {
+                    IsHedgingInitialized = true;
+                    return startHedgingPortfolio(modelPricingAndHedging);
+                }
+                else
+                    return rebalanceHedgingPortfolio(modelPricingAndHedging);
+            }
+            else
+            {
+                IsInStartMode = true;
+                return PartialView("Portfolio", modelPricingAndHedging);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult automaticHedgingPortfolio(ViewModelPricingAndHedging modelPricingAndHedging)
+        {
+            return rebalanceHedgingPortfolio(modelPricingAndHedging);
+        }
+
+        public ActionResult startHedgingPortfolio(ViewModelPricingAndHedging modelPricingAndHedging)
         {
             double[] indexesPrices = new double[UnderlyingNumber];
             int underlyingIndex = 0;
@@ -49,11 +81,11 @@ namespace EurostralWebApplication.Controllers
                 underlyingIndex++;
             }
             double currentTime = TimeManagement.convertCurrentTimeInDouble(Eurostral.BeginDate);
-            Portfolio.initialisation(Eurostral.getPrice(), Eurostral.getHedging(), indexesPrices, currentTime);
-            return PartialView("Portfolio", Portfolio);
+            modelPricingAndHedging.Portfolio.initialisation(Eurostral.getPrice(), Eurostral.getHedging(), indexesPrices, currentTime);
+            return PartialView("Portfolio", modelPricingAndHedging);
         }
 
-        public ActionResult rebalanceHedgingPortfolio()
+        public ActionResult rebalanceHedgingPortfolio(ViewModelPricingAndHedging modelPricingAndHedging)
         {
             double[] hedge = Eurostral.getHedging();
 
@@ -66,9 +98,9 @@ namespace EurostralWebApplication.Controllers
             }
 
             double currentTime = TimeManagement.convertCurrentTimeInDouble(Eurostral.BeginDate);
-            Portfolio.rebalancing(hedge, indexesPrices, InterestRate, currentTime);
+            modelPricingAndHedging.Portfolio.rebalancing(hedge, indexesPrices, InterestRate, currentTime);
 
-            return PartialView("Portfolio", Portfolio);
+            return PartialView("Portfolio", modelPricingAndHedging);
         }
     }
 }

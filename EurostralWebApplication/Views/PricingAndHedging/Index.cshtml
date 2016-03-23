@@ -6,7 +6,8 @@
 
 <h2>Pricing & Hedging</h2>
 
-@using (Ajax.BeginForm("automaticOrManualHedging", "PricingAndHedging", FormMethod.Post,
+
+@using (Ajax.BeginForm("hedgingPortfolio", "PricingAndHedging", FormMethod.Post,
                        new AjaxOptions
                        {
                            InsertionMode = InsertionMode.Replace,
@@ -23,8 +24,19 @@
         }
     </ul>
     @Html.LabelFor(m => m.Frequency)
-    @Html.DropDownListFor(m => m.Frequency, Model.FrequencyOptionsItems, new { @class = "form-control" })
-    <input type="submit" id="startButton" value="Lancement" class="btn btn-primary">
+    @Html.DropDownListFor(m => m.Frequency, Model.FrequencyOptionsItems, new { @id = "frequency", @class = "form-control" })
+    <input type="submit" id="startButton" value="Lancer" class="btn btn-primary">
+    @*<input type="submit" id="hiddenStartButton" value="Rebalancement" class="btn hide">*@
+}
+
+@using (Ajax.BeginForm("automaticHedgingPortfolio", "PricingAndHedging", FormMethod.Post,
+                       new AjaxOptions
+                       {
+                           InsertionMode = InsertionMode.Replace,
+                           UpdateTargetId = "portfolioComposition"
+                       }))
+{
+    <input type="submit" id="hiddenStartButton" value="Rebalancement" class="btn hide">
 }
 
 <div id="portfolioComposition"></div>
@@ -39,33 +51,71 @@
 
 <div class="dropdown">
     <button id="frequency" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-        Fréquence
+        Fréquence (15 secondes)
         <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-        <li>15 secondes</li>
-        <li>30 secondes</li>
+        <li role="presentation"><a role="menuitem" href="#" id="15sec">15 secondes</a></li>
+        <li role="presentation"><a role="menuitem" href="#" id="30sec">30 secondes</a></li>
     </ul>
 </div>
 
-<button type="button" class="btn btn-primary" id="startButton">Lancement</button>
-*@
+<button type="button" class="btn btn-primary" id="startButton">Lancer</button>
+
+<div id="portfolio">@Html.Partial("Portfolio", null)</div>*@
+
 
 <script type="text/javascript">
     function updateAvailableItems() {
-        var radioButtonChecked = $("input[name='automaticOrManualRadio']:checked").val();
-        if (radioButtonChecked == "automatic") {
-            $("#startButton").val("Lancement"); // .text avant 
-            $("#frequency").removeClass("disabled");
+        var radioButtonChecked = $("input[name='AutomaticOrManualHedging']:checked").val();
+        if (radioButtonChecked == "Automatique") {
+            $("#startButton").val("Lancer");
+            $("#frequency").prop("disabled", "");
         }
         else {
-            $("#startButton").val("Rebalancer"); // .text avant 
-            $("#frequency").addClass("disabled");
+            $("#startButton").val("Rebalancer");
+            $("#frequency").prop("disabled", "disabled");
+        }
+    }
+
+    function hedgingPortfolio() {
+        @*$.ajax({
+            url: "@Url.Action("hedgingPortfolio", "PricingAndHedging")",
+            type: 'POST',
+            dataType: 'html',
+            success: function (result) {
+                $('#portfolioComposition').html(String(result));
+            }
+        });*@
+        $("#hiddenStartButton").trigger("click");
+    }
+
+    function launchAutomaticRebalancing(currentFrequency) {
+        intervalId = window.setInterval("hedgingPortfolio()", currentFrequency * 1000);
+    }
+
+    function doRightAction() {
+        if ($("#startButton").val() == "Lancer") {
+            $("#startButton").val("Arrêter");
+            var currentFrequency = parseInt($("#frequency").val());
+            setTimeout(launchAutomaticRebalancing(currentFrequency), currentFrequency * 1000);
+        }
+        else if ($("#startButton").val() == "Arrêter") {
+            $("#startButton").val("Lancer");
+            clearInterval(intervalId);
         }
     }
 
     $(document).ready(function () {
-        $("input[name='automaticOrManualRadio']").change(updateAvailableItems);
+        var intervalId;
+        $("input[name='AutomaticOrManualHedging']").change(updateAvailableItems);
+        @*$("#15sec").click(function() {
+            $("#frequency").text("Fréquence (15 secondes)");
+        });
+        $("#30sec").click(function() {
+            $("#frequency").text("Fréquence (30 secondes)");
+        });*@
+        $("#startButton").click(doRightAction);
     });
 </script>
 

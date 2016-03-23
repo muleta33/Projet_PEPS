@@ -9,6 +9,7 @@ body {
     background-color:#f0f3f4;
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+    font-family: Rockwell, 'Times New Roman', serif;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -50,7 +51,7 @@ textarea {
     text-align: center;
   	cursor: pointer;
    float: left;
-   background-color:#989898;
+   background-color:#A8A8A8;
    color:white;
    font-family: Rockwell, 'Times New Roman', serif;
    margin: 0 auto; 
@@ -84,7 +85,7 @@ textarea {
     background-color: white;
 }
 
-.titleStyle{
+.titleStyle, .titleStyleBis {
   font-family: Rockwell, 'Times New Roman', serif;
   font-weight: bold;
   line-height: 1.1;
@@ -95,6 +96,10 @@ textarea {
   color: #6495ED;
 }
 
+.titleStyleBis{
+  font-weight: normal;
+  text-align:left;
+}
 
 .subtitleStyle{
   font-family: Rockwell, 'Times New Roman', serif;
@@ -147,8 +152,9 @@ textarea {
 
 .description {
   font-family: Rockwell, 'Times New Roman', serif;
-  font-weight: 200;
+  font-weight: 100;
   margin-right: 10px;
+  font-size: 15px;
   margin-left: 10px;
   text-align:justify;
 }
@@ -162,10 +168,14 @@ table {
     width: 100%;
 }
 
-th, td {
+th, td, tdbis {
     text-align: left;
     padding: 8px;
     font-family: Rockwell, 'Times New Roman', serif;
+}
+
+.tdbis {
+    color:#000066;
 }
 
 tr:nth-child(even){background-color: aliceblue}
@@ -175,15 +185,17 @@ th {
     color: white;
 }
 
-.btn-info {
+.btn, .btn-info, .btn-primary {
   color: #ffffff;
   background-color: #989898;
   border-color: #989898;
 }
 
+
 ul li {
     margin: 5px;
     font-family: Rockwell, 'Times New Roman', serif;
+    font-size: 15px;
 }
 
 .navbar-brand {
@@ -196,4 +208,8 @@ ul li {
 
 .myTooltipLink {
     text-decoration: none;
+}
+
+.form-control {
+    font-family: Rockwell, 'Times New Roman', serif;
 }

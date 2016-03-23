@@ -190,7 +190,8 @@
     <Content Include="Scripts\jquery-2.2.1.min.map" />
     <Content Include="Views\PricingAndHedging\Index.cshtml" />
     <Content Include="Views\PricingAndHedging\EurostralPrice.cshtml" />
-    <Content Include="Views\About\Index.cshtml" />
+	<Content Include="Views\PricingAndHedging\Portfolio.cshtml" />
+	<Content Include="Views\About\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -214,7 +215,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>false</Optimize>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>

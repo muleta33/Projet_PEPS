@@ -19,9 +19,8 @@ namespace products {
 
 		Product(double maturity, int underlying_number, PnlVect * currencies) :
 			maturity_(maturity),
-			underlying_number_(underlying_number),
-			currencies_(currencies)
-		{};
+			underlying_number_(underlying_number)
+			{ currencies_ = pnl_vect_copy(currencies); };
 
 		double get_maturity() const { return maturity_; };
 		int get_underlying_number() const { return underlying_number_; };

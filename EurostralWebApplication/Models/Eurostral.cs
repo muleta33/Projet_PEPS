@@ -124,10 +124,10 @@ namespace EurostralWebApplication.Models
                         PastMarketData[j * 2 * UnderlyingNumber + i] = 0.67 + (randNum.NextDouble() - randNum.NextDouble())*0.01;
                     } else {
                         PastMarketData[j * 2 * UnderlyingNumber + i] = 0.88 + (randNum.NextDouble() - randNum.NextDouble())*0.01;
-                    }
-            
                 }
+            
             }
+        }
         }
 
         private void fillPastArray(List<List<double>> pastMatrix, double[] past)
@@ -211,9 +211,8 @@ namespace EurostralWebApplication.Models
 
             // Appel au pricer
             PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, 20000);
-
             // à changer
-            double [] spots = new double[2*UnderlyingNumber];
+            double[] spots = new double[2 * UnderlyingNumber];
             int ind = 0;
             foreach (Index index in Indexes)
             {

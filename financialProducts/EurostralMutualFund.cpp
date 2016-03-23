@@ -25,7 +25,7 @@ EurostralMutualFund::EurostralMutualFund(const input_parameters::EurostralMutual
 	indexes_return_percentage_ = input_parameters.get_indexes_return_percentage();
 	underlying_coefficients_ = pnl_vect_copy(input_parameters.get_underlying_coefficients());
 	initial_capital_ = input_parameters.get_initial_capital();
-	currencies_ = input_parameters.get_currencies();
+	currencies_ = pnl_vect_copy(input_parameters.get_currencies());
 }
 
 
@@ -37,6 +37,7 @@ EurostralMutualFund::EurostralMutualFund(double maturity, int underlying_number,
 	initial_capital_(initial_capital)
 {
 	underlying_coefficients_ = pnl_vect_copy(underlying_coefficients);
+
 }
 
 
@@ -69,6 +70,7 @@ EurostralMutualFund& EurostralMutualFund::operator=(const EurostralMutualFund & 
 EurostralMutualFund::~EurostralMutualFund()
 {
 	pnl_vect_free(&underlying_coefficients_);
+	pnl_vect_free(&currencies_);
 }
 
 

@@ -21,10 +21,10 @@ PnlMat * BlackScholesModelInputParser::get_correlation_matrix() const
 	parser.extract("correlation", extractionResult);
 
 	PnlMat * result = pnl_mat_create_from_double(2 * underlying_number, 2 * underlying_number, extractionResult);
-	for (int i = 0; i < 2 * underlying_number; i++) {
+	/*for (int i = 0; i < 2 * underlying_number; i++) {
 		MLET(result, 2 * underlying_number - 1, i) = 0;
 		MLET(result, i, 2 * underlying_number - 1) = 0;
-	}
+	}*/
 	for (int i = 0; i < 2 * underlying_number; ++i)
 		MLET(result, i, i) = 1;
 

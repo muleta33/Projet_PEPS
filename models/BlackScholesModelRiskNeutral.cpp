@@ -12,7 +12,8 @@ BlackScholesModelRiskNeutral::BlackScholesModelRiskNeutral(const input_parameter
 	underlying_number_ = input_parameters.get_underlying_number();
 
 	// taux de change étrangers
-	foreign_interest_rates_ = input_parameters.get_foreign_interest_rates();
+	foreign_interest_rates_ = pnl_vect_new();
+	pnl_vect_clone(foreign_interest_rates_, input_parameters.get_foreign_interest_rates());
 	
 	//PnlVect * trend = pnl_vect_create_from_scalar(underlying_number_, interest_rate_);
 	PnlVect * trend = pnl_vect_create_from_scalar(2*underlying_number_, interest_rate_);
@@ -39,6 +40,7 @@ const PnlMat* const BlackScholesModelRiskNeutral::simulate_asset_paths_from_star
 {
 	pnl_mat_set_row(generated_asset_paths_, spot, 0);
 	routine->fill_remainder_of_generated_asset_paths(1, generated_asset_paths_);
+
 
 	get_generated_foreign_asset_paths(generated_asset_paths_, generated_foreign_asset_paths_, foreign_interest_rates_, timestep_);
 
@@ -91,8 +93,12 @@ BlackScholesModelRiskNeutral::~BlackScholesModelRiskNeutral()
 	pnl_mat_free(&generated_asset_paths_);
 	pnl_mat_free(&generated_foreign_asset_paths_);
 	pnl_vect_free(&volatilities_);
+	pnl_mat_free(&correlations_);
+	pnl_vect_free(&foreign_interest_rates_);
 	generated_asset_paths_ = nullptr;
 	generated_foreign_asset_paths_ = nullptr;
 	volatilities_ = nullptr;
+	correlations_ = nullptr;
+	foreign_interest_rates_ = nullptr;
 	delete(routine);
 }

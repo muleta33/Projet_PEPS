@@ -20,9 +20,10 @@ namespace UI_Test
 
         private void pricing0_Click(object sender, EventArgs e)
         {
-            double[] past = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-            PricerWrapper wrapper = new PricerWrapper(past, 2, 3);
-            double[] spots = {100, 200, 150};
+            double[] past = { 3051, 2049, 5166, 1, 0.88, 0.67, 3053, 2051, 5168, 1, 0.887, 0.671, 3052, 2048, 5165,
+                                1, 0.87, 0.672, 3050, 2050, 5166, 1, 0.879, 0.68, 3054, 2049, 5166, 1, 0.86, 0.67 };
+            PricerWrapper wrapper = new PricerWrapper(past, 4, 20000);
+            double[] spots = {3055, 2048, 5165, 1, 0.85, 0.68};
             wrapper.compute_price(spots);
             double price = wrapper.get_price();
             priceTextbox.Text = price.ToString();
@@ -30,9 +31,11 @@ namespace UI_Test
 
         private void pricingT_Click(object sender, EventArgs e)
         {
-            PricerWrapper wrapper = new PricerWrapper(null, 10, 6);
-            double[] past = { 100, 200, 150, 110, 190, 155 };
-            wrapper.compute_price_at(0.4, past, 2);
+            double[] past = { 3051, 2049, 5166, 1, 0.88, 0.67, 3053, 2051, 5168, 1, 0.887, 0.671, 3052, 2048, 5165,
+                                1, 0.87, 0.672, 3050, 2050, 5166, 1, 0.879, 0.68, 3054, 2049, 5166, 1, 0.86, 0.67 };
+            PricerWrapper wrapper = new PricerWrapper(past, 4, 20000);
+            double[] spots = { 3055, 2048, 5165, 1, 0.85, 0.68 };
+            wrapper.compute_price_at(0.4, past, spots, 4);
             double price = wrapper.get_price();
             priceTextbox.Text = price.ToString();
         }
@@ -53,7 +56,8 @@ namespace UI_Test
         {
             PricerWrapper wrapper = new PricerWrapper(null, 10, 6);
             double[] past = { 100, 200, 150, 110, 190, 155 };
-            wrapper.compute_deltas_at(0.4, past, 2);
+            double[] spots = { 3055, 2048, 5165, 1, 0.85, 0.68 };
+            wrapper.compute_deltas_at(0.4, past, spots, 2);
             double[] deltas = new double[3];
             deltas = wrapper.get_deltas();
             deltaES50.Text = deltas[0].ToString();

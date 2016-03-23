@@ -44,8 +44,8 @@ int main(int argc, char* argv[])
 	MonteCarloHedging hedging_unit(model, product, profit_and_loss_parser.get_sample_number(), profit_and_loss_parser.get_fd_step()); */
 
 	// Call/Basket pricing avec fichier dat
-	/* const char * input_file = argv[1];
-	Parser parser(input_file);
+	const char * config_file = argv[1];
+	Parser parser(config_file);
 	const BlackScholesModelInputParser model_input_parameters(parser);
 	const ProfitAndLossInputParser profit_and_loss_parser(parser);
 	const BasketOptionInputParser basket_parser(parser);
@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 	BlackScholesModelRiskNeutral model(model_input_parameters, random_generator);
 	BlackScholesModelMarketSimulate market(model_input_parameters, profit_and_loss_parser, random_generator);
 	MonteCarloPricing pricing_unit(model, product, profit_and_loss_parser.get_sample_number());
-	MonteCarloHedging hedging_unit(model, product, profit_and_loss_parser.get_sample_number(), profit_and_loss_parser.get_fd_step()); */
+	MonteCarloHedging hedging_unit(model, product, profit_and_loss_parser.get_sample_number(), profit_and_loss_parser.get_fd_step());
 
 	// Call pricing exact
 	/* const char * input_file = argv[1];
@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
 	PricingExactCall pricing_unit(model, product);
 	HedgingExactCall hedging_unit(model, product); */
 
-	const char * config_file = argv[1];
+	/* const char * config_file = argv[1];
 	//const char * config_file = "EurostralMutualFund_historical.dat";
 	Parser parser(config_file);
 	// Construction du parser des données de marché
@@ -101,7 +101,7 @@ int main(int argc, char* argv[])
 	models::historical_data_to_domestic_currency(data_parser.get_all_market_data(), market_data_domestic_currency, foreign_interest_rates, timestep);
 	BlackScholesModelMarketHistorical market(market_data_domestic_currency, underlying_number, number_past_data);
 	MonteCarloPricing pricing_unit(model, product, profit_and_loss_parser.get_sample_number());
-	MonteCarloHedging hedging_unit(model, product, profit_and_loss_parser.get_sample_number(), profit_and_loss_parser.get_fd_step());
+	MonteCarloHedging hedging_unit(model, product, profit_and_loss_parser.get_sample_number(), profit_and_loss_parser.get_fd_step()); */
 
 	PortfolioManager portfolio_manager(product, model, market, pricing_unit, hedging_unit, profit_and_loss_parser.get_rebalancing_times(),
 		model_input_parameters.get_monitoring_times());

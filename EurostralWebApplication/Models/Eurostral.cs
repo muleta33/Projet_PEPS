@@ -107,20 +107,27 @@ namespace EurostralWebApplication.Models
                 }
                 ++ind;
             }
+
+
             // TODO : Même chose pour les taux de change
             // Suite temporaire
+
+            Random randNum = new Random();
+ 
             for (int i = UnderlyingNumber; i < 2 * UnderlyingNumber; ++i)
             {
-                double value = 1;
-                if (i == UnderlyingNumber + 1)
-                    value = 0.67;
-                else if (i == UnderlyingNumber + 2)
-                    value = 0.88;
                 for (int j = 0; j < NumberOfEstimationDates; ++j)
                 {
-                    PastMarketData[j * 2 * UnderlyingNumber + i] = value;
+                    if (i == UnderlyingNumber) {
+                        PastMarketData[j * 2 * UnderlyingNumber + i] = 1 ;
+                    } else if (i == UnderlyingNumber + 1) {
+                        PastMarketData[j * 2 * UnderlyingNumber + i] = 0.67 + (randNum.NextDouble() - randNum.NextDouble())*0.01;
+                    } else {
+                        PastMarketData[j * 2 * UnderlyingNumber + i] = 0.88 + (randNum.NextDouble() - randNum.NextDouble())*0.01;
                 }
+            
             }
+        }
         }
 
         private void fillPastArray(List<List<double>> pastMatrix, double[] past)
@@ -190,8 +197,8 @@ namespace EurostralWebApplication.Models
             double currentTime = TimeManagement.convertCurrentTimeInDouble(BeginDate);
             bool isAtObsDate = TimeManagement.isAtObservationDate(currentTime);
             // Si on n'est pas à une date de constatation, on aura une ligne de plus : les prix courants
-            if (!isAtObsDate)
-                numberOfPastPricesPerIndex++;
+           // if (!isAtObsDate)
+           //     numberOfPastPricesPerIndex++;
 
             // Allocation matrice de prix des indices de taille cohérente
             double[] past = new double[numberOfPastPricesPerIndex * UnderlyingNumber];
@@ -200,14 +207,25 @@ namespace EurostralWebApplication.Models
             fillPastArray(PastMatrix, past);
 
             // Ajout des prix courants
-            addCurrentPricesToPastArray(numberOfPastPricesPerIndex - 1, past);
+           // addCurrentPricesToPastArray(numberOfPastPricesPerIndex - 1, past);
 
             // Appel au pricer
-            //PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, 20000);
-            //wrapper.compute_price_at(currentTime, past, numberOfPastPricesPerIndex);
-            //Price = wrapper.get_price();
-            // TEST
-            Price = 1;
+            PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, 20000);
+            // à changer
+            double[] spots = new double[2 * UnderlyingNumber];
+            int ind = 0;
+            foreach (Index index in Indexes)
+            {
+                spots[ind] = index.getCurrentPrice();
+                ind++;
+            }
+            foreach (ExchangeRate ExchangeRate in ExchangeRates)
+            {
+                spots[ind] = ExchangeRate.getCurrentValue();
+                ind++;
+            }
+            wrapper.compute_price_at(currentTime, past, spots, numberOfPastPricesPerIndex);
+            Price = wrapper.get_price();
             return Price;
         }
 
@@ -221,8 +239,8 @@ namespace EurostralWebApplication.Models
             double currentTime = TimeManagement.convertCurrentTimeInDouble(BeginDate);
             bool isAtObsDate = TimeManagement.isAtObservationDate(currentTime);
             // Si on n'est pas à une date de constatation, on aura une ligne de plus : les prix courants
-            if (!isAtObsDate)
-                numberOfPastPricesPerIndex++;
+          //  if (!isAtObsDate)
+          //      numberOfPastPricesPerIndex++;
 
             // Allocation matrice de prix des indices de taille cohérente
             double[] past = new double[numberOfPastPricesPerIndex * UnderlyingNumber];
@@ -231,16 +249,25 @@ namespace EurostralWebApplication.Models
             fillPastArray(PastMatrix, past);
 
             // Ajout des prix courants
-            addCurrentPricesToPastArray(numberOfPastPricesPerIndex - 1, past);
+            //addCurrentPricesToPastArray(numberOfPastPricesPerIndex - 1, past);
 
             // Appel au pricer
-            //PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, 20000);
-            //wrapper.compute_deltas_at(currentTime, past, numberOfPastPricesPerIndex);
-            //Hedge = wrapper.get_deltas();
-            // TEST
-            Hedge[0] = 0;
-            Hedge[1] = 0;
-            Hedge[2] = 0;
+            PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, 20000);
+            // à changer
+            double[] spots = new double[2 * UnderlyingNumber];
+            int ind = 0;
+            foreach (Index index in Indexes)
+            {
+                spots[ind] = index.getCurrentPrice();
+                ind++;
+            }
+            foreach (ExchangeRate ExchangeRate in ExchangeRates)
+            {
+                spots[ind] = ExchangeRate.getCurrentValue();
+                ind++;
+            }
+            wrapper.compute_deltas_at(currentTime, past, spots, numberOfPastPricesPerIndex);
+            Hedge = wrapper.get_deltas();
             return Hedge;
         }
     }

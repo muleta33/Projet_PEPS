@@ -31,7 +31,7 @@ public:
 	EurostralPricer(double * past_data, int number_of_past_dates, int sample_number);
 	~EurostralPricer();
 	void price(double * spots, double &price, double &confidence_interval);
-	void price_at(const double time, int number_of_rows_past, double * past, double &price, double &confidence_interval);
+	void price_at(const double time, int number_of_rows_past, double * past, double * spots, double &price, double &confidence_interval);
 	void hedge(double * spots, double * hedging_results);
-	void hedge_at(const double time, int number_of_rows_past, double * past, double * hedging_results);
+	void hedge_at(const double time, int number_of_rows_past, double * past, double * spots, double * hedging_results);
 };

@@ -36,22 +36,34 @@ textarea {
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 40px;
+  height: 30px;
 }
 
 .bloc {
     background-color: white;
     padding: 10px 10px 10px 10px;
+    font-family: Rockwell, 'Times New Roman', serif;
 }
 
 .item .thumb {
 	width: 20%;
-    height: 90px;
     text-align: center;
-	cursor: pointer;
-	float: left;
-    background-color: antiquewhite;
+  	cursor: pointer;
+   float: left;
+   background-color:#989898;
+   color:white;
+   font-family: Rockwell, 'Times New Roman', serif;
+   margin: 0 auto; 
+   height: 90px;
 }
+
+.centering {
+  display: inline-block;
+  padding-top: 25px;   
+  line-height: normal;
+}
+
+
 
 #today {
     margin: 0 auto;
@@ -83,10 +95,6 @@ textarea {
   color: #6495ED;
 }
 
-.blocIntern {
-    background-color: red;
-    padding: 10px 10px 10px 10px;
-}
 
 .subtitleStyle{
   font-family: Rockwell, 'Times New Roman', serif;
@@ -100,24 +108,92 @@ textarea {
   color: black;
 }
 
+.subtitleStyle3{
+  font-family: Rockwell, 'Times New Roman', serif;
+  font-weight: 400;
+  line-height: 1.1;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+  font-size: 20px;
+  /*text-align:center;*/
+  color: black;
+}
+
+
+.subtitleStyle1{
+  font-family: Rockwell, 'Times New Roman', serif;
+  font-weight: 400;
+  line-height: 1.1;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  font-size: 20px;
+  /*text-align:center;*/
+  color: black;
+}
+
+.subtitleStyle2{
+  font-family: Rockwell, 'Times New Roman', serif;
+  font-weight: 400;
+  line-height: 1.1;
+  margin-top: 60px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  font-size: 20px;
+  /*text-align:center;*/
+  color: black;
+}
 
 .description {
   font-family: Rockwell, 'Times New Roman', serif;
-  font-weight: 400;
+  font-weight: 200;
   margin-right: 10px;
   margin-left: 10px;
   text-align:justify;
 }
 
-.model-content {
+.modal-content {
   width: 900px;
-  position: relative;
-  background-color: #ffffff;
-  border: 1px solid #999999;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
-  outline: none;
-  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-          box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-  background-clip: padding-box;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+    font-family: Rockwell, 'Times New Roman', serif;
+}
+
+tr:nth-child(even){background-color: aliceblue}
+
+th {
+    background-color: cornflowerblue;
+    color: white;
+}
+
+.btn-info {
+  color: #ffffff;
+  background-color: #989898;
+  border-color: #989898;
+}
+
+ul li {
+    margin: 5px;
+    font-family: Rockwell, 'Times New Roman', serif;
+}
+
+.navbar-brand {
+    font-family: Rockwell, 'Times New Roman', serif;
+}
+
+.tooltip-inner {
+    max-width: 200px;
+}
+
+.myTooltipLink {
+    text-decoration: none;
 }

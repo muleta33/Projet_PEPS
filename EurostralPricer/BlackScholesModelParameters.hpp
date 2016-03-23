@@ -11,7 +11,7 @@ private:
 	int const underlying_number = 3;
 	double const maturity = 8;
 	int const monitoring_times = 16;
-	double interest_rate = 0.0485;
+	double interest_rate = 0.0198;
 	PnlVect * foreign_interest_rates;
 	PnlVect * volatilities;
 	PnlMat * correlation_matrix;
@@ -27,7 +27,7 @@ public:
 
 	BlackScholesModelParameters(PnlMat * past_data)
 	{
-		foreign_interest_rates = pnl_vect_create_from_scalar(underlying_number, 0.0485);
+		foreign_interest_rates = pnl_vect_create_from_scalar(underlying_number, 0.0198);
 		PnlMat * domestic_past_data = pnl_mat_create(past_data->m, past_data->n);
 		double timestep = 0.004; // à vérifier
 		historical_data_to_domestic_currency(past_data, domestic_past_data, foreign_interest_rates, timestep);

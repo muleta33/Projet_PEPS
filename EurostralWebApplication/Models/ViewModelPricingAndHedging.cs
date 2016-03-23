@@ -9,19 +9,29 @@ namespace EurostralWebApplication.Models
 {
     public class ViewModelPricingAndHedging
     {
+        public Portfolio Portfolio { get; set; }
+
         public String AutomaticOrManualHedging { get; set; }
         public List<String> HedgingModes { get; set; }
 
+        public bool IsInStartMode { get; set; }
+
         [Display(Name = "Fréquence : ")]
         public int Frequency { get; set; }
+
         public List<int> FrequencyOptions { get; set; }
+
+        public bool IsHedgingInitialized { get; set; }
 
         public ViewModelPricingAndHedging()
         {
+            IsInStartMode = true;
             AutomaticOrManualHedging = "Automatique";
             HedgingModes = new List<String> { "Automatique", "Manuel" };
-            Frequency = 30;
+            Frequency = 15;
             FrequencyOptions = new List<int> { 15, 30 };
+            IsHedgingInitialized = false;
+            Portfolio = new Portfolio(3);
         }
 
         public IEnumerable<SelectListItem> FrequencyOptionsItems
@@ -29,11 +39,9 @@ namespace EurostralWebApplication.Models
             get { return new SelectList(FrequencyOptions); }
         }
 
-        public bool isAutomaticHedging()
+        public bool isInAutomaticMode()
         {
-            if (AutomaticOrManualHedging == "Automatique")
-                return true;
-            return false;
+            return (AutomaticOrManualHedging == "Automatique");
         }
     }
 }

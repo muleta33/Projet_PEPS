@@ -203,9 +203,11 @@ namespace EurostralWebApplication.Models
             addCurrentPricesToPastArray(numberOfPastPricesPerIndex - 1, past);
 
             // Appel au pricer
-            PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, 20000);
-            wrapper.compute_price_at(currentTime, past, numberOfPastPricesPerIndex);
-            Price = wrapper.get_price();
+            //PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, 20000);
+            //wrapper.compute_price_at(currentTime, past, numberOfPastPricesPerIndex);
+            //Price = wrapper.get_price();
+            // TEST
+            Price = 1;
             return Price;
         }
 
@@ -232,9 +234,13 @@ namespace EurostralWebApplication.Models
             addCurrentPricesToPastArray(numberOfPastPricesPerIndex - 1, past);
 
             // Appel au pricer
-            PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, 20000);
-            wrapper.compute_deltas_at(currentTime, past, numberOfPastPricesPerIndex);
-            Hedge = wrapper.get_deltas();
+            //PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, 20000);
+            //wrapper.compute_deltas_at(currentTime, past, numberOfPastPricesPerIndex);
+            //Hedge = wrapper.get_deltas();
+            // TEST
+            Hedge[0] = 0;
+            Hedge[1] = 0;
+            Hedge[2] = 0;
             return Hedge;
         }
     }

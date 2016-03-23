@@ -17,7 +17,7 @@ namespace EurostralWebApplication.Controllers
         public static Index[] Indexes = new Index[UnderlyingNumber] { new Index("Euro Stoxx 50", "STOXX50E"), new Index("SP ASX 200", "AXJO"), new Index("SP 500", "GSPC") };
         public static ExchangeRate[] ExchangeRates = new ExchangeRate[UnderlyingNumber] { new ExchangeRate("eur", "usd"), new ExchangeRate("eur", "aud"), new ExchangeRate("usd", "aud") };
         public static Eurostral Eurostral = new Eurostral(Indexes, ExchangeRates, UnderlyingNumber);
-        public static Portfolio Portfolio = new Portfolio(UnderlyingNumber);
+        public static Portfolio Portfolio = new Portfolio(2 * UnderlyingNumber);
 
         public static bool IsInStartMode = true;
         public static bool IsHedgingInitialized = false;

@@ -28,8 +28,8 @@ namespace EurostralWebApplication.Models
             IsInStartMode = true;
             AutomaticOrManualHedging = "Automatique";
             HedgingModes = new List<String> { "Automatique", "Manuel" };
-            Frequency = 15;
-            FrequencyOptions = new List<int> { 15, 30 };
+            Frequency = 45;
+            FrequencyOptions = new List<int> { 45, 60 };
             IsHedgingInitialized = false;
             Portfolio = new Portfolio(3);
         }

@@ -63,7 +63,7 @@ namespace EurostralWebApplication.Models
             fillPastMarketData();
 
             Price = 0;
-            Hedge = new double[underlyingNumber];
+            Hedge = new double[2 * underlyingNumber];
         }
 
         private void fillPastMatrix()

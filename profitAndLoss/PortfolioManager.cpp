@@ -30,7 +30,7 @@ double PortfolioManager::hedge()
 	double ic = 0;
 	pricing_unit_.price(spot_, product_price, ic);
 	double p0 = product_price;
-//	std::cout << "p0 : " << p0 << " - ic : " << ic << std::endl;
+	std::cout << "p0 : " << p0 << " - ic : " << ic << std::endl;
 
 	
 	PnlVect *deltas = pnl_vect_create_from_zero(2*model_.underlying_number());
@@ -51,9 +51,9 @@ double PortfolioManager::hedge()
 		// Rebalancement au temps i * step
 		manage_market_path_for_pricing_at_time_T(market_path, past, i * step);
 		// Recalcul la volatilité
-		market_.get_volatilities_and_correlations(volatilities, correlations, i);
+		//market_.get_volatilities_and_correlations(volatilities, correlations, i);
 		// Modification de la vol et des corrélations avant pricing et hedging
-		model_.set_volatilities_and_correlations(volatilities, correlations);
+		//model_.set_volatilities_and_correlations(volatilities, correlations);
 
 		hedging_unit_.hedge_at(i * step, past, deltas);
 
@@ -61,7 +61,7 @@ double PortfolioManager::hedge()
 		portfolio_.rebalancing(deltas, prices, model_.interest_rate(), step);
 		double price, ic;
 		pricing_unit_.price_at(i * step, past, price, ic);
-//		std::cout << i << " | " << portfolio_.compute_value(prices) << " - " << price << std::endl;
+		std::cout << i << " | " << portfolio_.compute_value(prices) << " - " << price << std::endl;
 	}
 	// Valeur finale du portefeuille
 	pnl_mat_get_row(prices, market_path, rebalancing_times_);
@@ -76,7 +76,7 @@ double PortfolioManager::hedge()
 	double payoff = product_.get_payoff(generated_foreign_assets_paths);
 
 	// Calcul du P&L
-//	std::cout << "portfolio_value: " << portfolio_.compute_value(prices) << "  payoff: " << payoff << "  p0: " << p0 << std::endl;
+	std::cout << "portfolio_value: " << portfolio_.compute_value(prices) << "  payoff: " << payoff << "  p0: " << p0 << std::endl;
 	double pl = 100 * fabs(portfolio_value - payoff) / p0;
 
 	// Libération de la mémoire

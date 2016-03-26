@@ -1,4 +1,6 @@
-﻿@{
+﻿@model EurostralWebApplication.Models.Eurostral
+
+@{
     ViewBag.Title = "Accueil";
 }
 <p class="titleStyle">FCP EUROSTRAL PEA 90 mai23</p>
@@ -81,89 +83,11 @@
                         </a>
                     </div> <!-- /thumbcarousel -->
                 </div>
-</div>
+            </div>
         </div>
 
     <div class="col-md-6">
-        <div class="bloc">
-            <p class="subtitleStyle1"> Indices</p>
-            <table>
-                <tr>
-                    <th>Titres</th>
-                    <th>Cours Actuel</th>
-                    <th>Monnaie</th>
-                    <th>Marché</th>
-                    <th>Performance</th>
-                    <th>Poids</th>
-                </tr>
-                <tr>
-                    <td class="tdbis">
-                        <span data-toggle="tooltip" data-placement="top"
-                              title="Indice regroupant les 50 sociétés ayant les plus importantes capitalisations boursières au sein de la zone Euro." class="myTooltipLink">Euro Stoxx 50</span>
-                    </td>
-                    <td>1200</td>
-                    <td>EUR</td>
-                    <td>Ouvert</td>
-                    <td>+34%</td>
-                    <td>30</td>
-                </tr>
-                <tr>
-                    <td class ="tdbis">
-                        <span data-toggle="tooltip" data-placement="top"
-                              title="Indice regroupant les 500 grandes sociétés cotées sur les bourses des États-Unis d'Amérique." class="myTooltipLink">S&P 500</span>
-                    </td>
-                    <td>4000</td>
-                    <td>USD</td>
-                    <td>Fermé</td>
-                    <td>+15%</td>
-                    <td>20</td>
-                </tr>
-                <tr>
-                    <td class="tdbis">
-
-                        <span data-toggle="tooltip" data-placement="top"
-                              title="Indice regroupant les 200 sociétés ayant les plus importantes capitalisations boursières de la bourse australienne." class="myTooltipLink">S&P ASX 200</span>
-                    </td>
-                    <td>3200</td>
-                    <td>AUD</td>
-                    <td>Fermé</td>
-                    <td>+83%</td>
-                    <td>50</td>
-                </tr>
-            </table>
-
-            <p class="subtitleStyle2"> Taux de change</p>
-            <table>
-                <tr>
-                    <th>Taux de change</th>
-                    <th>Valeur</th>
-                </tr>
-                <tr>
-                    <td class="tdbis">
-
-                        <span data-toggle="tooltip" data-placement="top"
-                              title="Taux de change Euro/Dollar américain" class="myTooltipLink">EUR/USD</span>
-                    </td>
-                    <td>1.2</td>
-                </tr>
-                <tr>
-                    <td class="tdbis">
-
-                        <span data-toggle="tooltip" data-placement="top"
-                              title="Taux de change Euro/Dollar australien" class="myTooltipLink">EUR/AUD</span>
-                    </td>
-                    <td>1.4</td>
-                </tr>
-                <tr>
-                    <td class="tdbis">
-
-                        <span data-toggle="tooltip" data-placement="top"
-                              title="Taux de change Dollar américain/Dollar australien" class="myTooltipLink">USD/AUD</span>
-                    </td>
-                    <td>1.17</td>
-                </tr>
-            </table>
-        </div>
+        <div id="prices" class="bloc">@Html.Partial("RealTimePrices", null)</div>
     </div>
 </div>
 
@@ -173,6 +97,44 @@
     }
     function CollapseDiv() {
         $('#divpopup').css("display", "none");
+    }
+
+    function loadUpdatePrices() {
+        $.ajax({
+            url: "@Url.Action("UpdatePrices", "Home")",
+            type: 'GET',
+        dataType: 'html',
+        success: function (result) {
+            $('#prices').html(String(result));
+            $('[data-toggle="tooltip"]').tooltip();
+            checkOpening();
+            setTimeout(function () {
+                $(".value-up").removeClass("value-up");
+                $(".value-down").removeClass("value-down");
+            }, 5000);
+        }
+    });
+    }
+
+    function checkOpening() {
+        today = new Date();
+        hour = today.getHours();
+        min = today.getMinutes();
+        if (hour >= 9 && (hour <= 17 && min <= 30)) {
+            $('#EurostoxxOpening').text("Ouvert");
+        } else {
+            $('#EurostoxxOpening').text("Fermé");
+        }
+        if ((hour >= 15 && min >= 30) && (hour <= 22)) {
+            $('#Sp500Opening').text("Ouvert");
+        } else {
+            $('#Sp500Opening').text("Fermé");
+        }
+        if (hour >= 0 && (hour <= 6 && min <= 30)) {
+            $('#Asx200Opening').text("Ouvert");
+        } else {
+            $('#Asx200Opening').text("Fermé");
+        }
     }
 
     $(document).ready(function () {
@@ -193,6 +155,9 @@
         });
 
         $('[data-toggle="tooltip"]').tooltip();
+
+        loadUpdatePrices();
+        window.setInterval("loadUpdatePrices()", 15000);
 
     });
 

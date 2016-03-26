@@ -213,3 +213,13 @@ ul li {
 .form-control {
     font-family: Rockwell, 'Times New Roman', serif;
 }
+
+.value-up {
+    font-weight: bold;
+    color: #02be02;
+}
+
+.value-down {
+    font-weight: bold;
+    color: #d81717;
+}

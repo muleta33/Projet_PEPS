@@ -11,21 +11,21 @@
     InsertionMode = InsertionMode.Replace,
     UpdateTargetId = "graph"
 }))
-    {
+{
 
-        @Html.LabelFor(m => m.selectedUnderlyingId)
-        <div class="row">
-            <div class="col-sm-4">
-                @Html.DropDownListFor(m => m.selectedUnderlyingId, Model.underlyingsItems, new { @class = "form-control" })
-            </div>
-            <div class="col-sm-4">
-                <input type="submit" value="Tracer" class="btn btn-primary">
-            </div>
+    @Html.LabelFor(m => m.selectedUnderlyingId)
+    <div class="row">
+        <div class="col-sm-4">
+            @Html.DropDownListFor(m => m.selectedUnderlyingId, Model.underlyingsItems, new { @class = "form-control" })
         </div>
-    }
-
-    <div id="graph">
+        <div class="col-sm-4">
+            <input type="submit" value="Tracer" class="btn btn-primary">
+        </div>
     </div>
+}
+
+<div id="graph">
+</div>
 
 
 

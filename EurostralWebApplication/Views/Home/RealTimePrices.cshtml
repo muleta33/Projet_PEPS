@@ -1,0 +1,220 @@
+﻿@model EurostralWebApplication.Models.Eurostral
+
+@{
+    ViewBag.Title = "RealTimePrices";
+}
+
+
+<p class="subtitleStyle1"> Indices</p>
+<table>
+    <tr>
+        <th>Titres</th>
+        <th>Cours Actuel</th>
+        <th>Monnaie</th>
+        <th>Marché</th>
+        <th>Performance</th>
+        <th>Poids</th>
+    </tr>
+    <tr>
+        <td class="tdbis">
+            <span data-toggle="tooltip" data-placspanent="top"
+                  title="Indice regroupant les 50 sociétés ayant les plus importantes capitalisations boursières au sein de la zone Euro." class="myTooltipLink">Euro Stoxx 50</span>
+        </td>
+        <td>
+            @if (@Model != null)
+            {
+                <span>@Model.Indexes[0].Price.ToString("0.00000")</span>
+            }
+        </td>
+        <td>EUR</td>
+        <td>
+            <span id="EurostoxxOpening" class="myTooltipLink" data-toggle="tooltip" data-placspanent="top"
+                  title="Ouverture : 9h - 17h30"></span>
+        </td>
+        <td>
+            @if (@Model != null)
+            {
+                if (@Model.Indexes[0].IsIncreasingOrDecreasing == 1)
+                {
+                    <span class="value-up">@Model.Indexes[0].Performance.ToString("0.00000")</span>
+                }
+                else if (@Model.Indexes[0].IsIncreasingOrDecreasing == -1)
+                {
+                    <span class="value-down">@Model.Indexes[0].Performance.ToString("0.00000")</span>
+                }
+                else
+                {
+                    <span>@Model.Indexes[0].Performance.ToString("0.00000")</span>
+                }
+            }
+        </td>
+        <td>
+            @if (@Model != null)
+            {
+                <span>@Model.getIndexWeight(0)</span>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td class="tdbis">
+            <span data-toggle="tooltip" data-placspanent="top"
+                  title="Indice regroupant les 500 grandes sociétés cotées sur les bourses des États-Unis d'Amérique." class="myTooltipLink">S&P 500</span>
+        </td>
+        <td>
+            @if (@Model != null)
+            {
+                <span>@Model.Indexes[1].Price.ToString("0.00000")</span>
+            }
+        </td>
+        <td>USD</td>
+        <td>
+            <span id="Sp500Opening" class="myTooltipLink" data-toggle="tooltip" data-placspanent="top"
+                  title="Ouverture : 15h30 - 22h"></span>
+        </td>
+        <td>
+            @if (@Model != null)
+            {
+                if (@Model.Indexes[1].IsIncreasingOrDecreasing == 1)
+                {
+                    <span class="value-up">@Model.Indexes[1].Performance.ToString("0.00000")</span>
+                }
+                else if (@Model.Indexes[1].IsIncreasingOrDecreasing == -1)
+                {
+                    <span class="value-down">@Model.Indexes[1].Performance.ToString("0.00000")</span>
+                }
+                else
+                {
+                    <span>@Model.Indexes[1].Performance.ToString("0.00000")</span>
+                }
+            }
+        </td>
+        <td>
+            @if (@Model != null)
+            {
+                <span>@Model.getIndexWeight(1)</span>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td class="tdbis">
+
+            <span data-toggle="tooltip" data-placspanent="top"
+                  title="Indice regroupant les 200 sociétés ayant les plus importantes capitalisations boursières de la bourse australienne." class="myTooltipLink">S&P ASX 200</span>
+        </td>
+        <td>
+            @if (@Model != null)
+            {
+                <span>@Model.Indexes[2].Price.ToString("0.00000")</span>
+            }
+        </td>
+        <td>AUD</td>
+        <td>
+            <span id="Asx200Opening" class="myTooltipLink" data-toggle="tooltip" data-placspanent="top"
+            title="Ouverture : 0h - 6h30"></span>
+        </td>
+        <td>
+            @if (@Model != null)
+            {
+                if (@Model.Indexes[2].IsIncreasingOrDecreasing == 1)
+                {
+                    <span class="value-up">@Model.Indexes[2].Performance.ToString("0.00000")</span>
+                }
+                else if (@Model.Indexes[2].IsIncreasingOrDecreasing == -1)
+                {
+                    <span class="value-down">@Model.Indexes[2].Performance.ToString("0.00000")</span>
+                }
+                else
+                {
+                    <span>@Model.Indexes[2].Performance.ToString("0.00000")</span>
+                }
+            }
+        </td>
+        <td>
+            @if (@Model != null)
+            {
+                <span>@Model.getIndexWeight(2)</span>
+            }
+        </td>
+    </tr>
+</table>
+
+<p class="subtitleStyle2"> Taux de change</p>
+<table>
+    <tr>
+        <th>Taux de change</th>
+        <th>Valeur</th>
+    </tr>
+    <tr>
+        <td class="tdbis">
+
+            <span data-toggle="tooltip" data-placspanent="top"
+                  title="Taux de change Euro/Dollar américain" class="myTooltipLink">EUR/USD</span>
+        </td>
+        <td>
+            @if (@Model != null)
+            {
+                if (@Model.ExchangeRates[0].IsIncreasingOrDecreasing == 1)
+                {
+                    <span class="value-up">@Model.ExchangeRates[0].Value.ToString("0.00000")</span>
+                }
+                else if (@Model.ExchangeRates[0].IsIncreasingOrDecreasing == -1)
+                {
+                    <span class="value-down">@Model.ExchangeRates[0].Value.ToString("0.00000")</span>
+                }
+                else
+                {
+                    <span>@Model.ExchangeRates[0].Value.ToString("0.00000")</span>
+                }
+            }
+        </td>
+    </tr>
+    <tr>
+        <td class="tdbis">
+
+            <span data-toggle="tooltip" data-placspanent="top"
+                  title="Taux de change Euro/Dollar australien" class="myTooltipLink">EUR/AUD</span>
+        </td>
+        <td>
+            @if (@Model != null)
+            {
+                if (@Model.ExchangeRates[1].IsIncreasingOrDecreasing == 1)
+                {
+                    <span class="value-up">@Model.ExchangeRates[1].Value.ToString("0.00000")</span>
+                }
+                else if (@Model.ExchangeRates[1].IsIncreasingOrDecreasing == -1)
+                {
+                    <span class="value-down">@Model.ExchangeRates[1].Value.ToString("0.00000")</span>
+                }
+                else
+                {
+                    <span>@Model.ExchangeRates[1].Value.ToString("0.00000")</span>
+                }
+            }
+        </td>
+    </tr>
+    <tr>
+        <td class="tdbis">
+
+            <span data-toggle="tooltip" data-placspanent="top"
+                  title="Taux de change Dollar américain/Dollar australien" class="myTooltipLink">USD/AUD</span>
+        </td>
+        <td>
+            @if (@Model != null)
+            {
+                if (@Model.ExchangeRates[2].IsIncreasingOrDecreasing == 1)
+                {
+                    <span class="value-up">@Model.ExchangeRates[2].Value.ToString("0.00000")</span>
+                }
+                else if (@Model.ExchangeRates[2].IsIncreasingOrDecreasing == -1)
+                {
+                    <span class="value-down">@Model.ExchangeRates[2].Value.ToString("0.00000")</span>
+                }
+                else
+                {
+                    <span>@Model.ExchangeRates[2].Value.ToString("0.00000")</span>
+                }
+            }
+        </td>
+    </tr>
+</table>
+

@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Linq;
 using System.Web;
-using DotNet.Highstock.Enums;
-using DotNet.Highstock.Helpers;
-using DotNet.Highstock.Options;
 using System.ComponentModel.DataAnnotations;
 
 namespace EurostralWebApplication.Models

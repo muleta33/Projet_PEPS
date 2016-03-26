@@ -127,6 +127,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PricingAndHedgingController.cs" />
     <Compile Include="Controllers\SynthesisController.cs" />
+    <Compile Include="Controllers\TestPLController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -137,9 +138,11 @@
     <Compile Include="Models\Eurostral.cs" />
     <Compile Include="Models\Index.cs" />
     <Compile Include="Models\Portfolio.cs" />
+    <Compile Include="Models\TestMode.cs" />
     <Compile Include="Models\TimeManagement.cs" />
     <Compile Include="Models\ViewModelGraph.cs" />
     <Compile Include="Models\ViewModelPricingAndHedging.cs" />
+    <Compile Include="Models\ViewModelTestPL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -188,8 +191,11 @@
     <Content Include="Scripts\jquery-2.2.1.min.map" />
     <Content Include="Views\PricingAndHedging\Index.cshtml" />
     <Content Include="Views\PricingAndHedging\EurostralPrice.cshtml" />
-    <Content Include="Views\PricingAndHedging\Portfolio.cshtml" />
-    <Content Include="Views\About\Index.cshtml" />
+	<Content Include="Views\PricingAndHedging\Portfolio.cshtml" />
+	<Content Include="Views\About\Index.cshtml" />
+    <Content Include="Views\Home\RealTimePrices.cshtml" />
+    <Content Include="Views\TestPL\Index.cshtml" />
+    <Content Include="Views\TestPL\PartialViewTestPL.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

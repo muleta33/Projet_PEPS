@@ -57,7 +57,7 @@ void EurostralPricer::hedge(double * spots, double * hedging_results) {
 	PnlVect * hedging_results_pnl = pnl_vect_create_from_zero(2 * underlying_number);
 	foreign_to_domestic_spots(spots_pnl, domestic_spots_pnl);
 	hedger->hedge(domestic_spots_pnl, hedging_results_pnl);
-	memcpy(hedging_results, hedging_results_pnl->array, underlying_number*sizeof(double));
+	memcpy(hedging_results, hedging_results_pnl->array, 2*underlying_number*sizeof(double));
 	pnl_vect_free(&spots_pnl);
 	pnl_vect_free(&domestic_spots_pnl);
 	pnl_vect_free(&hedging_results_pnl);
@@ -65,12 +65,12 @@ void EurostralPricer::hedge(double * spots, double * hedging_results) {
 
 void EurostralPricer::hedge_at(const double time, int number_of_rows_past, double * past, double * spots, double * hedging_results) {
 	PnlMat * past_pnl = pnl_mat_create_from_ptr(number_of_rows_past, underlying_number, past);
-	PnlMat * domestic_past_pnl = pnl_mat_create(number_of_rows_past, 2 * underlying_number);
+	PnlMat * domestic_past_pnl = pnl_mat_create(number_of_rows_past +1, 2 * underlying_number);
 	PnlVect * spots_pnl = pnl_vect_create_from_ptr(2 * underlying_number, spots);
 	PnlVect * hedging_results_pnl = pnl_vect_create_from_zero(2*underlying_number);
 	historical_to_domestic_past_data(past_pnl, domestic_past_pnl, spots_pnl, model->foreign_interest_rates(), time,model->timestep());
 	hedger->hedge_at(time, domestic_past_pnl, hedging_results_pnl);
-	memcpy(hedging_results, hedging_results_pnl->array, underlying_number*sizeof(double));
+	memcpy(hedging_results, hedging_results_pnl->array,2* underlying_number*sizeof(double));
 	pnl_mat_free(&past_pnl);
 	pnl_mat_free(&domestic_past_pnl);
 	pnl_vect_free(&spots_pnl);

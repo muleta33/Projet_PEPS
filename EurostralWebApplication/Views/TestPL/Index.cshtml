@@ -1,0 +1,29 @@
+﻿@model EurostralWebApplication.Models.ViewModelTestPL
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<p class="titleStyleBis"> Validation</p>
+
+@using (Ajax.BeginForm("onChangeTest", "TestPL", FormMethod.Post, new AjaxOptions
+{
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "graph"
+}))
+{
+
+    @Html.LabelFor(m => m.selectedTestMode)
+    <div class="row">
+        <div class="col-sm-4">
+            @Html.DropDownListFor(m => m.selectedTestMode, Model.modeItems, new { @class = "form-control" })
+        </div>
+        <div class="col-sm-4">
+            <input type="submit" value="Tracer" class="btn btn-primary">
+        </div>
+    </div>
+}
+
+<div id="graph">
+</div>
+

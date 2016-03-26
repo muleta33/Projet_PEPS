@@ -190,8 +190,9 @@
     <Content Include="Scripts\jquery-2.2.1.min.map" />
     <Content Include="Views\PricingAndHedging\Index.cshtml" />
     <Content Include="Views\PricingAndHedging\EurostralPrice.cshtml" />
-	<Content Include="Views\PricingAndHedging\Portfolio.cshtml" />
-	<Content Include="Views\About\Index.cshtml" />
+    <Content Include="Views\PricingAndHedging\Portfolio.cshtml" />
+    <Content Include="Views\About\Index.cshtml" />
+    <Content Include="Views\Home\RealTimePrices.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,4 +1,32 @@
-﻿@model DotNet.Highstock.Highstock
+﻿@model EurostralWebApplication.Controllers.ModelPL
 
 
-@(Model)
+@(Model.chart)
+
+<br/>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="bloc">
+            <p class="description">
+                <ul>
+                    <li>Rebalancements journaliers (jours ouvrés)</li>
+                    @if (@Model != null)
+                    {
+                        if (@Model.isBackTest)
+                        {
+                            <li>Volatilités et corrélations calculées sur 100 dates précédant la période </li>
+                        }
+                        else {
+                            <li>8% &le; volatilités &le; 30% - corrélation : 0.3</li>
+                        }
+                    }
+                    <li>Taux sans risque domestique et étrangers : 1% </li>
+                </ul>
+            </p>
+        </div>
+    </div>
+    <div class="col-md-6" style="height: 120px; float: none; display: flex; ">
+        <div style="padding: 2px 2px; border: 2px solid #6495ED; font-size: 18px; margin: auto; display: block; ">P&amp;L : @(Model.profitAndLoss.ToString("0.00000"))%</div>
+    </div>
+</div>

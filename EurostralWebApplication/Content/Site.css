@@ -5,10 +5,10 @@
 
 body {
     padding-top: 50px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     background-color:#f0f3f4;
     /* Margin bottom by footer height */
-    margin-bottom: 60px;
+    margin-bottom: 20px;
     font-family: Rockwell, 'Times New Roman', serif;
 }
 
@@ -37,7 +37,7 @@ textarea {
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 30px;
+  height: 25px;
 }
 
 .bloc {
@@ -50,12 +50,12 @@ textarea {
 	width: 20%;
     text-align: center;
   	cursor: pointer;
-   float: left;
-   background-color:#A8A8A8;
-   color:white;
-   font-family: Rockwell, 'Times New Roman', serif;
-   margin: 0 auto; 
-   height: 90px;
+    float: left;
+    background-color:#A8A8A8;
+    color:white;
+    font-family: Rockwell, 'Times New Roman', serif;
+    margin: 0 auto; 
+    height: 90px;
 }
 
 .centering {
@@ -63,7 +63,6 @@ textarea {
   padding-top: 25px;   
   line-height: normal;
 }
-
 
 
 #today {
@@ -222,4 +221,21 @@ ul li {
 .value-down {
     font-weight: bold;
     color: #d81717;
+}
+
+.active > a {
+    color: #ffffff !important;
+}
+
+#loading {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 100;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-image: url(spin.gif);
+    background-position: center;
+    background-repeat: no-repeat;
 }

@@ -37,7 +37,22 @@ namespace EurostralWebApplication.Controllers
             object[] s1 = serie1.ToArray();
             object[] s2 = serie2.ToArray();
 
-            DotNet.Highstock.Highstock chart = new DotNet.Highstock.Highstock("chart")
+            ModelPL modelPL = new ModelPL(s1, s2, model, model.getCurrentMode().CurrentPL);
+
+            return PartialView("PartialViewTestPL", modelPL);
+        }
+
+	}
+
+    public class ModelPL
+    {
+        public DotNet.Highstock.Highstock chart { get; set; }
+        public double profitAndLoss { get; set; }
+        public Boolean isBackTest { get; set; }
+
+        public ModelPL(object[] serie1, object[] serie2, ViewModelTestPL model, double profitAndLoss)
+        {
+            this.chart = new DotNet.Highstock.Highstock("chart")
                 .InitChart(new Chart
                 {
                     Type = ChartTypes.Line,
@@ -46,7 +61,7 @@ namespace EurostralWebApplication.Controllers
                 .SetRangeSelector(new RangeSelector
                 {
                     AllButtonsEnabled = true,
-                    Selected = 1
+                    Selected = 5
                 })
                 .SetTitle(new Title
                 {
@@ -62,13 +77,12 @@ namespace EurostralWebApplication.Controllers
                 })
                 .SetSeries(new[]
                 {
-                    new Series { Name = "Portefeuille de couverture", Data = new Data(s1) },
-                    new Series { Name = "Produit", Data = new Data(s2) }
+                    new Series { Name = "Portefeuille de couverture", Data = new Data(serie1) },
+                    new Series { Name = "Produit", Data = new Data(serie2) }
                 })
                 ;
-
-            return PartialView("PartialViewTestPL", chart);
+            this.profitAndLoss = profitAndLoss;
+            this.isBackTest = (model.selectedTestMode == "BackTest");
         }
-
-	}
+    }
 }

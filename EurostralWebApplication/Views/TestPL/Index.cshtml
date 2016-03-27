@@ -9,7 +9,11 @@
 @using (Ajax.BeginForm("onChangeTest", "TestPL", FormMethod.Post, new AjaxOptions
 {
     InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = "graph"
+    UpdateTargetId = "graph",
+    LoadingElementId = "loading",
+    OnFailure = "AjaxFailure",
+    OnBegin = "AjaxBegin",
+    OnComplete = "AjaxComplete"
 }))
 {
 
@@ -24,6 +28,23 @@
     </div>
 }
 
+<div id="loading" style="display: none;">
+</div>
+
 <div id="graph">
 </div>
+
+<script>
+    function AjaxBegin() {
+        $('#loading').show();
+
+    }
+    function AjaxComplete() {
+        $("#loading").hide();
+    }
+    function AjaxFailure(ajaxContext) {
+        var response = ajaxContext.responseText;
+        alert("Error Code [" + ajaxContext.ErrorCode + "] " + response);
+    }
+</script>
 

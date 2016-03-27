@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Timers;
 using EurostralWebApplication.Models;
 
 namespace EurostralWebApplication.Controllers
@@ -15,9 +14,10 @@ namespace EurostralWebApplication.Controllers
         public const double InterestRate = 0.0485;
 
         public static Index[] Indexes = new Index[UnderlyingNumber] { new Index("Euro Stoxx 50", "STOXX50E"), new Index("SP ASX 200", "AXJO"), new Index("SP 500", "GSPC") };
-        public static ExchangeRate[] ExchangeRates = new ExchangeRate[UnderlyingNumber] { new ExchangeRate("eur", "usd"), new ExchangeRate("eur", "aud"), new ExchangeRate("usd", "aud") };
+        public static ExchangeRate[] ExchangeRates = new ExchangeRate[UnderlyingNumber] { new ExchangeRate("eur", "eur"), new ExchangeRate("aud", "eur"), new ExchangeRate("usd", "eur") };
         public static Eurostral Eurostral = new Eurostral(Indexes, ExchangeRates, UnderlyingNumber);
-        public static Portfolio Portfolio = new Portfolio(UnderlyingNumber);
+
+        public static ViewModelPricingAndHedging ModelPricingAndHedging = new ViewModelPricingAndHedging();
 
         public static bool IsInStartMode = true;
         public static bool IsHedgingInitialized = false;
@@ -25,8 +25,12 @@ namespace EurostralWebApplication.Controllers
         // GET: PricingAndHedging
         public ActionResult Index()
         {
-            ViewModelPricingAndHedging modelPricingAndHedging = new ViewModelPricingAndHedging();
-            return View(modelPricingAndHedging);
+            if (Session["Portfolio"] == null)
+            {
+                Session["Portfolio"] = new Portfolio(2 * UnderlyingNumber);
+                Session.Timeout = 45;
+            }
+            return View(ModelPricingAndHedging);
         }
 
         public ActionResult getPrice()
@@ -35,72 +39,49 @@ namespace EurostralWebApplication.Controllers
             return PartialView("EurostralPrice", Eurostral);
         }
 
-        /*public void testFunction(object sender, ElapsedEventArgs e)
-        {
-            int a = 2;
-        }*/
-
         [HttpPost]
-        public ActionResult hedgingPortfolio(ViewModelPricingAndHedging modelPricingAndHedging)
+        public ActionResult hedgingPortfolio(string submitButton, ViewModelPricingAndHedging modelPricingAndHedging)
         {
-            /*Timer timer = new Timer(modelPricingAndHedging.Frequency * 1000);
-            timer.Elapsed += new ElapsedEventHandler(testFunction);
-            timer.Enabled = true;*/
-            if (IsInStartMode)
-            {
-                if (modelPricingAndHedging.isInAutomaticMode())
-                    IsInStartMode = false;
-                if (!IsHedgingInitialized)
-                {
-                    IsHedgingInitialized = true;
-                    return startHedgingPortfolio(modelPricingAndHedging);
-                }
-                else
-                    return rebalanceHedgingPortfolio(modelPricingAndHedging);
-            }
+            // Si on est dans le cas d'un rebalancement automatique
+            if (submitButton.CompareTo("Rebalancement") == 0)
+                return rebalanceHedgingPortfolio(modelPricingAndHedging);
+            // Sinon, c'est l'utilisateur qui envoie cette requête (rebalancement, arrêt ou lancement du mode automatique)
             else
             {
-                IsInStartMode = true;
-                return PartialView("Portfolio", modelPricingAndHedging);
+                if (IsInStartMode)
+                {
+                    if (modelPricingAndHedging.isInAutomaticMode())
+                        IsInStartMode = false;
+                    if (!IsHedgingInitialized)
+                    {
+                        IsHedgingInitialized = true;
+                        return startHedgingPortfolio(modelPricingAndHedging);
+                    }
+                    else
+                        return rebalanceHedgingPortfolio(modelPricingAndHedging);
+                }
+                else
+                {
+                    IsInStartMode = true;
+                    return PartialView("Portfolio", (Portfolio)Session["Portfolio"]);
+                }
             }
-        }
-
-        [HttpPost]
-        public ActionResult automaticHedgingPortfolio(ViewModelPricingAndHedging modelPricingAndHedging)
-        {
-            return rebalanceHedgingPortfolio(modelPricingAndHedging);
         }
 
         public ActionResult startHedgingPortfolio(ViewModelPricingAndHedging modelPricingAndHedging)
         {
-            double[] indexesPrices = new double[UnderlyingNumber];
-            int underlyingIndex = 0;
-            foreach (Index index in Indexes)
-            {
-                indexesPrices[underlyingIndex] = index.getCurrentPrice();
-                underlyingIndex++;
-            }
+            double[] prices = Eurostral.getIndexAndExchangeRateSpots();
             double currentTime = TimeManagement.convertCurrentTimeInDouble(Eurostral.BeginDate);
-            modelPricingAndHedging.Portfolio.initialisation(Eurostral.getPrice(), Eurostral.getHedging(), indexesPrices, currentTime);
-            return PartialView("Portfolio", modelPricingAndHedging);
+            ((Portfolio)Session["Portfolio"]).initialisation(Eurostral.getPrice(), Eurostral.getHedging(), prices, currentTime);
+            return PartialView("Portfolio", (Portfolio)Session["Portfolio"]);
         }
 
         public ActionResult rebalanceHedgingPortfolio(ViewModelPricingAndHedging modelPricingAndHedging)
         {
-            double[] hedge = Eurostral.getHedging();
-
-            double[] indexesPrices = new double[UnderlyingNumber];
-            int underlyingIndex = 0;
-            foreach (Index index in Indexes)
-            {
-                indexesPrices[underlyingIndex] = index.getCurrentPrice();
-                underlyingIndex++;
-            }
-
+            double[] prices = Eurostral.getIndexAndExchangeRateSpots();
             double currentTime = TimeManagement.convertCurrentTimeInDouble(Eurostral.BeginDate);
-            modelPricingAndHedging.Portfolio.rebalancing(hedge, indexesPrices, InterestRate, currentTime);
-
-            return PartialView("Portfolio", modelPricingAndHedging);
+            ((Portfolio)Session["Portfolio"]).rebalancing(Eurostral.getHedging(), prices, InterestRate, currentTime);
+            return PartialView("Portfolio", (Portfolio)Session["Portfolio"]);
         }
     }
 }

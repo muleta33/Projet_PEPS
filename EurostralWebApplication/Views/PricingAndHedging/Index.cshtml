@@ -4,65 +4,62 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Pricing & Hedging</h2>
+<p class="titleStyle">Pricing et Hedging</p>
 
-
-@using (Ajax.BeginForm("hedgingPortfolio", "PricingAndHedging", FormMethod.Post,
+<div class="row">
+    @using (Ajax.BeginForm("hedgingPortfolio", "PricingAndHedging", FormMethod.Post,
                        new AjaxOptions
                        {
                            InsertionMode = InsertionMode.Replace,
                            UpdateTargetId = "portfolioComposition"
                        }))
-{
-    <ul>
-        @foreach (var item in Model.HedgingModes)
-        {
-            <li>
-                @Html.RadioButtonFor(m => m.AutomaticOrManualHedging, @item, new { @id = @item })
-                <label for=@item>@item</label>
-            </li>
-        }
-    </ul>
-    @Html.LabelFor(m => m.Frequency)
-    @Html.DropDownListFor(m => m.Frequency, Model.FrequencyOptionsItems, new { @id = "frequency", @class = "form-control" })
-    <input type="submit" id="startButton" value="Lancer" class="btn btn-primary">
-    @*<input type="submit" id="hiddenStartButton" value="Rebalancement" class="btn hide">*@
-}
-
-@using (Ajax.BeginForm("automaticHedgingPortfolio", "PricingAndHedging", FormMethod.Post,
-                       new AjaxOptions
-                       {
-                           InsertionMode = InsertionMode.Replace,
-                           UpdateTargetId = "portfolioComposition"
-                       }))
-{
-    <input type="submit" id="hiddenStartButton" value="Rebalancement" class="btn hide">
-}
-
-<div id="portfolioComposition"></div>
-
-@*
-<div class="radio">
-    <label><input type="radio" name="automaticOrManualRadio" value="automatic">Automatique</label>
-</div>
-<div class="radio">
-    <label><input type="radio" name="automaticOrManualRadio" value="manual">Manuel</label>
+    {
+        <div class="col-md-4">
+            <ul>
+                @foreach (var item in Model.HedgingModes)
+                {
+                    <li>
+                        @Html.RadioButtonFor(m => m.AutomaticOrManualHedging, @item, new { @id = @item })
+                        <label for=@item>@item</label>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.Frequency)
+            @Html.DropDownListFor(m => m.Frequency, Model.FrequencyOptionsItems, new { @id = "frequency", @class = "form-control" })
+        </div>
+        <div class="col-md-2">
+            <input type="submit" name="submitButton" id="startButton" value="Lancer" class="btn btn-primary">
+        </div>
+        <input type="submit" name="submitButton" id="hiddenStartButton" value="Rebalancement" class="btn hide">
+    }
 </div>
 
-<div class="dropdown">
-    <button id="frequency" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-        Fréquence (15 secondes)
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-        <li role="presentation"><a role="menuitem" href="#" id="15sec">15 secondes</a></li>
-        <li role="presentation"><a role="menuitem" href="#" id="30sec">30 secondes</a></li>
-    </ul>
+<div class="row">
+    <div class="col-md-4">
+        <div id="portfolioComposition">@Html.Partial("Portfolio", Session["Portfolio"])</div>
+    </div>
+    <div class="col-md-4 col-md-offset-2">
+        <div class="bloc">
+            <table class="table">
+                <tr>
+                    <td>
+                        @Ajax.ActionLink("Pricer", "getPrice", new { },
+                                new AjaxOptions
+                                {
+                                    InsertionMode = InsertionMode.Replace,
+                                    UpdateTargetId = "eurostralPrice",
+                                    HttpMethod = "GET"
+                                },
+                                new { @class = "btn btn-primary" })
+                    </td>
+                    <td><span id="eurostralPrice"></span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
-
-<button type="button" class="btn btn-primary" id="startButton">Lancer</button>
-
-<div id="portfolio">@Html.Partial("Portfolio", null)</div>*@
 
 
 <script type="text/javascript">
@@ -79,14 +76,6 @@
     }
 
     function hedgingPortfolio() {
-        @*$.ajax({
-            url: "@Url.Action("hedgingPortfolio", "PricingAndHedging")",
-            type: 'POST',
-            dataType: 'html',
-            success: function (result) {
-                $('#portfolioComposition').html(String(result));
-            }
-        });*@
         $("#hiddenStartButton").trigger("click");
     }
 
@@ -97,11 +86,13 @@
     function doRightAction() {
         if ($("#startButton").val() == "Lancer") {
             $("#startButton").val("Arrêter");
+            $("input[name='AutomaticOrManualHedging']").prop("disabled", "disabled");
             var currentFrequency = parseInt($("#frequency").val());
             setTimeout(launchAutomaticRebalancing(currentFrequency), currentFrequency * 1000);
         }
         else if ($("#startButton").val() == "Arrêter") {
             $("#startButton").val("Lancer");
+            $("input[name='AutomaticOrManualHedging']").prop("disabled", "");
             clearInterval(intervalId);
         }
     }
@@ -109,12 +100,6 @@
     $(document).ready(function () {
         var intervalId;
         $("input[name='AutomaticOrManualHedging']").change(updateAvailableItems);
-        @*$("#15sec").click(function() {
-            $("#frequency").text("Fréquence (15 secondes)");
-        });
-        $("#30sec").click(function() {
-            $("#frequency").text("Fréquence (30 secondes)");
-        });*@
         $("#startButton").click(doRightAction);
     });
 </script>

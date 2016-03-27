@@ -26,7 +26,7 @@ namespace Wrapper_Pricer {
 	}
 
 	void PricerWrapper::compute_deltas(array<System::Double>^ spots) {
-		array<System::Double>^ hedging_results = gcnew array<System::Double>(6);
+		array<System::Double>^ hedging_results = gcnew array<System::Double>(2 * 3);
 		cli::pin_ptr<double> hedging_results_pointer = &hedging_results[0];
 		cli::pin_ptr<double> spots_pointer = &spots[0];
 		pricer->hedge(spots_pointer, hedging_results_pointer);
@@ -34,7 +34,7 @@ namespace Wrapper_Pricer {
 	}
 
 	void PricerWrapper::compute_deltas_at(double time, array<System::Double>^past, array<System::Double>^ spots, int number_of_observation_dates) {
-		array<System::Double>^ hedging_results = gcnew array<System::Double>(6);
+		array<System::Double>^ hedging_results = gcnew array<System::Double>(2 * 3);
 		cli::pin_ptr<double> hedging_results_pointer = &hedging_results[0];
 		cli::pin_ptr<double> past_pointer = &past[0];
 		cli::pin_ptr<double> spots_pointer = &spots[0];

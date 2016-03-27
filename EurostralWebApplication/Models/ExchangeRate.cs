@@ -24,18 +24,23 @@ namespace EurostralWebApplication.Models
 
         public double getCurrentValue()
         {
-            WebClient client = new WebClient();
-            string url = "http://localhost:8080/exchange/realtime/" + DomesticCurrency + "/" + ForeignCurrency;
-            var json = client.DownloadString(url);
-            DataRetrieving.DataReturn dataReturn = JsonConvert.DeserializeObject<DataRetrieving.DataReturn>(@json);
-            double value = Convert.ToDouble(dataReturn.data.Ds.Tables[0].Rows[0].ItemArray[0].ToString().Replace(".", ",")); // Attention si erreur ???
-            if (value > Value)
-                IsIncreasingOrDecreasing = 1;
-            else if (value < Value)
-                IsIncreasingOrDecreasing = -1;
+            if (DomesticCurrency == ForeignCurrency)
+                Value = 1;
             else
-                IsIncreasingOrDecreasing = 0;
-            Value = value;
+            {
+                WebClient client = new WebClient();
+                string url = "http://localhost:8080/exchange/realtime/" + DomesticCurrency + "/" + ForeignCurrency;
+                var json = client.DownloadString(url);
+                DataRetrieving.DataReturn dataReturn = JsonConvert.DeserializeObject<DataRetrieving.DataReturn>(@json);
+                double value = Convert.ToDouble(dataReturn.data.Ds.Tables[0].Rows[0].ItemArray[0].ToString().Replace(".", ",")); // Attention si erreur ???
+                if (value > Value)
+                    IsIncreasingOrDecreasing = 1;
+                else if (value < Value)
+                    IsIncreasingOrDecreasing = -1;
+                else
+                    IsIncreasingOrDecreasing = 0;
+                Value = value;
+            }
             return Value;
         }
     }

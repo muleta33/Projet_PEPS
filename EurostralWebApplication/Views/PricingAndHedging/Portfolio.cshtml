@@ -1,38 +1,77 @@
-﻿@model EurostralWebApplication.Models.ViewModelPricingAndHedging
+﻿@model EurostralWebApplication.Models.Portfolio
 
 @{
     ViewBag.Title = "Portfolio";
 }
 
-<table class="table">
-    <thead>
-        <tr><th>Product</th><th>Euro Stoxx 50</th><th>SP ASX 200</th><th>SP 500</th></tr>
-    </thead>
-    <tbody>
+<div class="bloc">
+    <p class="subtitleStyle1"> Portefeuille</p>
+    <table class="table">
         <tr>
-            <th>Quantity</th>
-            @if (@Model != null)
-            {
-                foreach (var quantity in @Model.Portfolio.Composition)
-                {
-                    <td><em>@quantity</em></td>
-                }
-            }
+            <th>Produit</th>
+            <th>Quantité</th>
         </tr>
-    </tbody>
-</table>
+        <tr>
+            <th>Euro Stoxx 50</th>
+            <td>
+                @if (@Model != null)
+                {
+                    @Model.Composition[0]
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>SP ASX 200</th>
+            <td>
+                @if (@Model != null)
+                {
+                    @Model.Composition[1]
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>SP 500</th>
+            <td>
+                @if (@Model != null)
+                {
+                    @Model.Composition[2]
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>AUD/EUR</th>
+            <td>
+                @if (@Model != null)
+                {
+                    @Model.Composition[4]
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>USD/EUR</th>
+            <td>
+                @if (@Model != null)
+                {
+                    @Model.Composition[5]
+                }
+            </td>
+        </tr>
+    </table>
 
-<table class="table">
-    <tbody>
+    <table class="table">
         <tr>
             <th>Valeur du portefeuille</th>
             <td>
                 @if (@Model != null)
                 {
-                    <em>@Model.Portfolio.Value</em>
+                    @Model.Value
                 }
             </td>
         </tr>
-    </tbody>
-</table>
+    </table>
+</div>
+</div>
+
+
+        
 

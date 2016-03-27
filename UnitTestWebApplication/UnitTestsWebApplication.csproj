@@ -78,7 +78,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="UnitTestsEurostralManagementController.cs" />
-    <Compile Include="UnitTestsParametersEstimation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

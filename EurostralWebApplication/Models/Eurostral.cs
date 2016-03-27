@@ -63,7 +63,7 @@ namespace EurostralWebApplication.Models
             fillPastMarketData();
 
             Price = 0;
-            Hedge = new double[underlyingNumber];
+            Hedge = new double[2 * underlyingNumber];
         }
 
         private void fillPastMatrix()
@@ -187,6 +187,23 @@ namespace EurostralWebApplication.Models
             return weight;
         }
 
+        public double[] getIndexAndExchangeRateSpots()
+        {
+            double[] spots = new double[2 * UnderlyingNumber];
+            int ind = 0;
+            foreach (Index index in Indexes)
+            {
+                spots[ind] = index.getCurrentPrice();
+                ind++;
+            }
+            foreach (ExchangeRate exchangeRate in ExchangeRates)
+            {
+                spots[ind] = exchangeRate.getCurrentValue();
+                ind++;
+            }
+            return spots;
+        }
+
         public double getPrice()
         {
             // On met à jour la matrice des prix du passé
@@ -196,9 +213,6 @@ namespace EurostralWebApplication.Models
 
             double currentTime = TimeManagement.convertCurrentTimeInDouble(BeginDate);
             bool isAtObsDate = TimeManagement.isAtObservationDate(currentTime);
-            // Si on n'est pas à une date de constatation, on aura une ligne de plus : les prix courants
-           // if (!isAtObsDate)
-           //     numberOfPastPricesPerIndex++;
 
             // Allocation matrice de prix des indices de taille cohérente
             double[] past = new double[numberOfPastPricesPerIndex * UnderlyingNumber];
@@ -206,25 +220,9 @@ namespace EurostralWebApplication.Models
             // Remplissage de la matrice de prix des indices
             fillPastArray(PastMatrix, past);
 
-            // Ajout des prix courants
-           // addCurrentPricesToPastArray(numberOfPastPricesPerIndex - 1, past);
-
             // Appel au pricer
             PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, 20000);
-            // à changer
-            double[] spots = new double[2 * UnderlyingNumber];
-            int ind = 0;
-            foreach (Index index in Indexes)
-            {
-                spots[ind] = index.getCurrentPrice();
-                ind++;
-            }
-            foreach (ExchangeRate ExchangeRate in ExchangeRates)
-            {
-                spots[ind] = ExchangeRate.getCurrentValue();
-                ind++;
-            }
-            wrapper.compute_price_at(currentTime, past, spots, numberOfPastPricesPerIndex);
+            wrapper.compute_price_at(currentTime, past, getIndexAndExchangeRateSpots(), numberOfPastPricesPerIndex);
             Price = wrapper.get_price();
             return Price;
         }
@@ -238,9 +236,6 @@ namespace EurostralWebApplication.Models
 
             double currentTime = TimeManagement.convertCurrentTimeInDouble(BeginDate);
             bool isAtObsDate = TimeManagement.isAtObservationDate(currentTime);
-            // Si on n'est pas à une date de constatation, on aura une ligne de plus : les prix courants
-          //  if (!isAtObsDate)
-          //      numberOfPastPricesPerIndex++;
 
             // Allocation matrice de prix des indices de taille cohérente
             double[] past = new double[numberOfPastPricesPerIndex * UnderlyingNumber];
@@ -248,25 +243,9 @@ namespace EurostralWebApplication.Models
             // Remplissage de la matrice de prix des indices
             fillPastArray(PastMatrix, past);
 
-            // Ajout des prix courants
-            //addCurrentPricesToPastArray(numberOfPastPricesPerIndex - 1, past);
-
             // Appel au pricer
             PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, 20000);
-            // à changer
-            double[] spots = new double[2 * UnderlyingNumber];
-            int ind = 0;
-            foreach (Index index in Indexes)
-            {
-                spots[ind] = index.getCurrentPrice();
-                ind++;
-            }
-            foreach (ExchangeRate ExchangeRate in ExchangeRates)
-            {
-                spots[ind] = ExchangeRate.getCurrentValue();
-                ind++;
-            }
-            wrapper.compute_deltas_at(currentTime, past, spots, numberOfPastPricesPerIndex);
+            wrapper.compute_deltas_at(currentTime, past, getIndexAndExchangeRateSpots(), numberOfPastPricesPerIndex);
             Hedge = wrapper.get_deltas();
             return Hedge;
         }

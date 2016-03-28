@@ -112,6 +112,17 @@ textarea {
   color: black;
 }
 
+.portfolioValue{
+  font-family: Rockwell, 'Times New Roman', serif;
+  font-weight: 400;
+  line-height: 1.1;
+  margin-top: 3px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  font-size: 15px;
+  color: black;
+}
+
 .subtitleStyle3{
   font-family: Rockwell, 'Times New Roman', serif;
   font-weight: 400;

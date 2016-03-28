@@ -9,7 +9,6 @@ namespace EurostralWebApplication.Models
 {
     public class Eurostral
     {
-        // TEMPORAIRE
         private int NumberOfEstimationDates = 10;
 
         private int UnderlyingNumber;

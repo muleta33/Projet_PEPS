@@ -16,6 +16,7 @@ namespace EurostralWebApplication.Models
         public int Frequency { get; set; }
         public List<int> FrequencyOptions { get; set; }
 
+        [Display(Name = "Nombre d'itérations de Monte-Carlo :")]
         public int NumberOfMonteCarloIterations { get; set; }
 
         public ViewModelPricingAndHedging()

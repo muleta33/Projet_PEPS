@@ -14,7 +14,7 @@ namespace EurostralWebApplication.Controllers
         public const double InterestRate = 0.0485;
 
         public static Index[] Indexes = new Index[UnderlyingNumber] { new Index("Euro Stoxx 50", "STOXX50E"), new Index("SP ASX 200", "AXJO"), new Index("SP 500", "GSPC") };
-        public static ExchangeRate[] ExchangeRates = new ExchangeRate[UnderlyingNumber] { new ExchangeRate("eur", "eur"), new ExchangeRate("aud", "eur"), new ExchangeRate("usd", "eur") };
+        public static ExchangeRate[] ExchangeRates = new ExchangeRate[UnderlyingNumber] { new ExchangeRate("EUR", "EUR"), new ExchangeRate("AUD", "EUR"), new ExchangeRate("USD", "EUR") };
         public static Eurostral Eurostral = new Eurostral(Indexes, ExchangeRates, UnderlyingNumber);
 
         public static ViewModelPricingAndHedging ModelPricingAndHedging = new ViewModelPricingAndHedging();
@@ -33,9 +33,9 @@ namespace EurostralWebApplication.Controllers
             return View(ModelPricingAndHedging);
         }
 
-        public ActionResult getPrice()
+        public ActionResult getPrice(ViewModelPricingAndHedging modelPricingAndHedging)
         {
-            Eurostral.getPrice();
+            Eurostral.getPrice(modelPricingAndHedging.NumberOfMonteCarloIterations);
             return PartialView("EurostralPrice", Eurostral);
         }
 
@@ -72,7 +72,7 @@ namespace EurostralWebApplication.Controllers
         {
             double[] prices = Eurostral.getIndexAndExchangeRateSpots();
             double currentTime = TimeManagement.convertCurrentTimeInDouble(Eurostral.BeginDate);
-            ((Portfolio)Session["Portfolio"]).initialisation(Eurostral.getPrice(), Eurostral.getHedging(), prices, currentTime);
+            ((Portfolio)Session["Portfolio"]).initialisation(Eurostral.getPrice(modelPricingAndHedging.NumberOfMonteCarloIterations), Eurostral.getHedging(modelPricingAndHedging.NumberOfMonteCarloIterations), prices, currentTime);
             return PartialView("Portfolio", (Portfolio)Session["Portfolio"]);
         }
 
@@ -80,7 +80,7 @@ namespace EurostralWebApplication.Controllers
         {
             double[] prices = Eurostral.getIndexAndExchangeRateSpots();
             double currentTime = TimeManagement.convertCurrentTimeInDouble(Eurostral.BeginDate);
-            ((Portfolio)Session["Portfolio"]).rebalancing(Eurostral.getHedging(), prices, InterestRate, currentTime);
+            ((Portfolio)Session["Portfolio"]).rebalancing(Eurostral.getHedging(modelPricingAndHedging.NumberOfMonteCarloIterations), prices, InterestRate, currentTime);
             return PartialView("Portfolio", (Portfolio)Session["Portfolio"]);
         }
     }

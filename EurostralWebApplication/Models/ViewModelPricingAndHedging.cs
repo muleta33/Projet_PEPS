@@ -16,12 +16,15 @@ namespace EurostralWebApplication.Models
         public int Frequency { get; set; }
         public List<int> FrequencyOptions { get; set; }
 
+        public int NumberOfMonteCarloIterations { get; set; }
+
         public ViewModelPricingAndHedging()
         {
             AutomaticOrManualHedging = "Automatique";
             HedgingModes = new List<String> { "Automatique", "Manuel" };
             Frequency = 45;
             FrequencyOptions = new List<int> { 45, 60 };
+            NumberOfMonteCarloIterations = 20000;
         }
 
         public IEnumerable<SelectListItem> FrequencyOptionsItems

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using Wrapper_Pricer;
 
 namespace EurostralWebApplication.Models
@@ -59,8 +60,14 @@ namespace EurostralWebApplication.Models
                 PastMatrix.Add(new List<double>());
             fillPastMatrix();
 
-            PastMarketData = new double[2 * underlyingNumber * NumberOfEstimationDates];
-            fillPastMarketData();
+            if (HttpContext.Current.Session["PastMarketData"] == null)
+            {
+                PastMarketData = new double[2 * underlyingNumber * NumberOfEstimationDates];
+                fillPastMarketData();
+                HttpContext.Current.Session["PastMarketData"] = PastMarketData;
+            }
+            else
+                PastMarketData = (double[])HttpContext.Current.Session["PastMarketData"];
 
             Price = 0;
             Hedge = new double[2 * underlyingNumber];
@@ -91,7 +98,7 @@ namespace EurostralWebApplication.Models
         {
             DateTime endEstimationDate = BeginDate.AddDays(-1);
             int ind = 0;
-            foreach (Index index in Indexes)
+            foreach (Index index in Indexes) // Regarder si conservation ordre !!!
             {
                 DateTime currentEstimationDate = endEstimationDate;
 
@@ -107,12 +114,24 @@ namespace EurostralWebApplication.Models
                 }
                 ++ind;
             }
+            foreach (ExchangeRate exchangeRate in ExchangeRates) // Regarder si conservation ordre !!!
+            {
+                // Avec un accès illimité à une API de récupération de données, on aurait fait comme précédemment
+                // On utilise ici un accès gratuit à Quandl qui nous limite à 20 requêtes toutes les 10 minutes
+                List<double> pastValues = exchangeRate.getPastValue(endEstimationDate.AddDays(-3 * NumberOfEstimationDates), endEstimationDate);
+                for (int i = NumberOfEstimationDates - 1; i >= 0; --i)
+                {
+                    PastMarketData[i * 2 * UnderlyingNumber + ind] = pastValues.ElementAt(pastValues.Count - 1);
+                    pastValues.RemoveAt(pastValues.Count - 1);
+                }
+                ++ind;
+            }
 
 
             // TODO : Même chose pour les taux de change
             // Suite temporaire
 
-            Random randNum = new Random();
+            /*Random randNum = new Random();
  
             for (int i = UnderlyingNumber; i < 2 * UnderlyingNumber; ++i)
             {
@@ -126,8 +145,7 @@ namespace EurostralWebApplication.Models
                         PastMarketData[j * 2 * UnderlyingNumber + i] = 0.88 + (randNum.NextDouble() - randNum.NextDouble())*0.01;
                 }
             
-            }
-        }
+            }*/
         }
 
         private void fillPastArray(List<List<double>> pastMatrix, double[] past)
@@ -204,7 +222,7 @@ namespace EurostralWebApplication.Models
             return spots;
         }
 
-        public double getPrice()
+        public double getPrice(int numberOfMonteCarloIterations)
         {
             // On met à jour la matrice des prix du passé
             fillPastMatrix();
@@ -221,13 +239,13 @@ namespace EurostralWebApplication.Models
             fillPastArray(PastMatrix, past);
 
             // Appel au pricer
-            PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, 20000);
+            PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, numberOfMonteCarloIterations);
             wrapper.compute_price_at(currentTime, past, getIndexAndExchangeRateSpots(), numberOfPastPricesPerIndex);
             Price = wrapper.get_price();
             return Price;
         }
 
-        public double[] getHedging()
+        public double[] getHedging(int numberOfMonteCarloIterations)
         {
             // On met à jour la matrice des prix du passé
             fillPastMatrix();
@@ -244,7 +262,7 @@ namespace EurostralWebApplication.Models
             fillPastArray(PastMatrix, past);
 
             // Appel au pricer
-            PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, 20000);
+            PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, numberOfMonteCarloIterations);
             wrapper.compute_deltas_at(currentTime, past, getIndexAndExchangeRateSpots(), numberOfPastPricesPerIndex);
             Hedge = wrapper.get_deltas();
             return Hedge;

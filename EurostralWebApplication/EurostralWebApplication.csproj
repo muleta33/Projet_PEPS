@@ -122,7 +122,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AboutController.cs" />
-    <Compile Include="Controllers\EurostralManagementController.cs" />
     <Compile Include="Controllers\GraphController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PricingAndHedgingController.cs" />
@@ -180,10 +179,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\EurostralManagement\Index.cshtml" />
-    <Content Include="Views\EurostralManagement\EurostralPrice.cshtml" />
-    <Content Include="Views\EurostralManagement\Portfolio.cshtml" />
-    <Content Include="Views\EurostralManagement\IndexesPrices.cshtml" />
     <Content Include="Views\Synthesis\Index.cshtml" />
     <Content Include="Views\Synthesis\Prices.cshtml" />
     <Content Include="Views\Graph\Index.cshtml" />
@@ -191,8 +186,8 @@
     <Content Include="Scripts\jquery-2.2.1.min.map" />
     <Content Include="Views\PricingAndHedging\Index.cshtml" />
     <Content Include="Views\PricingAndHedging\EurostralPrice.cshtml" />
-	<Content Include="Views\PricingAndHedging\Portfolio.cshtml" />
-	<Content Include="Views\About\Index.cshtml" />
+    <Content Include="Views\PricingAndHedging\Portfolio.cshtml" />
+    <Content Include="Views\About\Index.cshtml" />
     <Content Include="Views\Home\RealTimePrices.cshtml" />
     <Content Include="Views\TestPL\Index.cshtml" />
     <Content Include="Views\TestPL\PartialViewTestPL.cshtml" />

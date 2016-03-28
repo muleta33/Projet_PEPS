@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<p class="titleStyle">Pricing et Hedging</p>
+<p class="titleStyleBis"> Pricing et Hedging</p>
 
 <div class="row">
     @using (Ajax.BeginForm("hedgingPortfolio", "PricingAndHedging", FormMethod.Post,
@@ -14,7 +14,7 @@
                            UpdateTargetId = "portfolioComposition"
                        }))
     {
-        <div class="col-md-4">
+        <div class="col-md-3">
             <ul>
                 @foreach (var item in Model.HedgingModes)
                 {
@@ -24,6 +24,9 @@
                     </li>
                 }
             </ul>
+        </div>
+        <div class="col-md-2">
+            @Html.EditorFor(m => m.NumberOfMonteCarloIterations, new { htmlAttributes = new { @min = "1000", @step = "1000" } })
         </div>
         <div class="col-md-4">
             @Html.LabelFor(m => m.Frequency)
@@ -42,21 +45,17 @@
     </div>
     <div class="col-md-4 col-md-offset-2">
         <div class="bloc">
-            <table class="table">
-                <tr>
-                    <td>
-                        @Ajax.ActionLink("Pricer", "getPrice", new { },
-                                new AjaxOptions
-                                {
-                                    InsertionMode = InsertionMode.Replace,
-                                    UpdateTargetId = "eurostralPrice",
-                                    HttpMethod = "GET"
-                                },
-                                new { @class = "btn btn-primary" })
-                    </td>
-                    <td><span id="eurostralPrice"></span></td>
-                </tr>
-            </table>
+            @using (Ajax.BeginForm("getPrice", "PricingAndHedging", FormMethod.Post,
+                                   new AjaxOptions
+                                   {
+                                       InsertionMode = InsertionMode.Replace,
+                                       UpdateTargetId = "eurostralPrice"
+                                   }))
+            {
+                @Html.EditorFor(m => m.NumberOfMonteCarloIterations, new { htmlAttributes = new { @min = "1000", @step = "1000" } })
+                <input type="submit" name="priceButton" id="priceButton" value="Pricer" class="btn btn-primary">
+                <span id="eurostralPrice"></span>
+            }
         </div>
     </div>
 </div>

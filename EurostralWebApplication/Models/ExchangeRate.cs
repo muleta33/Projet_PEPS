@@ -24,7 +24,7 @@ namespace EurostralWebApplication.Models
 
         public double getCurrentValue()
         {
-            if (DomesticCurrency == ForeignCurrency)
+            if (String.Compare(DomesticCurrency, ForeignCurrency, true) == 0)
                 Value = 1;
             else
             {
@@ -42,6 +42,48 @@ namespace EurostralWebApplication.Models
                 Value = value;
             }
             return Value;
+        }
+
+        public List<double> getPastValue(DateTime firstDate, DateTime lastDate)
+        {
+            if (String.Compare(DomesticCurrency, ForeignCurrency, true) == 0)
+            {
+                List<double> result = new List<double>();
+                for (int i = 0; i < (lastDate - firstDate).Days - 1; ++i)
+                    result.Add(1);
+                return result;
+            }
+            WebClient client = new WebClient();
+            bool retrieveInverseExchangeRate = false;
+            // Forme de l'url : "http://localhost:8080/exchange/2015-01-01/2015-01-02/eur/usd";
+            string url = "http://localhost:8080/exchange/";
+            url += firstDate.Year + "-" + firstDate.Month + "-" + firstDate.Day + "/";
+            url += lastDate.Year + "-" + lastDate.Month + "-" + lastDate.Day + "/";
+            if (String.Compare(DomesticCurrency, "eur", true) == 0 || String.Compare(DomesticCurrency, "usd", true) == 0)
+                url += DomesticCurrency + "/" + ForeignCurrency;
+            else if (String.Compare(ForeignCurrency, "eur", true) == 0 || String.Compare(ForeignCurrency, "usd", true) == 0)
+            {
+                url += ForeignCurrency + "/" + DomesticCurrency;
+                retrieveInverseExchangeRate = true;
+            }
+            else
+                return new List<double>();
+            var json = client.DownloadString(url);
+            DataRetrieving.DataReturn dataReturn = JsonConvert.DeserializeObject<DataRetrieving.DataReturn>(@json);
+            List<double> pastValues = new List<double>();
+            if (dataReturn.data != null)
+            {
+                int ind = 0;
+                while (ind < dataReturn.data.Ds.Tables[0].Rows.Count)
+                {
+                    double pastValue = Convert.ToDouble(dataReturn.data.Ds.Tables[0].Rows[ind].ItemArray[1].ToString().Replace(".", ","));
+                    if (retrieveInverseExchangeRate)
+                        pastValue = 1 / pastValue;
+                    pastValues.Add(pastValue);
+                    ++ind;
+                }
+            }
+            return pastValues;
         }
     }
 }

@@ -12,8 +12,7 @@ namespace EurostralWebApplication.Controllers
 
         private const int UnderlyingNumber = 3;
         public static Index[] Indexes = new Index[UnderlyingNumber] { new Index("Euro Stoxx 50", "STOXX50E"), new Index("SP ASX 200", "AXJO"), new Index("SP 500", "GSPC") };
-        public static ExchangeRate[] ExchangeRatesToDisplay = new ExchangeRate[UnderlyingNumber] { new ExchangeRate("EUR", "USD"), new ExchangeRate("EUR", "AUD"), new ExchangeRate("USD", "AUD") };
-        public static ExchangeRate[] ExchangeRates = new ExchangeRate[UnderlyingNumber] { new ExchangeRate("EUR", "EUR"), new ExchangeRate("AUD", "EUR"), new ExchangeRate("USD", "EUR") };
+        public static ExchangeRate[] ExchangeRates = new ExchangeRate[UnderlyingNumber] { new ExchangeRate("EUR", "USD"), new ExchangeRate("EUR", "AUD"), new ExchangeRate("USD", "AUD") };
         public static Eurostral Eurostral = new Eurostral(Indexes, ExchangeRates, UnderlyingNumber);
 
         public ActionResult Index()
@@ -26,7 +25,7 @@ namespace EurostralWebApplication.Controllers
             foreach (Index index in Eurostral.Indexes)
                 index.getCurrentPrice();
             Eurostral.computeCurrentPerformances();
-            foreach (ExchangeRate exchangeRate in ExchangeRatesToDisplay)
+            foreach (ExchangeRate exchangeRate in ExchangeRates)
                 exchangeRate.getCurrentValue();
             return PartialView("RealTimePrices", Eurostral);
         }

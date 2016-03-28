@@ -27,7 +27,7 @@ namespace EurostralWebApplication.Models
         public double Price { get; set; }
         public double[] Hedge { get; set; }
 
-        public Eurostral(Index[] indexes, ExchangeRate[] exchangeRates, int underlyingNumber)
+        public Eurostral(Index[] indexes, ExchangeRate[] exchangeRates, int underlyingNumber, bool initializePastMatrix = false)
         {
             Indexes = indexes;
             UnderlyingNumber = underlyingNumber;
@@ -60,7 +60,7 @@ namespace EurostralWebApplication.Models
                 PastMatrix.Add(new List<double>());
             fillPastMatrix();
 
-            if (HttpContext.Current.Session["PastMarketData"] == null)
+            if ((HttpContext.Current.Session["PastMarketData"] == null) || initializePastMatrix)
             {
                 PastMarketData = new double[2 * underlyingNumber * NumberOfEstimationDates];
                 fillPastMarketData();

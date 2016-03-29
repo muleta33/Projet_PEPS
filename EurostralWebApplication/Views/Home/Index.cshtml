@@ -120,17 +120,17 @@
         today = new Date();
         hour = today.getHours();
         min = today.getMinutes();
-        if (hour >= 9 && (hour <= 17 && min <= 30)) {
+        if ((hour >= 9 && hour <= 17) || (hour == 17 && min <= 30)) {
             $('#EurostoxxOpening').text("Ouvert");
         } else {
             $('#EurostoxxOpening').text("Fermé");
         }
-        if ((hour >= 15 && min >= 30) && (hour <= 22)) {
+        if ((hour >= 15 && hour <= 22) || (hour == 22 && min >= 30)) {
             $('#Sp500Opening').text("Ouvert");
         } else {
             $('#Sp500Opening').text("Fermé");
         }
-        if (hour >= 0 && (hour <= 6 && min <= 30)) {
+        if ((hour >= 0 && hour <= 6) || (hour == 6 && min <= 30)) {
             $('#Asx200Opening').text("Ouvert");
         } else {
             $('#Asx200Opening').text("Fermé");

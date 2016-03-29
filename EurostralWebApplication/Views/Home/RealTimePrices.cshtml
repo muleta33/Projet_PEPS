@@ -23,7 +23,18 @@
         <td>
             @if (@Model != null)
             {
-                <span>@Model.Indexes[0].Price.ToString("0.00000")</span>
+                if (@Model.Indexes[0].IsIncreasingOrDecreasing == 1)
+                {
+                    <span class="value-up">@Model.Indexes[0].Price.ToString("0.00000")</span>
+                }
+                else if (@Model.Indexes[0].IsIncreasingOrDecreasing == -1)
+                {
+                    <span class="value-down">@Model.Indexes[0].Price.ToString("0.00000")</span>
+                }
+                else
+                {
+                    <span>@Model.Indexes[0].Price.ToString("0.00000")</span>
+                }
             }
         </td>
         <td>EUR</td>
@@ -58,7 +69,7 @@
     <tr>
         <td class="tdbis">
             <span data-toggle="tooltip" data-placspanent="top"
-                  title="Indice regroupant les 500 grandes sociétés cotées sur les bourses des États-Unis d'Amérique." class="myTooltipLink">S&P 500</span>
+                  title="Indice regroupant les 200 sociétés ayant les plus importantes capitalisations boursières de la bourse australienne." class="myTooltipLink">S&P ASX 200</span>
         </td>
         <td>
             @if (@Model != null)
@@ -66,10 +77,10 @@
                 <span>@Model.Indexes[1].Price.ToString("0.00000")</span>
             }
         </td>
-        <td>USD</td>
+        <td>AUD</td>
         <td>
-            <span id="Sp500Opening" class="myTooltipLink" data-toggle="tooltip" data-placspanent="top"
-                  title="Ouverture : 15h30 - 22h"></span>
+            <span id="Asx200Opening" class="myTooltipLink" data-toggle="tooltip" data-placspanent="top"
+                  title="Ouverture : 0h - 6h30"></span>
         </td>
         <td>
             @if (@Model != null)
@@ -97,9 +108,8 @@
     </tr>
     <tr>
         <td class="tdbis">
-
             <span data-toggle="tooltip" data-placspanent="top"
-                  title="Indice regroupant les 200 sociétés ayant les plus importantes capitalisations boursières de la bourse australienne." class="myTooltipLink">S&P ASX 200</span>
+                  title="Indice regroupant les 500 grandes sociétés cotées sur les bourses des États-Unis d'Amérique." class="myTooltipLink">S&P 500</span>
         </td>
         <td>
             @if (@Model != null)
@@ -107,10 +117,10 @@
                 <span>@Model.Indexes[2].Price.ToString("0.00000")</span>
             }
         </td>
-        <td>AUD</td>
+        <td>USD</td>
         <td>
-            <span id="Asx200Opening" class="myTooltipLink" data-toggle="tooltip" data-placspanent="top"
-            title="Ouverture : 0h - 6h30"></span>
+            <span id="Sp500Opening" class="myTooltipLink" data-toggle="tooltip" data-placspanent="top"
+                  title="Ouverture : 15h30 - 22h"></span>
         </td>
         <td>
             @if (@Model != null)

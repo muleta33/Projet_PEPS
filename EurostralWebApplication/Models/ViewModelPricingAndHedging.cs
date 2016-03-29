@@ -12,7 +12,7 @@ namespace EurostralWebApplication.Models
         public String AutomaticOrManualHedging { get; set; }
         public List<String> HedgingModes { get; set; }
 
-        [Display(Name = "Fréquence : ")]
+        [Display(Name = "Fréquence (en secondes) : ")]
         public int Frequency { get; set; }
         public List<int> FrequencyOptions { get; set; }
 

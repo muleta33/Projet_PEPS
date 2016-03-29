@@ -4,16 +4,20 @@
     ViewBag.Title = "Index";
 }
 
-<p class="titleStyleBis"> Pricing</p>
 <div class="row">
     @using (Ajax.BeginForm("getPrice", "PricingAndHedging", FormMethod.Post,
                            new AjaxOptions
                            {
                                InsertionMode = InsertionMode.Replace,
-                               UpdateTargetId = "eurostralPrice"
+                               UpdateTargetId = "eurostralPrice",
+                               LoadingElementId = "loading",
+                               OnFailure = "AjaxFailure",
+                               OnBegin = "AjaxBegin",
+                               OnComplete = "AjaxComplete"
                            }))
     {
         <div class="col-md-4">
+            <p class="titleStyleBis"> Pricing</p>
             <div class="bloc">
                 <div class="row">
                     <div class="col-md-12">
@@ -26,28 +30,49 @@
                     <div class="col-md-6">
                         <input type="submit" name="priceButton" id="priceButton" value="Pricer" class="btn btn-primary">
                     </div>
-                    <div class="col-md-6">
-                        <span id="eurostralPrice"></span>
-                    </div>
                 </div>
             </div>
         </div>
+
+
+    <div class="col-md-7 col-md-offset-1" >
+        <p class="titleStyleBis"> Synthèse</p>
+        <div class="bloc">
+            <table>
+                <tr>
+                    <th>Prix</th>
+                    <th>Valeur du portefeuille</th>
+                    <th>Différence</th>
+                </tr>
+                <tr>
+                    <td><span id="eurostralPrice">0,00000</span></td>
+                    <td>...</td>
+                    <td>...</td>
+                </tr>
+            </table>
+        </div>
+    </div>
     }
 </div>
 
 
 <p class="titleStyleBis"> Hedging</p>
 <div class="row">
-    @using (Ajax.BeginForm("hedgingPortfolio", "PricingAndHedging", FormMethod.Post,
+    <div class="col-md-12">
+        @using (Ajax.BeginForm("hedgingPortfolio", "PricingAndHedging", FormMethod.Post,
                        new AjaxOptions
                        {
                            InsertionMode = InsertionMode.Replace,
-                           UpdateTargetId = "portfolioComposition"
+                           UpdateTargetId = "portfolioComposition",
+                           LoadingElementId = "loading",
+                           OnFailure = "AjaxFailure",
+                           OnBegin = "AjaxBegin",
+                           OnComplete = "AjaxComplete"
                        }))
-    {
-        <div class="col-md-4">
-            <div class="bloc">
-                <p class="subtitleStyle1"> Paramétrage</p>
+        {
+            <div class="col-md-4 bloc">
+
+                <p class="subtitleStyle1"> Rebalancement</p>
                 <div class="row">
                     <ul>
                         @foreach (var item in Model.HedgingModes)
@@ -81,12 +106,13 @@
                     </div>
                 </div>
             </div>
-        </div>        
-    }
-    <div class="col-md-5 col-md-offset-1">
-        <div id="portfolioComposition">@Html.Partial("Portfolio", Session["Portfolio"])</div>
+        }
+        <div class="col-md-7 col-md-offset-1 bloc">
+            <div id="portfolioComposition">@Html.Partial("Portfolio", Session["Portfolio"])</div>
+        </div>
     </div>
 </div>
+
 
 
 

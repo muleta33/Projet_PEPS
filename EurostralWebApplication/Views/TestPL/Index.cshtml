@@ -28,23 +28,7 @@
     </div>
 }
 
-<div id="loading" style="display: none;">
-</div>
-
 <div id="graph">
 </div>
 
-<script>
-    function AjaxBegin() {
-        $('#loading').show();
-
-    }
-    function AjaxComplete() {
-        $("#loading").hide();
-    }
-    function AjaxFailure(ajaxContext) {
-        var response = ajaxContext.responseText;
-        alert("Error Code [" + ajaxContext.ErrorCode + "] " + response);
-    }
-</script>
 

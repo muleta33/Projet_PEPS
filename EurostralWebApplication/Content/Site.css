@@ -41,7 +41,7 @@ textarea {
 }
 
 .bloc {
-    background-color: white;
+    background-color: white !important;
     padding: 10px 10px 10px 10px;
     font-family: Rockwell, 'Times New Roman', serif;
 }

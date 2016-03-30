@@ -74,7 +74,18 @@
         <td>
             @if (@Model != null)
             {
-                <span>@Model.Indexes[1].Price.ToString("0.00000")</span>
+                if (@Model.Indexes[1].IsIncreasingOrDecreasing == 1)
+                {
+                    <span class="value-up">@Model.Indexes[1].Price.ToString("0.00000")</span>
+                }
+                else if (@Model.Indexes[1].IsIncreasingOrDecreasing == -1)
+                {
+                    <span class="value-down">@Model.Indexes[1].Price.ToString("0.00000")</span>
+                }
+                else
+                {
+                    <span>@Model.Indexes[1].Price.ToString("0.00000")</span>
+                }
             }
         </td>
         <td>AUD</td>
@@ -114,7 +125,18 @@
         <td>
             @if (@Model != null)
             {
-                <span>@Model.Indexes[2].Price.ToString("0.00000")</span>
+                if (@Model.Indexes[2].IsIncreasingOrDecreasing == 1)
+                {
+                    <span class="value-up">@Model.Indexes[2].Price.ToString("0.00000")</span>
+                }
+                else if (@Model.Indexes[2].IsIncreasingOrDecreasing == -1)
+                {
+                    <span class="value-down">@Model.Indexes[2].Price.ToString("0.00000")</span>
+                }
+                else
+                {
+                    <span>@Model.Indexes[2].Price.ToString("0.00000")</span>
+                }
             }
         </td>
         <td>USD</td>

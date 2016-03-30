@@ -132,15 +132,6 @@ namespace EurostralWebApplication.Models
                     PastMarketData[i * 2 * UnderlyingNumber + ind] = pastValue;
                 }
                 ++ind;
-                // Avec un accès illimité à une API de récupération de données, on aurait fait comme précédemment
-                // On utilise ici un accès gratuit à Quandl qui nous limite à 20 requêtes toutes les 10 minutes
-                /*List<double> pastValues = exchangeRate.getPastValue(endEstimationDate.AddDays(-3 * NumberOfEstimationDates), endEstimationDate);
-                for (int i = NumberOfEstimationDates - 1; i >= 0; --i)
-                {
-                    PastMarketData[i * 2 * UnderlyingNumber + ind] = pastValues.ElementAt(pastValues.Count - 1);
-                    pastValues.RemoveAt(pastValues.Count - 1);
-                }
-                ++ind;*/
             }
 
 

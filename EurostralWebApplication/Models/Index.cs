@@ -50,12 +50,15 @@ namespace EurostralWebApplication.Models
             var json = client.DownloadString(url);
             DataRetrieving.DataReturn dataReturn = JsonConvert.DeserializeObject<DataRetrieving.DataReturn>(@json);
             List<object[]> values = new List<object[]>();
-            DataTable data = dataReturn.data.Ds.Tables[0];
+            
             if (dataReturn.data != null)
+            {
+                DataTable data = dataReturn.data.Ds.Tables[0];
                 for (int i = data.Rows.Count - 1; i >= 0; i--)
                 {
-                    values.Add(new object[] {Convert.ToDateTime(data.Rows[i].ItemArray[1]).ToUniversalTime(), Convert.ToDouble(data.Rows[i].ItemArray[2].ToString().Replace(".", ",")) });
+                    values.Add(new object[] { Convert.ToDateTime(data.Rows[i].ItemArray[1]).ToUniversalTime(), Convert.ToDouble(data.Rows[i].ItemArray[2].ToString().Replace(".", ",")) });
                 }
+            }
             return values;
         }
 

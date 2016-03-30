@@ -15,7 +15,6 @@ namespace EurostralWebApplication.Controllers
 
         public static Index[] Indexes = new Index[UnderlyingNumber] { new Index("Euro Stoxx 50", "STOXX50E"), new Index("SP ASX 200", "AXJO"), new Index("SP 500", "GSPC") };
         public static ExchangeRate[] ExchangeRates = new ExchangeRate[UnderlyingNumber] { new ExchangeRate("EUR", "EUR"), new ExchangeRate("AUD", "EUR"), new ExchangeRate("USD", "EUR") };
-        public static Eurostral Eurostral = new Eurostral(Indexes, ExchangeRates, UnderlyingNumber, true);
 
         public static ViewModelPricingAndHedging ModelPricingAndHedging = new ViewModelPricingAndHedging();
 
@@ -30,13 +29,15 @@ namespace EurostralWebApplication.Controllers
                 Session["Portfolio"] = new Portfolio(2 * UnderlyingNumber);
                 Session.Timeout = 45;
             }
+            if (Session["Eurostral"] == null)
+                Session["Eurostral"] = new Eurostral(Indexes, ExchangeRates, UnderlyingNumber, true);
             return View(ModelPricingAndHedging);
         }
 
         public ActionResult getPrice(ViewModelPricingAndHedging modelPricingAndHedging)
         {
-            Eurostral.getPrice(modelPricingAndHedging.NumberOfMonteCarloIterations);
-            return PartialView("EurostralPrice", Eurostral);
+            ((Eurostral)Session["Eurostral"]).getPrice(modelPricingAndHedging.NumberOfMonteCarloIterations);
+            return PartialView("EurostralPrice", Session["Eurostral"]);
         }
 
         [HttpPost]
@@ -70,17 +71,17 @@ namespace EurostralWebApplication.Controllers
 
         public ActionResult startHedgingPortfolio(ViewModelPricingAndHedging modelPricingAndHedging)
         {
-            double[] prices = Eurostral.getIndexAndExchangeRateSpots();
-            double currentTime = TimeManagement.convertCurrentTimeInDouble(Eurostral.BeginDate);
-            ((Portfolio)Session["Portfolio"]).initialisation(Eurostral.getPrice(modelPricingAndHedging.NumberOfMonteCarloIterations), Eurostral.getHedging(modelPricingAndHedging.NumberOfMonteCarloIterations), prices, currentTime);
+            double[] prices = ((Eurostral)Session["Eurostral"]).getIndexAndExchangeRateSpots();
+            double currentTime = TimeManagement.convertCurrentTimeInDouble(((Eurostral)Session["Eurostral"]).BeginDate);
+            ((Portfolio)Session["Portfolio"]).initialisation(((Eurostral)Session["Eurostral"]).getPrice(modelPricingAndHedging.NumberOfMonteCarloIterations), ((Eurostral)Session["Eurostral"]).getHedging(modelPricingAndHedging.NumberOfMonteCarloIterations), prices, currentTime);
             return PartialView("Portfolio", (Portfolio)Session["Portfolio"]);
         }
 
         public ActionResult rebalanceHedgingPortfolio(ViewModelPricingAndHedging modelPricingAndHedging)
         {
-            double[] prices = Eurostral.getIndexAndExchangeRateSpots();
-            double currentTime = TimeManagement.convertCurrentTimeInDouble(Eurostral.BeginDate);
-            ((Portfolio)Session["Portfolio"]).rebalancing(Eurostral.getHedging(modelPricingAndHedging.NumberOfMonteCarloIterations), prices, InterestRate, currentTime);
+            double[] prices = ((Eurostral)Session["Eurostral"]).getIndexAndExchangeRateSpots();
+            double currentTime = TimeManagement.convertCurrentTimeInDouble(((Eurostral)Session["Eurostral"]).BeginDate);
+            ((Portfolio)Session["Portfolio"]).rebalancing(((Eurostral)Session["Eurostral"]).getHedging(modelPricingAndHedging.NumberOfMonteCarloIterations), prices, InterestRate, currentTime);
             return PartialView("Portfolio", (Portfolio)Session["Portfolio"]);
         }
     }

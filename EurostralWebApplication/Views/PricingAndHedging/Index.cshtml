@@ -4,8 +4,10 @@
     ViewBag.Title = "Index";
 }
 
+<p class="titleStyleBis"> Pricing</p>
 <div class="row">
-    @using (Ajax.BeginForm("getPrice", "PricingAndHedging", FormMethod.Post,
+    <div class="col-md-12">
+        @using (Ajax.BeginForm("getPrice", "PricingAndHedging", FormMethod.Post,
                            new AjaxOptions
                            {
                                InsertionMode = InsertionMode.Replace,
@@ -15,10 +17,8 @@
                                OnBegin = "AjaxBegin",
                                OnComplete = "AjaxComplete"
                            }))
-    {
-        <div class="col-md-4">
-            <p class="titleStyleBis"> Pricing</p>
-            <div class="bloc">
+        {
+            <div class="col-md-4 bloc">
                 <div class="row">
                     <div class="col-md-12">
                         @Html.LabelFor(m => m.NumberOfMonteCarloIterations)
@@ -32,29 +32,12 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-
-    <div class="col-md-7 col-md-offset-1" >
-        <p class="titleStyleBis"> Synthèse</p>
-        <div class="bloc">
-            <table>
-                <tr>
-                    <th>Prix</th>
-                    <th>Valeur du portefeuille</th>
-                    <th>Différence</th>
-                </tr>
-                <tr>
-                    <td><span id="eurostralPrice">0,00000</span></td>
-                    <td>...</td>
-                    <td>...</td>
-                </tr>
-            </table>
+        }
+        <div class="col-md-5 col-md-offset-2 bloc">
+            <div id="eurostralPrice">@Html.Partial("EurostralPrice", Session["Eurostral"])</div>
         </div>
     </div>
-    }
 </div>
-
 
 <p class="titleStyleBis"> Hedging</p>
 <div class="row">
@@ -71,7 +54,6 @@
                        }))
         {
             <div class="col-md-4 bloc">
-
                 <p class="subtitleStyle1"> Rebalancement</p>
                 <div class="row">
                     <ul>

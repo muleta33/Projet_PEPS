@@ -24,6 +24,8 @@ namespace EurostralWebApplication.Models
         public List<List<double>> PastMatrix { get; set; }
 
         public double Price { get; set; }
+        public double ConfidenceIntervalLowerBoundary { get; set; }
+        public double ConfidenceIntervalUpperBoundary { get; set; }
         public double[] Hedge { get; set; }
 
         public Eurostral(Index[] indexes, ExchangeRate[] exchangeRates, int underlyingNumber, bool initializePastMatrix = false)
@@ -69,6 +71,8 @@ namespace EurostralWebApplication.Models
                 PastMarketData = (double[])HttpContext.Current.Session["PastMarketData"];
 
             Price = 0;
+            ConfidenceIntervalLowerBoundary = 0;
+            ConfidenceIntervalUpperBoundary = 0;
             Hedge = new double[2 * underlyingNumber];
         }
 
@@ -97,7 +101,7 @@ namespace EurostralWebApplication.Models
         {
             DateTime endEstimationDate = BeginDate.AddDays(-1);
             int ind = 0;
-            foreach (Index index in Indexes) // Regarder si conservation ordre !!!
+            foreach (Index index in Indexes)
             {
                 DateTime currentEstimationDate = endEstimationDate;
 
@@ -113,17 +117,30 @@ namespace EurostralWebApplication.Models
                 }
                 ++ind;
             }
-            foreach (ExchangeRate exchangeRate in ExchangeRates) // Regarder si conservation ordre !!!
+            foreach (ExchangeRate exchangeRate in ExchangeRates)
             {
+                DateTime currentEstimationDate = endEstimationDate;
+
+                for (int i = NumberOfEstimationDates - 1; i >= 0; --i)
+                {
+                    double pastValue = 0;
+                    while (pastValue == 0)
+                    {
+                        pastValue = exchangeRate.getPastValue(currentEstimationDate);
+                        currentEstimationDate = currentEstimationDate.AddDays(-1);
+                    }
+                    PastMarketData[i * 2 * UnderlyingNumber + ind] = pastValue;
+                }
+                ++ind;
                 // Avec un accès illimité à une API de récupération de données, on aurait fait comme précédemment
                 // On utilise ici un accès gratuit à Quandl qui nous limite à 20 requêtes toutes les 10 minutes
-                List<double> pastValues = exchangeRate.getPastValue(endEstimationDate.AddDays(-3 * NumberOfEstimationDates), endEstimationDate);
+                /*List<double> pastValues = exchangeRate.getPastValue(endEstimationDate.AddDays(-3 * NumberOfEstimationDates), endEstimationDate);
                 for (int i = NumberOfEstimationDates - 1; i >= 0; --i)
                 {
                     PastMarketData[i * 2 * UnderlyingNumber + ind] = pastValues.ElementAt(pastValues.Count - 1);
                     pastValues.RemoveAt(pastValues.Count - 1);
                 }
-                ++ind;
+                ++ind;*/
             }
 
 
@@ -241,6 +258,9 @@ namespace EurostralWebApplication.Models
             PricerWrapper wrapper = new PricerWrapper(PastMarketData, NumberOfEstimationDates, numberOfMonteCarloIterations);
             wrapper.compute_price_at(currentTime, past, getIndexAndExchangeRateSpots(), numberOfPastPricesPerIndex);
             Price = wrapper.get_price();
+            double halfWidthConfidenceInterval = wrapper.get_price_ic();
+            ConfidenceIntervalLowerBoundary = Price - halfWidthConfidenceInterval;
+            ConfidenceIntervalUpperBoundary = Price + halfWidthConfidenceInterval;
             return Price;
         }
 

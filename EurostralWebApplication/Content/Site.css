@@ -114,7 +114,7 @@ textarea {
 
 .portfolioValue{
   font-family: Rockwell, 'Times New Roman', serif;
-  font-weight: 400;
+  font-weight: bold;
   line-height: 1.1;
   margin-top: 3px;
   margin-bottom: 10px;
@@ -197,8 +197,8 @@ th {
 
 .btn, .btn-info, .btn-primary {
   color: #ffffff;
-  background-color: #989898;
-  border-color: #989898;
+  background-color: cornflowerblue;
+  border-color: cornflowerblue;
 }
 
 

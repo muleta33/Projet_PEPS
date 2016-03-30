@@ -44,6 +44,46 @@ namespace EurostralWebApplication.Models
             return Value;
         }
 
+        public double getPastValue(DateTime retrievingDate)
+        {
+            if (String.Compare(DomesticCurrency, ForeignCurrency, true) == 0)
+                return 1;
+
+            WebClient client = new WebClient();
+            bool retrieveInverseExchangeRate = false;
+            // Forme de l'url : "http://localhost:8080/exchange/2015-01-01/2015-01-02/eur/usd";
+            string url = "http://localhost:8080/exchange/";
+            url += retrievingDate.Year + "-" + retrievingDate.Month + "-" + retrievingDate.Day + "/";
+            url += retrievingDate.Year + "-" + retrievingDate.Month + "-" + retrievingDate.Day + "/";
+            if (String.Compare(DomesticCurrency, "eur", true) == 0)
+                url += DomesticCurrency + "/" + ForeignCurrency;
+            else if (String.Compare(ForeignCurrency, "eur", true) == 0)
+            {
+                url += ForeignCurrency + "/" + DomesticCurrency;
+                retrieveInverseExchangeRate = true;
+            }
+            else if (String.Compare(DomesticCurrency, "usd", true) == 0)
+                url += DomesticCurrency + "/" + ForeignCurrency;
+            else if (String.Compare(ForeignCurrency, "usd", true) == 0)
+            {
+                url += ForeignCurrency + "/" + DomesticCurrency;
+                retrieveInverseExchangeRate = true;
+            }
+            else
+                return 0;
+
+            var json = client.DownloadString(url);
+            DataRetrieving.DataReturn dataReturn = JsonConvert.DeserializeObject<DataRetrieving.DataReturn>(@json);
+            double pastValue = 0;
+            if ((dataReturn.data != null) && (dataReturn.data.Ds.Tables[0].Rows.Count > 0))
+            {
+                pastValue = Convert.ToDouble(dataReturn.data.Ds.Tables[0].Rows[0].ItemArray[1].ToString().Replace(".", ","));
+                if (retrieveInverseExchangeRate)
+                    pastValue = 1 / pastValue;
+            }
+            return pastValue;
+        }
+
         public List<double> getPastValue(DateTime firstDate, DateTime lastDate)
         {
             if (String.Compare(DomesticCurrency, ForeignCurrency, true) == 0)

@@ -5,70 +5,70 @@
 }
 
 
-    <p class="subtitleStyle1"> Portefeuille</p>
-    <table>
-        <tr>
-            <th>Produit</th>
-            <th>Quantité</th>
-        </tr>
-        <tr>
-            <td>Euro Stoxx 50</td>
-            <td>
-                @if (@Model != null)
-                {
-                    @Model.Composition[0].ToString("0.00000000")
-                }
-            </td>
-        </tr>
-        <tr>
-            <td>SP ASX 200</td>
-            <td>
-                @if (@Model != null)
-                {
-                    @Model.Composition[1].ToString("0.00000000")
-                }
-            </td>
-        </tr>
-        <tr>
-            <td>SP 500</td>
-            <td>
-                @if (@Model != null)
-                {
-                    @Model.Composition[2].ToString("0.00000000")
-                }
-            </td>
-        </tr>
-        <tr>
-            <td>AUD/EUR</td>
-            <td>
-                @if (@Model != null)
-                {
-                    @Model.Composition[4].ToString("0.0000000")
-                }
-            </td>
-        </tr>
-        <tr>
-            <td>USD/EUR</td>
-            <td>
-                @if (@Model != null)
-                {
-                    @Model.Composition[5].ToString("0.0000000")
-                }
-            </td>
-        </tr>
-    </table>
-    <br/>
-    <div class="row">
-        <div class="col-md-5 col-md-offset-2">
-            <p class="portfolioValue"> Valeur du portefeuille</p>
-        </div>
-        <div class="col-md-4">
+<p class="subtitleStyle1"> Portefeuille</p>
+<table>
+    <tr>
+        <th>Produit</th>
+        <th>Quantité</th>
+    </tr>
+    <tr>
+        <td>Euro Stoxx 50</td>
+        <td>
             @if (@Model != null)
             {
-                @Model.Value.ToString("0.00000")
+                @Model.Composition[0].ToString("0.00000000")
             }
-        </div>
+        </td>
+    </tr>
+    <tr>
+        <td>SP ASX 200</td>
+        <td>
+            @if (@Model != null)
+            {
+                @Model.Composition[1].ToString("0.00000000")
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>SP 500</td>
+        <td>
+            @if (@Model != null)
+            {
+                @Model.Composition[2].ToString("0.00000000")
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>AUD/EUR</td>
+        <td>
+            @if (@Model != null)
+            {
+                @Model.Composition[4].ToString("0.0000000")
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>USD/EUR</td>
+        <td>
+            @if (@Model != null)
+            {
+                @Model.Composition[5].ToString("0.0000000")
+            }
+        </td>
+    </tr>
+</table>
+<br/>
+<div class="row">
+    <div class="col-md-5 col-md-offset-2">
+        <p class="portfolioValue"> Valeur du portefeuille</p>
     </div>
+    <div class="col-md-4">
+        @if (@Model != null)
+        {
+            @Model.Value.ToString("0.00000")
+        }
+    </div>
+</div>
 
 
         

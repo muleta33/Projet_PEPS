@@ -1,6 +1,32 @@
 ﻿@model EurostralWebApplication.Models.Eurostral
 
-@if (@Model != null)
-{
-    <em>@Model.Price.ToString("0.00000")</em>
-}
+<p class="subtitleStyle1"> Résultat du pricing</p>
+<table>
+    <tr>
+        <th>Prix</th>
+        <th>Intervalle de confiance (95%)</th>
+    </tr>
+    <tr>
+        <td>
+            @if (@Model != null)
+            {
+                @Model.Price.ToString("0.00000")
+            }
+        </td>
+        <td>
+            [ 
+            @if (@Model != null)
+            {
+                @Model.ConfidenceIntervalLowerBoundary.ToString("0.00000")
+            }
+             ; 
+            @if (@Model != null)
+            {
+                @Model.ConfidenceIntervalUpperBoundary.ToString("0.00000")
+            }
+             ]
+        </td>
+    </tr>
+</table>
+
+

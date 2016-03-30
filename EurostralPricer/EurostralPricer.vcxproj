@@ -149,7 +149,8 @@ copy "$(SolutionDir)x64\Debug\EurostralPricer.dll" "$(SolutionDir)EurostralWebAp
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)x64\Release\EurostralPricer.dll" "$(SolutionDir)UI_Test\bin\Release\EurostralPricer.dll"</Command>
+      <Command>copy "$(SolutionDir)x64\Release\EurostralPricer.dll" "$(SolutionDir)UI_Test\bin\Release\EurostralPricer.dll"
+copy "$(SolutionDir)x64\Release\EurostralPricer.dll" "$(SolutionDir)EurostralWebApplication\bin\EurostralPricer.dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

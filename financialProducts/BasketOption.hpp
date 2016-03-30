@@ -14,13 +14,15 @@ public:
 		input_parameters.get_underlying_number(), input_parameters.get_currencies())
 	{
 		strike_ = input_parameters.get_strike();
-		lambda_ = input_parameters.get_underlying_coefficients();
+		lambda_ = pnl_vect_new();
+		pnl_vect_clone(lambda_, input_parameters.get_underlying_coefficients());
 	}
 	BasketOption(double maturity, const input_parameters::BasketOptionInputParameters &input_parameters) : 
 		Product(maturity, input_parameters.get_underlying_number(), input_parameters.get_currencies())
 	{
 		strike_ = input_parameters.get_strike();
-		lambda_ = input_parameters.get_underlying_coefficients();
+		lambda_ = pnl_vect_new();
+		pnl_vect_clone(lambda_, input_parameters.get_underlying_coefficients());
 	}
 	~BasketOption() { pnl_vect_free(&lambda_); };
 

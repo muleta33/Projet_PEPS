@@ -260,8 +260,8 @@ Global
 		{6F26FBD5-FAC1-47F8-8FDB-CF8A4BB62695}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6F26FBD5-FAC1-47F8-8FDB-CF8A4BB62695}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6F26FBD5-FAC1-47F8-8FDB-CF8A4BB62695}.Release|Win32.ActiveCfg = Release|Any CPU
-		{6F26FBD5-FAC1-47F8-8FDB-CF8A4BB62695}.Release|x64.ActiveCfg = Release|x64
-		{6F26FBD5-FAC1-47F8-8FDB-CF8A4BB62695}.Release|x64.Build.0 = Release|x64
+		{6F26FBD5-FAC1-47F8-8FDB-CF8A4BB62695}.Release|x64.ActiveCfg = Release|Any CPU
+		{6F26FBD5-FAC1-47F8-8FDB-CF8A4BB62695}.Release|x64.Build.0 = Release|Any CPU
 		{29A97FD2-651D-4DF5-A2EE-3363D0DC6DA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{29A97FD2-651D-4DF5-A2EE-3363D0DC6DA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29A97FD2-651D-4DF5-A2EE-3363D0DC6DA4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -289,6 +289,7 @@ Global
 		{E8DFED19-33F0-40DD-AB9E-E744F4AB6050}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E8DFED19-33F0-40DD-AB9E-E744F4AB6050}.Release|Win32.ActiveCfg = Release|Any CPU
 		{E8DFED19-33F0-40DD-AB9E-E744F4AB6050}.Release|x64.ActiveCfg = Release|x64
+		{E8DFED19-33F0-40DD-AB9E-E744F4AB6050}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

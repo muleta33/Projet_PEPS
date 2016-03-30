@@ -142,7 +142,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\hedging;$(SolutionDir)\monteCarlo;$(SolutionDir)\financialProducts;$(SolutionDir)\pricing;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\parsers;$(VCInstallDir)UnitTest\include;$(SolutionDir)\..\pnl-win64-1.7.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\hedging;$(SolutionDir)\monteCarlo;$(SolutionDir)\financialProducts;$(SolutionDir)\pricing;$(SolutionDir)\randomGeneration;$(SolutionDir)\models;$(SolutionDir)\inputParameters;$(VCInstallDir)UnitTest\include;$(SolutionDir)\..\pnl-win64-1.7.2\include;$(SolutionDir)\..\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
     </ClCompile>

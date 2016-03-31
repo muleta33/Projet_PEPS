@@ -57,7 +57,7 @@ namespace EurostralWebApplication.Controllers
                 .SetRangeSelector(new RangeSelector
                 {
                     AllButtonsEnabled = true,
-                    Selected = 1
+                    Selected = 5
                 })
                 .SetTitle(new Title
                 {

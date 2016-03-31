@@ -65,14 +65,21 @@
                                 <div data-target="#carousel" data-slide-to="7" class="thumb"><span class="centering">30/10/18</span></div>
                                 <div data-target="#carousel" data-slide-to="8" class="thumb"><span class="centering">30/04/19</span></div>
                                 <div data-target="#carousel" data-slide-to="9" class="thumb"><span class="centering">30/10/19</span></div>
-                                <div data-target="#carousel" data-slide-to="10" class="thumb"><span class="centering">30/10/20</span></div>
+                                <div data-target="#carousel" data-slide-to="10" class="thumb"><span class="centering">30/04/20</span></div>
                             </div><!-- /item -->
                             <div class="item">
-                                <div data-target="#carousel" data-slide-to="11" class="thumb"><span class="centering">30/04/21</span></div>
-                                <div data-target="#carousel" data-slide-to="12" class="thumb"><span class="centering">02/11/21</span></div>
-                                <div data-target="#carousel" data-slide-to="13" class="thumb"><span class="centering">02/05/22</span></div>
-                                <div data-target="#carousel" data-slide-to="14" class="thumb"><span class="centering">31/10/22</span></div>
-                                <div data-target="#carousel" data-slide-to="15" class="thumb"><span class="centering">27/04/23</span></div>
+                                <div data-target="#carousel" data-slide-to="11" class="thumb"><span class="centering">30/10/20</span></div>
+                                <div data-target="#carousel" data-slide-to="12" class="thumb"><span class="centering">30/04/21</span></div>
+                                <div data-target="#carousel" data-slide-to="13" class="thumb"><span class="centering">02/11/21</span></div>
+                                <div data-target="#carousel" data-slide-to="14" class="thumb"><span class="centering">02/05/22</span></div>
+                                <div data-target="#carousel" data-slide-to="15" class="thumb"><span class="centering">31/10/22</span></div>
+                            </div><!-- /item -->
+                            <div class="item">
+                                <div data-target="#carousel" data-slide-to="16" class="thumb"><span class="centering">27/04/23</span></div>
+                                <div data-target="#carousel" data-slide-to="17" class="thumb"><span class="centering"></span></div>
+                                <div data-target="#carousel" data-slide-to="18" class="thumb"><span class="centering"></span></div>
+                                <div data-target="#carousel" data-slide-to="19" class="thumb"><span class="centering"></span></div>
+                                <div data-target="#carousel" data-slide-to="20" class="thumb"><span class="centering"></span></div>
                             </div><!-- /item -->
                         </div><!-- /carousel-inner -->
                         <a class="left carousel-control" href="#thumbcarousel" role="button" data-slide="prev">
@@ -141,9 +148,9 @@
         today = new Date();
         options = { weekday: "short", year: "numeric", month: "short", day: "numeric" };
         $('#today').text(today.toLocaleDateString("fr-FR", options));
-        startDate = new Date(2015, 4, 30, 0, 0, 0, 0);
+        startDate = new Date(2015, 3, 30, 0, 0, 0, 0);
         $('#startDate').text(startDate.toLocaleDateString("fr-FR"));
-        stopDate = new Date(2023, 5, 2, 0, 0, 0, 0);
+        stopDate = new Date(2023, 4, 2, 0, 0, 0, 0);
         $('#stopDate').text(stopDate.toLocaleDateString("fr-FR"));
         val = Math.ceil(((today.getTime() - startDate.getTime()) / (stopDate.getTime() - startDate.getTime())) * 100);
         $('.progress-bar').css('width', val + '%').attr('aria-valuenow', val);

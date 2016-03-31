@@ -23,8 +23,8 @@ namespace EurostralWebApplication.Models
         {
             AutomaticOrManualHedging = "Automatique";
             HedgingModes = new List<String> { "Automatique", "Manuel" };
-            Frequency = 45;
-            FrequencyOptions = new List<int> { 45, 60 };
+            Frequency = 20;
+            FrequencyOptions = new List<int> { 20, 40 };
             NumberOfMonteCarloIterations = 20000;
         }
 

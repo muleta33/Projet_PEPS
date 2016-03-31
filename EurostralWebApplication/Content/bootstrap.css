@@ -6112,11 +6112,18 @@ body.modal-open,
 
 .carousel-control .icon-prev,
 .carousel-control .icon-next,
-.carousel-control .glyphicon-chevron-left,
 .carousel-control .glyphicon-chevron-right {
   position: absolute;
   top: 50%;
   left: 50%;
+  z-index: 5;
+  display: inline-block;
+}
+
+.carousel-control .glyphicon-chevron-left {
+  position: absolute;
+  top: 50%;
+  right: 50%;
   z-index: 5;
   display: inline-block;
 }
